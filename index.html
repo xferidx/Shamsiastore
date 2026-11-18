@@ -25,6 +25,33 @@ table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid
 td.best{background:#d7f5e4;font-weight:700}.sc{overflow-x:auto}
 .form{background:#fff;padding:12px;border-radius:12px;max-width:680px;margin:auto}
 .gal{display:flex;gap:6px;overflow-x:auto}.gal img{height:110px;border-radius:8px}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes sh{to{background-position:-200% 0}}
+#app.in{animation:up .35s ease backwards}
+.grid>.card{animation:up .45s ease backwards;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,107,79,.14)}
+button,.btn{transition:transform .12s,box-shadow .2s}button:hover,.btn:hover{box-shadow:0 2px 8px rgba(0,0,0,.18)}button:active,.btn:active{transform:scale(.96)}
+:focus-visible{outline:3px solid #f5a623;outline-offset:2px}
+header{box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.hero{text-align:center;padding:26px 10px 16px;background:linear-gradient(135deg,#0b6b4f,#1fa273);color:#fff;border-radius:16px;margin-bottom:14px}
+.hero h1{margin:0 0 6px;font-size:clamp(22px,4vw,32px)}.hero p{margin:0;opacity:.92}
+.calc{max-width:820px}.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.res{background:linear-gradient(160deg,#f0faf5,#dff2e8);border:1px solid var(--bd);border-radius:12px;padding:12px;text-align:center}
+.res b{display:block;font-size:36px;color:var(--g);line-height:1.1}.res small{display:block;opacity:.75}.res i{font-style:normal;font-size:13px;opacity:.8}
+.note{font-size:12px;opacity:.7;margin-top:8px}
+.slw{margin:22px 0}.sl{position:relative;overflow:hidden;border-radius:16px;background:#fff;border:1px solid var(--bd)}
+.tr{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.sli{flex:0 0 100%;display:grid;grid-template-columns:minmax(120px,40%) 1fr;gap:14px;padding:14px 14px 30px;cursor:pointer;align-items:center}
+.sli img{width:100%;height:190px;object-fit:cover;border-radius:12px;background:#e8eeec}.sli h3{margin:6px 0}
+.sb{position:absolute;top:calc(50% - 18px);border-radius:50%;width:36px;height:36px;padding:0}.sb.l{inset-inline-start:8px}.sb.r{inset-inline-end:8px}[dir=rtl] .sb{scale:-1 1}
+.dots{position:absolute;bottom:8px;inset-inline:0;display:flex;justify-content:center;gap:6px}
+.dots i{width:8px;height:8px;border-radius:9px;background:#cdd8d3;cursor:pointer;transition:all .3s}.dots i.on{width:22px;background:var(--g)}
+.sk{height:260px;background:linear-gradient(90deg,#eef2f0 25%,#f8faf9 50%,#eef2f0 75%);background-size:200% 100%;animation:sh 1.2s linear infinite!important}
+.toast{position:fixed;bottom:18px;inset-inline:0;margin:auto;width:fit-content;max-width:90%;background:#1b2a25;color:#fff;padding:10px 16px;border-radius:10px;animation:up .3s ease both;z-index:20}
+.soc{padding:7px 11px;font-weight:700}
+@media(max-width:560px){.sli{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style></head><body>
 <header id="hd"></header><main id="app"></main>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -34,8 +61,8 @@ td.best{background:#d7f5e4;font-weight:700}.sc{overflow-x:auto}
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 firebase.initializeApp(C.firebase);const auth=firebase.auth(),db=firebase.firestore();
-let S={lang:localStorage.lang||'ar',view:'products',me:null,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
-const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6)','Photos (up to 6)'],wphotos:['صور أعمال سابقة','Photos of past work'],ds:['ورقة البيانات PDF (اختياري)','Datasheet PDF (optional)'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category']};
+let S={lang:localStorage.lang||'ar',view:'home',me:null,si:0,calc:{},ready:false,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
+const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6)','Photos (up to 6)'],wphotos:['صور أعمال سابقة','Photos of past work'],ds:['ورقة البيانات PDF (اختياري)','Datasheet PDF (optional)'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved']};
 const t=k=>U[k]?U[k][S.lang=='ar'?0:1]:k;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Math.round(n).toLocaleString('en-US');
@@ -51,17 +78,47 @@ const key=p=>(p.brand+'|'+p.model).toLowerCase().replace(/\s+/g,'');
 const fl=f=>f[S.lang]+(f.unit?` (${f.unit})`:'')+(f.req?' *':'');
 const cityOpts=(sel)=>`<option value="">${t('city')}</option>`+C.cities.map(c=>`<option value="${c[0]}" ${sel==c[0]?'selected':''}>${nm(c[0])}</option>`).join('');
 
+const $$=s=>document.querySelectorAll(s);
+const safe=u=>{u=String(u||'').trim();if(!u)return'';if(!/^https?:\/\//i.test(u))u='https://'+u;try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return''}};
+const toast=m=>{const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)};
+const SOC=[['website','🌐',['الموقع الرسمي','Website']],['facebook','f',['فيسبوك','Facebook']],['instagram','◎',['انستغرام','Instagram']],['telegram','✈',['تيليغرام','Telegram']],['tiktok','♪',['تيك توك','TikTok']],['youtube','▶',['يوتيوب','YouTube']]];
+SOC.forEach(([k,,n])=>U[k]=n);
+const links=o=>SOC.map(([k,i,n])=>{const u=safe(o.links&&o.links[k]);return u?`<a class="btn soc" target=_blank rel=noopener href="${esc(u)}" title="${n[S.lang=='ar'?0:1]}">${i}</a>`:''}).join('');
+const skel=()=>'<div class=grid>'+'<div class="card sk"></div>'.repeat(6)+'</div>';
+const stagger=r=>r&&r.querySelectorAll('.grid>.card').forEach((c,i)=>c.style.animationDelay=Math.min(i,12)*40+'ms');
+const setF=el=>{S.f[el.dataset.f]=el.value;const r=$('#res');if(r){r.innerHTML=S.view=='directory'?listDir():listP();stagger(r)}};
+const reduced=()=>!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+function go(v){if(location.hash.slice(1)==v)route();else location.hash=v}
+function route(){const h=location.hash.slice(1)||'home';if(h.startsWith('p-')){S.pid=h.slice(2);S.view='detail'}else S.view=V[h]?h:'home';S.anim=1;render();scrollTo(0,0)}
+addEventListener('hashchange',route);
+function tween(el,to,dec=0){if(!el)return;const from=parseFloat(el.dataset.v)||0;el.dataset.v=to;if(reduced()){el.textContent=to.toFixed(dec);return}
+ const t0=performance.now();(function s(n){const p=Math.min(1,(n-t0)/450),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(p<1)requestAnimationFrame(s)})(t0)}
+/* Iraqi-style sizing: amps @220V, day load runs from panels, night load from batteries */
+function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','dayH','nightH','sunH','pw','bv'];
+ S.calc=Object.fromEntries(K.map(k=>[k,f.elements[k].value]));
+ const [dA,nA,dH,nH,sun,pw,bv]=K.map(k=>Math.max(0,parseFloat(f.elements[k].value)||0));
+ const eD=dA*220*dH/1000,eN=nA*220*nH/1000,bat=eN/0.9/0.9,pvW=Math.max((eD+eN)/0.85*1000/(sun||1),dA*220*1.15),
+  panels=pw?Math.ceil(pvW/pw):0,load=Math.max(dA,nA)*220/1000,need=load*1.25,
+  inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0,mods=Math.ceil(bat/5.12-1e-9);
+ tween($('#oP'),panels);tween($('#oI'),inv);tween($('#oB'),bat,1);
+ $('#oP2').textContent=`${(panels*pw/1000).toFixed(1)} kWp`;
+ $('#oI2').textContent=`${t('peak')}: ${load.toFixed(1)} kW`;
+ $('#oB2').textContent=bat?`${mods} × 5.12 kWh · ${Math.round(bat*1000/(bv||48))} Ah @ ${bv}V`:'—';
+ $('#oE').textContent=`${t('eDay')}: ${eD.toFixed(1)} kWh · ${t('eNight')}: ${eN.toFixed(1)} kWh`}
+function slide(i){const tr=$('#tr');if(!tr)return;const n=tr.children.length;S.si=(i+n)%n;tr.style.transform=`translateX(${(S.lang=='ar'?1:-1)*S.si*100}%)`;$$('.dots i').forEach((d,j)=>d.classList.toggle('on',j==S.si))}
+function initSlider(){clearInterval(S.tm);const tr=$('#tr');if(!tr)return;slide(S.si);
+ if(tr.children.length>1&&!reduced())S.tm=setInterval(()=>{if(!$('#sl:hover'))slide(S.si+1)},3800)}
 async function up(f){const d=new FormData();d.append('file',f);d.append('upload_preset',C.cloudinary.preset);
  const r=await fetch(`https://api.cloudinary.com/v1_1/${C.cloudinary.cloud}/auto/upload`,{method:'POST',body:d}),j=await r.json();
  if(!j.secure_url)throw Error(j.error?.message||'upload failed');return j.secure_url}
 
 /* ---------- data ---------- */
 function listen(){unsub.forEach(u=>u());unsub=[];
- unsub.push(db.collection('products').onSnapshot(s=>{S.prods=s.docs.map(d=>({id:d.id,...d.data()}));dr()}));
+ unsub.push(db.collection('products').onSnapshot(s=>{S.prods=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.created?.seconds||9e9)-(a.created?.seconds||9e9));S.ready=true;dr()},e=>toast(e.message)));
  const q=isAdmin()?db.collection('users'):db.collection('users').where('approved','==',true);
- unsub.push(q.onSnapshot(s=>{S.users=s.docs.map(d=>({id:d.id,...d.data()}));dr()}))}
+ unsub.push(q.onSnapshot(s=>{S.users=s.docs.map(d=>({id:d.id,...d.data()}));dr()},e=>toast(e.message)))}
 auth.onAuthStateChanged(async u=>{S.me=u;S.prof=u?(await db.doc('users/'+u.uid).get()).data()||null:null;listen();render()});
-const dr=()=>{if(!['add','register','login'].includes(S.view))render()};
+const dr=()=>{if(['add','register','login','profile'].includes(S.view))return;if(S.view=='home'&&document.activeElement?.closest('#calc'))return;render()};
 
 /* ---------- views ---------- */
 const bar=c=>`<div class=bar>${c.includes('q')?`<input data-f=q placeholder="${t('q')}" value="${esc(S.f.q||'')}">`:''}
@@ -70,21 +127,23 @@ ${c.includes('cat')?`<select data-f=cat><option value="">${t('cat')}</option>${[
 ${c.includes('brand')?`<select data-f=brand><option value="">${t('brand')}</option>${[...new Set(S.prods.map(p=>p.brand))].map(b=>`<option ${S.f.brand==b?'selected':''}>${esc(b)}</option>`).join('')}</select>`:''}
 ${c.includes('role')?`<select data-f=role><option value="">${t('role')}</option>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${S.f.role==x?'selected':''}>${t(x)}</option>`).join('')}</select>`:''}</div>`;
 const badges=p=>`<span class=tag>${t(p.cat)}</span> ${!p.verified?`<span class="tag no">${t('nv')}</span>`:''} ${p.dsOk&&p.datasheet?`<span class="tag ok">${t('dv')}</span>`:''}`;
-const ctas=o=>`<div class=bar>${o.whatsapp||o.phone?`<a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>`:''}${o.mapsUrl?`<a class="btn mp" target=_blank href="${esc(o.mapsUrl)}">${t('maps')}</a>`:''}${o.phone?`<a class=btn href="tel:${esc(o.phone)}">${t('call')}</a>`:''}</div>`;
+const ctas=o=>`<div class=bar>${o.whatsapp||o.phone?`<a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>`:''}${safe(o.mapsUrl)?`<a class="btn mp" target=_blank rel=noopener href="${esc(safe(o.mapsUrl))}">${t('maps')}</a>`:''}${o.phone?`<a class=btn href="tel:${esc(o.phone)}">${t('call')}</a>`:''}${links(o)}</div>`;
 const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
  return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.photos?.[0]||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div>
  <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
  <div class=bar><a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a><button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button></div></div>`};
-const vP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
- return bar(['q','city','cat','brand'])+`<div class=grid>${l.map(card).join('')||t('empty')}</div>`};
+const listP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
+ return `<div class=grid>${l.map(card).join('')||`<p>${t('empty')}</p>`}</div>`};
+const vP=()=>bar(['q','city','cat','brand'])+`<div id=res>${listP()}</div>`;
 const vD=()=>{const p=S.prods.find(x=>x.id==S.pid);if(!p)return'';const o=own(p),pr=S.prods.filter(x=>x.cat==p.cat&&key(x)==key(p)).map(x=>x.price);
  return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(p.photos||[]).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${money(p)}<br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
  <table>${C.fieldsAll(p.cat).filter(f=>!['brand','model'].includes(f.k)).map(f=>`<tr><td>${esc(f[S.lang])}${f.unit?` (${f.unit})`:''}</td><td>${esc(lab(f,p[f.k]))}</td></tr>`).join('')}</table>
  ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o)}</div>`};
-const vDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
- return bar(['q','city','role'])+`<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('auth')}</span>`:''} ${u.wholesale?`<span class="tag ok">${t('whl')}</span>`:''}</div>
+const listDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
+ return `<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('auth')}</span>`:''} ${u.wholesale?`<span class="tag ok">${t('whl')}</span>`:''}</div>
  <small>${nm(u.city)}${u.address?' · '+esc(u.address):''}</small><small>${esc((u.brands||[]).join(' · '))}</small>${u.supplier?`<small>${t('sup')}: ${esc(u.supplier)}</small>`:''}
- <div class=gal>${(u.photos||[]).slice(0,4).map(x=>`<img src="${esc(x)}">`).join('')}</div>${ctas(u)}</div>`).join('')||t('empty')}</div>`};
+ <div class=gal>${(u.photos||[]).slice(0,4).map(x=>`<img src="${esc(x)}">`).join('')}</div>${ctas(u)}</div>`).join('')||`<p>${t('empty')}</p>`}</div>`};
+const vDir=()=>bar(['q','city','role'])+`<div id=res>${listDir()}</div>`;
 
 /* compare */
 const vC=()=>{const L=S.cmp.map(i=>S.prods.find(p=>p.id==i)).filter(Boolean);
@@ -116,7 +175,7 @@ const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><in
 const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} ${x}></div>`;
  return `<form id=rf class=form onsubmit="return false"><div class=fld><label>${t('acct')}</label><select name=role data-role>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${r==x?'selected':''}>${t(x)}</option>`).join('')}</select></div>
  ${I('name','name')}<div class=fld><label>${t('city').replace(/^.*$/,'')}<select name=city>${cityOpts('')}</select></label></div>
- ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=url'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}
+ ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=url'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}${SOC.map(([k])=>I(k,k,'type=url placeholder=https://')).join('')}
  ${r!='installer'?`<div class=fld><label><input type=checkbox name=wholesale> ${t('whl')}</label></div>`:''}
  ${r=='subdealer'?`<div class=fld><label>${t('sup')}</label><select name=supplier>${S.users.filter(u=>u.role=='dealer').map(u=>`<option>${esc(u.name)}</option>`).join('')}</select></div>`:''}
  <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
@@ -124,48 +183,68 @@ const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</lab
 const vAdm=()=>{if(!isAdmin())return'';
  return `<h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button data-a=rej data-id=${u.id}>✕</button></div></div>`).join('')}</div>
  <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=del data-id=${p.id}>✕</button></div></div>`).join('')}</div>`};
-const V={products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
+const slider=()=>{const l=S.prods.slice(0,8);if(!l.length)return'';
+ return `<section class=slw><h2>${t('latest')}</h2><div class=sl id=sl><div class=tr id=tr>${l.map(p=>`<div class=sli data-a=open data-id=${p.id}><img src="${esc(p.photos?.[0]||'')}" alt=""><div><span class="tag ok">${t('newT')}</span><h3>${esc(p.brand)} ${esc(p.model)}</h3><p>${money(p)}</p><small>${esc(own(p).name||'')} · ${nm(own(p).city)}</small></div></div>`).join('')}</div>
+ <button class="sb l" data-a=sl data-d=-1 aria-label="prev">❮</button><button class="sb r" data-a=sl data-d=1 aria-label="next">❯</button><div class=dots>${l.map((_,i)=>`<i data-a=sl data-i=${i}></i>`).join('')}</div></div></section>`};
+const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label><input name=${k} type=number min=0 step=any inputmode=decimal value="${c[k]??d}"></div>`;
+ return `<section class=hero><h1>${t('heroT')}</h1><p>${t('calcSub')}</p></section>
+ <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',40)}${inp('nightA',25)}${inp('dayH',6)}${inp('nightH',8)}</div>
+ <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ <div class=out><div class=res><small>${t('rP')}</small><b id=oP>0</b><i id=oP2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=panel>${t('findP')}</button></div></div>
+ <div class=res><small>${t('rI')} (kW)</small><b id=oI>0</b><i id=oI2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=inverter>${t('findI')}</button></div></div>
+ <div class=res><small>${t('rB')} (kWh)</small><b id=oB>0</b><i id=oB2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=battery>${t('findB')}</button></div></div></div>
+ <p class=note id=oE></p><p class=note>${t('rNote')}</p></form>${slider()}`};
+const vProf=()=>{if(!S.me||!S.prof)return `<p>${t('need')}</p>`;const p=S.prof,I=(k,l,v,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} value="${esc(v)}" ${x}></div>`;
+ return `<form id=pf class=form onsubmit="return false">${p.approved?'':`<p class=warn>${t('pend')}</p>`}${I('name','name',p.name)}${I('phone','phone',p.phone,'type=tel')}${I('whatsapp','wnum',p.whatsapp,'type=tel')}${I('address','address',p.address)}${I('mapsUrl','mapsUrl',p.mapsUrl,'type=url')}${I('brands','brands',(p.brands||[]).join(', '))}${SOC.map(([k])=>I(k,k,(p.links||{})[k]||'','type=url placeholder=https://')).join('')}<button class=pri data-a=saveP>${t('save')}</button></form>`};
+const V={home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b>☀ ${S.lang=='ar'?'سوق الطاقة الشمسية':'Iraq Solar Market'}</b>${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
- $('#app').innerHTML=V[S.view]();}
+ $('#hd').innerHTML=`<b>☀ ${S.lang=='ar'?'سوق الطاقة الشمسية':'Iraq Solar Market'}</b>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ const app=$('#app');app.innerHTML=S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel();
+ if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
+ stagger(app);initSlider();if(S.view=='home')calcRun()}
 
 /* ---------- live validation ---------- */
 const collect=form=>{const v={};for(const f of C.fieldsAll(S.cat))v[f.k]=f.type=='multi'?[...form.querySelectorAll(`[name=${f.k}]:checked`)].map(x=>x.value):form.elements[f.k].value.trim();return v};
 const peers=v=>S.prods.filter(p=>p.cat==S.cat&&(S.cat!='battery'||p.chem==v.chem));
 function paint2(form,r){for(const f of C.fieldsAll(S.cat)){const el=form.querySelector('#e_'+f.k);if(!el)continue;const x=r.e[f.k],w=r.w[f.k],showE=x&&(!x.req||form.dataset.sub);
  el.className=showE?'err':w?'warn':'';el.innerHTML=showE?`${x.ar}<br>${x.en}`:w?`⚠ ${w.ar}<br>${w.en}`:''}}
-document.addEventListener('input',e=>{const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(S.cat,collect(f),peers(collect(f))))});
+document.addEventListener('input',e=>{if(e.target.closest('#calc'))calcRun();if(e.target.dataset.f==='q'){clearTimeout(S.dt);S.dt=setTimeout(()=>setF(e.target),200)}const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(S.cat,collect(f),peers(collect(f))))});
 document.addEventListener('change',e=>{const el=e.target;
  if(el.name=='cat'&&el.closest('#pform')){S.cat=el.value;render()}
- else if(el.dataset.f!==undefined){S.f[el.dataset.f]=el.value;render()}
+ else if(el.dataset.f!==undefined&&el.dataset.f!=='q')setF(el);
  else if(el.dataset.role!==undefined){S.role=el.value;render()}
  else if(el.closest('#pform'))paint2(el.closest('#pform'),validate(S.cat,collect(el.closest('#pform')),peers(collect(el.closest('#pform')))))});
 
 /* ---------- actions ---------- */
 const A={
- view:d=>{S.view=d.v;render()},
+ view:d=>go(d.v),
  lang:()=>{S.lang=S.lang=='ar'?'en':'ar';localStorage.lang=S.lang;render()},
- open:d=>{S.pid=d.id;S.view='detail';render()},
+ open:d=>go('p-'+d.id),
+ find:d=>{S.f={cat:d.c};go('products')},
+ sl:d=>{slide(d.i!==undefined?+d.i:S.si+ +d.d);initSlider()},
+ saveP:async(d,el)=>{const f=$('#pf').elements,g=k=>f[k].value.trim();el.disabled=true;
+  try{const data={name:g('name'),phone:g('phone'),whatsapp:g('whatsapp'),address:g('address'),mapsUrl:safe(g('mapsUrl')),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),links:Object.fromEntries(SOC.map(([k])=>[k,safe(g(k))]).filter(x=>x[1]))};
+   await db.doc('users/'+S.me.uid).update(data);Object.assign(S.prof,data);toast(t('saved'))}catch(e){toast(e.message)}el.disabled=false},
  cmp:d=>{const p=S.prods.find(x=>x.id==d.id);if(S.cmp.includes(d.id))S.cmp=S.cmp.filter(x=>x!=d.id);
-  else{const f=S.prods.find(x=>x.id==S.cmp[0]);if(f&&f.cat!=p.cat)return alert(t('cmpc'));if(S.cmp.length>=3)S.cmp.shift();S.cmp.push(d.id)}render()},
+  else{const f=S.prods.find(x=>x.id==S.cmp[0]);if(f&&f.cat!=p.cat)return toast(t('cmpc'));if(S.cmp.length>=3)S.cmp.shift();S.cmp.push(d.id)}render()},
  clear:()=>{S.cmp=[];render()},
  logout:()=>auth.signOut(),
- login:async()=>{try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);S.view='products'}catch(e){alert(e.message)}},
+ login:async()=>{try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);go('products')}catch(e){toast(e.message)}},
  reg:async()=>{const f=$('#rf').elements,g=k=>f[k]?.value.trim()||'';
-  if(!g('name')||!g('city')||!g('phone')||!g('email')||g('pass').length<6)return alert(t('fix'));
+  if(!g('name')||!g('city')||!g('phone')||!g('email')||g('pass').length<6)return toast(t('fix'));
   const b=$('#rf .pri');b.disabled=true;
   try{const cr=await auth.createUserWithEmailAndPassword(g('email'),g('pass')),ph=await Promise.all([...(f.photos?.files||[])].slice(0,12).map(up));
-   await db.doc('users/'+cr.user.uid).set({role:g('role'),name:g('name'),city:g('city'),address:g('address'),mapsUrl:g('mapsUrl'),phone:g('phone'),whatsapp:g('whatsapp')||g('phone'),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),wholesale:!!f.wholesale?.checked,supplier:g('supplier'),photos:ph,approved:false,authorized:false});
-   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();alert(t('pend'));S.view='products';render()}catch(e){alert(e.message);b.disabled=false}},
+   await db.doc('users/'+cr.user.uid).set({role:g('role'),name:g('name'),city:g('city'),address:g('address'),mapsUrl:safe(g('mapsUrl')),phone:g('phone'),whatsapp:g('whatsapp')||g('phone'),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),wholesale:!!f.wholesale?.checked,supplier:g('supplier'),photos:ph,links:Object.fromEntries(SOC.map(([k])=>[k,safe(g(k))]).filter(x=>x[1])),approved:false,authorized:false});
+   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();toast(t('pend'));go('products')}catch(e){toast(e.message);b.disabled=false}},
  save:async(d,el)=>{const form=$('#pform');form.dataset.sub=1;const v=collect(form),r=validate(S.cat,v,peers(v));paint2(form,r);
-  if(Object.keys(r.e).length){alert(t('fix'));form.querySelector('.err')?.scrollIntoView({block:'center'});return}
+  if(Object.keys(r.e).length){toast(t('fix'));form.querySelector('.err')?.scrollIntoView({block:'center'});return}
   el.disabled=true;
   try{const ph=await Promise.all([...form.elements.photos.files].slice(0,6).map(up)),ds=form.elements.ds.files[0]?await up(form.elements.ds.files[0]):'';
    for(const f of C.fieldsAll(S.cat))if(f.type=='num')v[f.k]=+v[f.k];
    await db.collection('products').add({...v,cat:S.cat,photos:ph,datasheet:ds,verified:false,dsOk:false,ownerId:S.me.uid,created:firebase.firestore.FieldValue.serverTimestamp()});
-   S.view='products';render()}catch(e){alert(e.message);el.disabled=false}},
+   go('products')}catch(e){toast(e.message);el.disabled=false}},
  ap:d=>db.doc('users/'+d.id).update({approved:true}),
  au:d=>db.doc('users/'+d.id).update({authorized:!S.users.find(u=>u.id==d.id).authorized}),
  rej:d=>confirm('?')&&db.doc('users/'+d.id).delete(),
@@ -174,5 +253,5 @@ const A={
  del:d=>confirm('?')&&db.doc('products/'+d.id).delete()
 };
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el&&A[el.dataset.a])A[el.dataset.a](el.dataset,el)});
-render();
+route();
 </script></body></html>
