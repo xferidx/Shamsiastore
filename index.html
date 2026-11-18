@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سوق الطاقة الشمسية العراقي | Iraq Solar Market</title>
+<style>
+:root{--g:#0b6b4f;--bg:#f5f7f6;--tx:#1b2a25;--bd:#dfe6e3}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--tx)}
+header{background:var(--g);color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;position:sticky;top:0;z-index:5}
+header b{font-size:18px;margin-inline-end:auto}
+button,.btn{font:inherit;border:0;border-radius:8px;padding:7px 12px;background:#fff;color:var(--g);cursor:pointer;text-decoration:none;display:inline-block;border:1px solid var(--bd)}
+.pri{background:var(--g);color:#fff}.wa{background:#25d366;color:#fff;border:0}.mp{background:#4285f4;color:#fff;border:0}
+main{max-width:1100px;margin:auto;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:8px;background:#e8eeec;cursor:pointer}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8px;max-width:100%}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#e8eeec;display:inline-block}
+.ok{background:#d7f5e4;color:#075}.no{background:#ffe3e0;color:#a31}.au{background:#fff0c9;color:#865}
+.fld{margin:8px 0}.fld>label{display:block;font-weight:600}
+.fld input:not([type=checkbox]),.fld select{width:100%}
+.fld .cb{font-weight:400;display:inline-block;margin-inline-end:10px}
+.err{color:#b3261e;font-size:12px}.warn{color:#9a6700;font-size:12px}
+table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid var(--bd);padding:6px 8px;text-align:start;vertical-align:top}
+td.best{background:#d7f5e4;font-weight:700}.sc{overflow-x:auto}
+.form{background:#fff;padding:12px;border-radius:12px;max-width:680px;margin:auto}
+.gal{display:flex;gap:6px;overflow-x:auto}.gal img{height:110px;border-radius:8px}
+</style></head><body>
+<header id="hd"></header><main id="app"></main>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+const C=CONFIG,$=s=>document.querySelector(s);
+firebase.initializeApp(C.firebase);const auth=firebase.auth(),db=firebase.firestore();
+let S={lang:localStorage.lang||'ar',view:'products',me:null,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
+const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6)','Photos (up to 6)'],wphotos:['صور أعمال سابقة','Photos of past work'],ds:['ورقة البيانات PDF (اختياري)','Datasheet PDF (optional)'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category']};
+const t=k=>U[k]?U[k][S.lang=='ar'?0:1]:k;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+const isAdmin=()=>!!S.me&&C.adminUids.includes(S.me.uid);
+const canSell=()=>isAdmin()||(S.prof&&S.prof.approved&&S.prof.role!='installer');
+const wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'964');
+const nm=id=>(C.cities.find(c=>c[0]==id)||[id,id])[S.lang=='ar'?1:0];
+const own=p=>S.users.find(u=>u.id==p.ownerId)||{};
+const money=p=>`${fmt(p.price)} IQD · ≈ $${fmt(p.price/C.rate)}`;
+const ol=o=>o[S.lang=='ar'?1:2]||o[0];
+const lab=(f,v)=>f.type=='sel'?ol(f.opts.find(o=>o[0]==v)||[v]):Array.isArray(v)?v.join(', '):(v??'—');
+const key=p=>(p.brand+'|'+p.model).toLowerCase().replace(/\s+/g,'');
+const fl=f=>f[S.lang]+(f.unit?` (${f.unit})`:'')+(f.req?' *':'');
+const cityOpts=(sel)=>`<option value="">${t('city')}</option>`+C.cities.map(c=>`<option value="${c[0]}" ${sel==c[0]?'selected':''}>${nm(c[0])}</option>`).join('');
+
+async function up(f){const d=new FormData();d.append('file',f);d.append('upload_preset',C.cloudinary.preset);
+ const r=await fetch(`https://api.cloudinary.com/v1_1/${C.cloudinary.cloud}/auto/upload`,{method:'POST',body:d}),j=await r.json();
+ if(!j.secure_url)throw Error(j.error?.message||'upload failed');return j.secure_url}
+
+/* ---------- data ---------- */
+function listen(){unsub.forEach(u=>u());unsub=[];
+ unsub.push(db.collection('products').onSnapshot(s=>{S.prods=s.docs.map(d=>({id:d.id,...d.data()}));dr()}));
+ const q=isAdmin()?db.collection('users'):db.collection('users').where('approved','==',true);
+ unsub.push(q.onSnapshot(s=>{S.users=s.docs.map(d=>({id:d.id,...d.data()}));dr()}))}
+auth.onAuthStateChanged(async u=>{S.me=u;S.prof=u?(await db.doc('users/'+u.uid).get()).data()||null:null;listen();render()});
+const dr=()=>{if(!['add','register','login'].includes(S.view))render()};
+
+/* ---------- views ---------- */
+const bar=c=>`<div class=bar>${c.includes('q')?`<input data-f=q placeholder="${t('q')}" value="${esc(S.f.q||'')}">`:''}
+${c.includes('city')?`<select data-f=city>${cityOpts(S.f.city)}</select>`:''}
+${c.includes('cat')?`<select data-f=cat><option value="">${t('cat')}</option>${['battery','inverter','panel'].map(x=>`<option value=${x} ${S.f.cat==x?'selected':''}>${t(x)}</option>`).join('')}</select>`:''}
+${c.includes('brand')?`<select data-f=brand><option value="">${t('brand')}</option>${[...new Set(S.prods.map(p=>p.brand))].map(b=>`<option ${S.f.brand==b?'selected':''}>${esc(b)}</option>`).join('')}</select>`:''}
+${c.includes('role')?`<select data-f=role><option value="">${t('role')}</option>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${S.f.role==x?'selected':''}>${t(x)}</option>`).join('')}</select>`:''}</div>`;
+const badges=p=>`<span class=tag>${t(p.cat)}</span> ${!p.verified?`<span class="tag no">${t('nv')}</span>`:''} ${p.dsOk&&p.datasheet?`<span class="tag ok">${t('dv')}</span>`:''}`;
+const ctas=o=>`<div class=bar>${o.whatsapp||o.phone?`<a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>`:''}${o.mapsUrl?`<a class="btn mp" target=_blank href="${esc(o.mapsUrl)}">${t('maps')}</a>`:''}${o.phone?`<a class=btn href="tel:${esc(o.phone)}">${t('call')}</a>`:''}</div>`;
+const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
+ return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.photos?.[0]||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div>
+ <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
+ <div class=bar><a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a><button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button></div></div>`};
+const vP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
+ return bar(['q','city','cat','brand'])+`<div class=grid>${l.map(card).join('')||t('empty')}</div>`};
+const vD=()=>{const p=S.prods.find(x=>x.id==S.pid);if(!p)return'';const o=own(p),pr=S.prods.filter(x=>x.cat==p.cat&&key(x)==key(p)).map(x=>x.price);
+ return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(p.photos||[]).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${money(p)}<br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
+ <table>${C.fieldsAll(p.cat).filter(f=>!['brand','model'].includes(f.k)).map(f=>`<tr><td>${esc(f[S.lang])}${f.unit?` (${f.unit})`:''}</td><td>${esc(lab(f,p[f.k]))}</td></tr>`).join('')}</table>
+ ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o)}</div>`};
+const vDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
+ return bar(['q','city','role'])+`<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('auth')}</span>`:''} ${u.wholesale?`<span class="tag ok">${t('whl')}</span>`:''}</div>
+ <small>${nm(u.city)}${u.address?' · '+esc(u.address):''}</small><small>${esc((u.brands||[]).join(' · '))}</small>${u.supplier?`<small>${t('sup')}: ${esc(u.supplier)}</small>`:''}
+ <div class=gal>${(u.photos||[]).slice(0,4).map(x=>`<img src="${esc(x)}">`).join('')}</div>${ctas(u)}</div>`).join('')||t('empty')}</div>`};
+
+/* compare */
+const vC=()=>{const L=S.cmp.map(i=>S.prods.find(p=>p.id==i)).filter(Boolean);
+ if(L.length<2)return `<p>${t('cmpHint')}</p>`+(L.length?`<div class=grid>${L.map(card).join('')}</div>`:'');
+ const cat=L[0].cat,pk=p=>S.prods.filter(x=>x.cat==cat&&key(x)==key(p)).map(x=>x.price);
+ const rows=[...C.fieldsAll(cat).filter(f=>!['brand','model','inverters'].includes(f.k)).map(f=>({l:fl(f).replace(' *',''),g:p=>p[f.k],b:f.better,s:p=>lab(f,p[f.k])})),
+  {l:t('range'),g:()=>NaN,s:p=>{const a=pk(p);return `${fmt(Math.min(...a))} – ${fmt(Math.max(...a))} IQD`}}];
+ if(cat=='battery')rows.push({l:t('kwhp')+' (IQD)',g:p=>p.price/p.usable,b:'lo',s:p=>fmt(p.price/p.usable)});
+ const best=r=>{if(!r.b)return null;const v=L.map(r.g).map(Number);if(v.some(isNaN)||new Set(v).size<2)return null;return r.b=='hi'?Math.max(...v):Math.min(...v)};
+ let cp='';if(cat=='battery'){const cl=L.map(p=>p.volt<=60?'LV':'HV'),cm=L.map(p=>p.comm||[]),cc=cm[0].filter(x=>cm.every(c=>c.includes(x))),iv=L.map(p=>(p.inverters||'').split(/[,،]/).map(s=>s.trim().toLowerCase()).filter(Boolean)),ci=iv[0].filter(x=>iv.every(a=>a.includes(x)));
+  cp=`<h3>${t('compat')}</h3><p>${new Set(cl).size==1?'✔':'✖'} ${t('vclass')}: ${cl.map(c=>t(c=='LV'?'lv':'hv')).join(' / ')}</p><p>${cc.length?'✔ '+cc.join(', '):'✖ '+t('nocomm')}</p><p>${t('invclaim')}: ${ci.length?esc(ci.join(', ')):'—'}<br><small>${t('claimNote')}</small></p>`}
+ return `<button data-a=clear>${t('clear')}</button><div class=sc><table><tr><th></th>${L.map(p=>`<th>${esc(p.brand)} ${esc(p.model)}<br><small>${esc(own(p).name||'')}</small></th>`).join('')}</tr>
+ <tr><td>${t('products')}</td>${L.map(p=>`<td>${money(p)}</td>`).join('')}</tr>
+ ${rows.map(r=>{const b=best(r);return `<tr><td>${esc(r.l)}</td>${L.map(p=>`<td class="${b!==null&&Number(r.g(p))==b?'best':''}">${esc(r.s(p))}</td>`).join('')}</tr>`}).join('')}</table></div>${cp}`};
+
+/* forms */
+const fld=f=>{let i;if(f.type=='sel')i=`<select name=${f.k}><option value=""></option>${f.opts.map(o=>`<option value="${o[0]}">${esc(ol(o))}</option>`).join('')}</select>`;
+ else if(f.type=='multi')i=f.opts.map(o=>`<label class=cb><input type=checkbox name=${f.k} value="${o[0]}"> ${esc(ol(o))}</label>`).join('');
+ else i=`<input name=${f.k} ${f.type=='num'?'type=number step=any inputmode=decimal':''} ${f.k=='brand'?'list=bl':''}>`;
+ return `<div class=fld><label>${esc(fl(f))}</label>${i}<small id=e_${f.k}></small></div>`};
+const vAdd=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;
+ return `<form id=pform class=form onsubmit="return false"><datalist id=bl>${C.brands.map(b=>`<option>${b}</option>`).join('')}</datalist>
+ <div class=fld><label>${t('cat').replace(/^.*$/,'')}${['battery','inverter','panel'].map(x=>`<label class=cb><input type=radio name=cat value=${x} ${S.cat==x?'checked':''}> ${t(x)}</label>`).join('')}</label></div>
+ ${C.fieldsAll(S.cat).map(fld).join('')}
+ <div class=fld><label>${t('photos')}</label><input type=file name=photos accept="image/*" multiple></div>
+ <div class=fld><label>${t('ds')}</label><input type=file name=ds accept="application/pdf"></div>
+ <button class=pri data-a=save>${t('save')}</button></form>`};
+const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><input id=em type=email></div><div class=fld><label>${t('pass')}</label><input id=pw type=password></div><button class=pri data-a=login>${t('login')}</button> <button data-a=view data-v=register>${t('register')}</button></div>`;
+const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} ${x}></div>`;
+ return `<form id=rf class=form onsubmit="return false"><div class=fld><label>${t('acct')}</label><select name=role data-role>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${r==x?'selected':''}>${t(x)}</option>`).join('')}</select></div>
+ ${I('name','name')}<div class=fld><label>${t('city').replace(/^.*$/,'')}<select name=city>${cityOpts('')}</select></label></div>
+ ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=url'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}
+ ${r!='installer'?`<div class=fld><label><input type=checkbox name=wholesale> ${t('whl')}</label></div>`:''}
+ ${r=='subdealer'?`<div class=fld><label>${t('sup')}</label><select name=supplier>${S.users.filter(u=>u.role=='dealer').map(u=>`<option>${esc(u.name)}</option>`).join('')}</select></div>`:''}
+ <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
+ ${I('email','email','type=email')}${I('pass','pass','type=password')}<button class=pri data-a=reg>${t('register')}</button></form>`};
+const vAdm=()=>{if(!isAdmin())return'';
+ return `<h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button data-a=rej data-id=${u.id}>✕</button></div></div>`).join('')}</div>
+ <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=del data-id=${p.id}>✕</button></div></div>`).join('')}</div>`};
+const V={products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
+
+function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
+ const nav=(v,k)=>`<button data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
+ $('#hd').innerHTML=`<b>☀ ${S.lang=='ar'?'سوق الطاقة الشمسية':'Iraq Solar Market'}</b>${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#app').innerHTML=V[S.view]();}
+
+/* ---------- live validation ---------- */
+const collect=form=>{const v={};for(const f of C.fieldsAll(S.cat))v[f.k]=f.type=='multi'?[...form.querySelectorAll(`[name=${f.k}]:checked`)].map(x=>x.value):form.elements[f.k].value.trim();return v};
+const peers=v=>S.prods.filter(p=>p.cat==S.cat&&(S.cat!='battery'||p.chem==v.chem));
+function paint2(form,r){for(const f of C.fieldsAll(S.cat)){const el=form.querySelector('#e_'+f.k);if(!el)continue;const x=r.e[f.k],w=r.w[f.k],showE=x&&(!x.req||form.dataset.sub);
+ el.className=showE?'err':w?'warn':'';el.innerHTML=showE?`${x.ar}<br>${x.en}`:w?`⚠ ${w.ar}<br>${w.en}`:''}}
+document.addEventListener('input',e=>{const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(S.cat,collect(f),peers(collect(f))))});
+document.addEventListener('change',e=>{const el=e.target;
+ if(el.name=='cat'&&el.closest('#pform')){S.cat=el.value;render()}
+ else if(el.dataset.f!==undefined){S.f[el.dataset.f]=el.value;render()}
+ else if(el.dataset.role!==undefined){S.role=el.value;render()}
+ else if(el.closest('#pform'))paint2(el.closest('#pform'),validate(S.cat,collect(el.closest('#pform')),peers(collect(el.closest('#pform')))))});
+
+/* ---------- actions ---------- */
+const A={
+ view:d=>{S.view=d.v;render()},
+ lang:()=>{S.lang=S.lang=='ar'?'en':'ar';localStorage.lang=S.lang;render()},
+ open:d=>{S.pid=d.id;S.view='detail';render()},
+ cmp:d=>{const p=S.prods.find(x=>x.id==d.id);if(S.cmp.includes(d.id))S.cmp=S.cmp.filter(x=>x!=d.id);
+  else{const f=S.prods.find(x=>x.id==S.cmp[0]);if(f&&f.cat!=p.cat)return alert(t('cmpc'));if(S.cmp.length>=3)S.cmp.shift();S.cmp.push(d.id)}render()},
+ clear:()=>{S.cmp=[];render()},
+ logout:()=>auth.signOut(),
+ login:async()=>{try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);S.view='products'}catch(e){alert(e.message)}},
+ reg:async()=>{const f=$('#rf').elements,g=k=>f[k]?.value.trim()||'';
+  if(!g('name')||!g('city')||!g('phone')||!g('email')||g('pass').length<6)return alert(t('fix'));
+  const b=$('#rf .pri');b.disabled=true;
+  try{const cr=await auth.createUserWithEmailAndPassword(g('email'),g('pass')),ph=await Promise.all([...(f.photos?.files||[])].slice(0,12).map(up));
+   await db.doc('users/'+cr.user.uid).set({role:g('role'),name:g('name'),city:g('city'),address:g('address'),mapsUrl:g('mapsUrl'),phone:g('phone'),whatsapp:g('whatsapp')||g('phone'),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),wholesale:!!f.wholesale?.checked,supplier:g('supplier'),photos:ph,approved:false,authorized:false});
+   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();alert(t('pend'));S.view='products';render()}catch(e){alert(e.message);b.disabled=false}},
+ save:async(d,el)=>{const form=$('#pform');form.dataset.sub=1;const v=collect(form),r=validate(S.cat,v,peers(v));paint2(form,r);
+  if(Object.keys(r.e).length){alert(t('fix'));form.querySelector('.err')?.scrollIntoView({block:'center'});return}
+  el.disabled=true;
+  try{const ph=await Promise.all([...form.elements.photos.files].slice(0,6).map(up)),ds=form.elements.ds.files[0]?await up(form.elements.ds.files[0]):'';
+   for(const f of C.fieldsAll(S.cat))if(f.type=='num')v[f.k]=+v[f.k];
+   await db.collection('products').add({...v,cat:S.cat,photos:ph,datasheet:ds,verified:false,dsOk:false,ownerId:S.me.uid,created:firebase.firestore.FieldValue.serverTimestamp()});
+   S.view='products';render()}catch(e){alert(e.message);el.disabled=false}},
+ ap:d=>db.doc('users/'+d.id).update({approved:true}),
+ au:d=>db.doc('users/'+d.id).update({authorized:!S.users.find(u=>u.id==d.id).authorized}),
+ rej:d=>confirm('?')&&db.doc('users/'+d.id).delete(),
+ vf:d=>db.doc('products/'+d.id).update({verified:!S.prods.find(p=>p.id==d.id).verified}),
+ dso:d=>db.doc('products/'+d.id).update({dsOk:!S.prods.find(p=>p.id==d.id).dsOk}),
+ del:d=>confirm('?')&&db.doc('products/'+d.id).delete()
+};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el&&A[el.dataset.a])A[el.dataset.a](el.dataset,el)});
+render();
+</script></body></html>
