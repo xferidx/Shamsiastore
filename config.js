@@ -2,9 +2,8 @@
 const IP = ["IP20","IP21","IP42","IP54","IP55","IP56","IP65","IP66","IP67","IP68"];
 const CONFIG = {
   firebase: { apiKey:"", authDomain:"", projectId:"", storageBucket:"", messagingSenderId:"", appId:"" },
-  cloudinary: { cloud:"YOUR_CLOUD_NAME", preset:"YOUR_UNSIGNED_PRESET" },
   rate: 1520,                       // IQD per 1 USD (shown next to every price)
-  adminUids: ["PUT_ADMIN_UID_HERE"],// Firebase Auth UID(s) of admins
+  adminUids: ["HMSqWwbh6YMoKU6REIyWz6rqO532"],// Firebase Auth UID(s) of admins
   cities: [["Baghdad","بغداد"],["Basra","البصرة"],["Mosul","الموصل"],["Erbil","أربيل"],["Sulaymaniyah","السليمانية"],["Duhok","دهوك"],["Kirkuk","كركوك"],["Najaf","النجف"],["Karbala","كربلاء"],["Nasiriyah","الناصرية"],["Amarah","العمارة"],["Diwaniyah","الديوانية"],["Hillah","الحلة"],["Kut","الكوت"],["Ramadi","الرمادي"],["Fallujah","الفلوجة"],["Tikrit","تكريت"],["Baqubah","بعقوبة"],["Samawah","السماوة"]],
   brands: ["Pylontech","Huawei","Sungrow","Growatt","Deye","Felicity","Dyness","BYD","Victron","Voltronic","Must","SRNE","Jinko","Longi","Trina","Canadian Solar","JA Solar"],
   limits: {
@@ -152,6 +151,12 @@ rules_version='2'; service cloud.firestore { match /databases/{d}/documents {
       && (admin() || get(/databases/$(d)/documents/users/$(request.auth.uid)).data.approved==true);
     allow update, delete: if admin() || (resource.data.ownerId==request.auth.uid
       && request.resource.data.verified==resource.data.verified && request.resource.data.dsOk==resource.data.dsOk);
+  }
+  match /photos/{p} {
+    allow read: if true;
+    allow create: if request.auth!=null && request.resource.data.ownerId==request.auth.uid
+      && get(/databases/$(d)/documents/products/$(p)).data.ownerId==request.auth.uid;
+    allow update, delete: if admin() || resource.data.ownerId==request.auth.uid;
   }
 }}
 */
