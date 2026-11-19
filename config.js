@@ -1,7 +1,14 @@
 /* ===== ALL SETTINGS + VALIDATION RULES LIVE HERE — edit freely ===== */
 const IP = ["IP20","IP21","IP42","IP54","IP55","IP56","IP65","IP66","IP67","IP68"];
 const CONFIG = {
-  firebase: { apiKey:"", authDomain:"", projectId:"", storageBucket:"", messagingSenderId:"", appId:"" },
+  firebase: {
+    apiKey:"AIzaSyALx9PQ6eBVcBgBjc_fKhbnq91BV5WiGi8",
+    authDomain:"noor-88d88.firebaseapp.com",
+    projectId:"noor-88d88",
+    storageBucket:"noor-88d88.firebasestorage.app",
+    messagingSenderId:"1090985815108",
+    appId:"1:1090985815108:web:16a770d9236a26aa652011"
+  },
   rate: 1520,                       // IQD per 1 USD (shown next to every price)
   adminUids: ["HMSqWwbh6YMoKU6REIyWz6rqO532"],// Firebase Auth UID(s) of admins
   cities: [["Baghdad","بغداد"],["Basra","البصرة"],["Mosul","الموصل"],["Erbil","أربيل"],["Sulaymaniyah","السليمانية"],["Duhok","دهوك"],["Kirkuk","كركوك"],["Najaf","النجف"],["Karbala","كربلاء"],["Nasiriyah","الناصرية"],["Amarah","العمارة"],["Diwaniyah","الديوانية"],["Hillah","الحلة"],["Kut","الكوت"],["Ramadi","الرمادي"],["Fallujah","الفلوجة"],["Tikrit","تكريت"],["Baqubah","بعقوبة"],["Samawah","السماوة"]],
