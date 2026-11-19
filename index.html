@@ -66,8 +66,8 @@ addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.mes
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 let auth,db,fbErr='';try{firebase.initializeApp(C.firebase);auth=firebase.auth();db=firebase.firestore()}catch(e){fbErr=e.message}
-let S={lang:localStorage.lang||'ar',view:'home',me:null,si:0,calc:{},ready:false,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
-const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6)','Photos (up to 6)'],wphotos:['صور أعمال سابقة','Photos of past work'],ds:['ورقة البيانات PDF (اختياري)','Datasheet PDF (optional)'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved']};
+let S={lang:localStorage.lang||'ar',view:'home',me:null,si:0,gal:{},calc:{},ready:false,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
+const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6، تُصغَّر تلقائياً)','Photos (up to 6, auto-shrunk)'],wphotos:['صور أعمال سابقة (حتى 4)','Photos of past work (up to 4)'],ds:['رابط ورقة البيانات PDF (Google Drive أو موقع الشركة) — اختياري','Datasheet PDF link (Google Drive or maker site) — optional'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved']};
 const t=k=>U[k]?U[k][S.lang=='ar'?0:1]:k;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Math.round(n).toLocaleString('en-US');
@@ -94,7 +94,7 @@ const stagger=r=>r&&r.querySelectorAll('.grid>.card').forEach((c,i)=>c.style.ani
 const setF=el=>{S.f[el.dataset.f]=el.value;const r=$('#res');if(r){r.innerHTML=S.view=='directory'?listDir():listP();stagger(r)}};
 const reduced=()=>!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
 function go(v){if(location.hash.slice(1)==v)route();else location.hash=v}
-function route(){const h=location.hash.slice(1)||'home';if(h.startsWith('p-')){S.pid=h.slice(2);S.view='detail'}else S.view=V[h]?h:'home';S.anim=1;render();scrollTo(0,0)}
+function route(){const h=location.hash.slice(1)||'home';if(h.startsWith('p-')){S.pid=h.slice(2);S.view='detail';loadGal(S.pid)}else S.view=V[h]?h:'home';S.anim=1;render();scrollTo(0,0)}
 addEventListener('hashchange',route);
 function tween(el,to,dec=0){if(!el)return;const from=parseFloat(el.dataset.v)||0;el.dataset.v=to;if(reduced()){el.textContent=to.toFixed(dec);return}
  const t0=performance.now();(function s(n){const p=Math.min(1,(n-t0)/450),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(p<1)requestAnimationFrame(s)})(t0)}
@@ -113,9 +113,13 @@ function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','day
 function slide(i){const tr=$('#tr');if(!tr)return;const n=tr.children.length;S.si=(i+n)%n;tr.style.transform=`translateX(${(S.lang=='ar'?1:-1)*S.si*100}%)`;$$('.dots i').forEach((d,j)=>d.classList.toggle('on',j==S.si))}
 function initSlider(){clearInterval(S.tm);const tr=$('#tr');if(!tr)return;slide(S.si);
  if(tr.children.length>1&&!reduced())S.tm=setInterval(()=>{if(!$('#sl:hover'))slide(S.si+1)},3800)}
-async function up(f){const d=new FormData();d.append('file',f);d.append('upload_preset',C.cloudinary.preset);
- const r=await fetch(`https://api.cloudinary.com/v1_1/${C.cloudinary.cloud}/auto/upload`,{method:'POST',body:d}),j=await r.json();
- if(!j.secure_url)throw Error(j.error?.message||'upload failed');return j.secure_url}
+/* Photos: shrunk in the browser to small JPEGs and stored inside Firestore (no Cloudinary / Storage needed) */
+function shrink(file,max=900,kb=70){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(file);
+ im.onload=()=>{URL.revokeObjectURL(u);let sc=Math.min(1,max/Math.max(im.width,im.height)),q=.72,d;const c=document.createElement('canvas'),x=c.getContext('2d');
+  for(let i=0;i<10;i++){c.width=Math.max(1,Math.round(im.width*sc));c.height=Math.max(1,Math.round(im.height*sc));x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+   d=c.toDataURL('image/jpeg',q);if(d.length*.75<=kb*1024)break;if(q>.45)q-=.1;else sc*=.8}
+  ok(d)};im.onerror=()=>no(Error('Bad image file'));im.src=u})}
+const loadGal=async id=>{if(!db||S.gal[id])return;try{const d=await db.doc('photos/'+id).get();S.gal[id]=d.exists?d.data().list:[];if(S.view=='detail'&&S.pid==id)render()}catch(e){}};
 
 /* ---------- data ---------- */
 function listen(){unsub.forEach(u=>u());unsub=[];
@@ -134,129 +138,15 @@ ${c.includes('role')?`<select data-f=role><option value="">${t('role')}</option>
 const badges=p=>`<span class=tag>${t(p.cat)}</span> ${!p.verified?`<span class="tag no">${t('nv')}</span>`:''} ${p.dsOk&&p.datasheet?`<span class="tag ok">${t('dv')}</span>`:''}`;
 const ctas=o=>`<div class=bar>${o.whatsapp||o.phone?`<a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>`:''}${safe(o.mapsUrl)?`<a class="btn mp" target=_blank rel=noopener href="${esc(safe(o.mapsUrl))}">${t('maps')}</a>`:''}${o.phone?`<a class=btn href="tel:${esc(o.phone)}">${t('call')}</a>`:''}${links(o)}</div>`;
 const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
- return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.photos?.[0]||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div>
+ return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.thumb||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div>
  <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
  <div class=bar><a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a><button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button></div></div>`};
 const listP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
  return `<div class=grid>${l.map(card).join('')||`<p>${t('empty')}</p>`}</div>`};
 const vP=()=>bar(['q','city','cat','brand'])+`<div id=res>${listP()}</div>`;
 const vD=()=>{const p=S.prods.find(x=>x.id==S.pid);if(!p)return'';const o=own(p),pr=S.prods.filter(x=>x.cat==p.cat&&key(x)==key(p)).map(x=>x.price);
- return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(p.photos||[]).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${money(p)}<br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
+ return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(S.gal[p.id]||(p.thumb?[p.thumb]:[])).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${money(p)}<br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
  <table>${C.fieldsAll(p.cat).filter(f=>!['brand','model'].includes(f.k)).map(f=>`<tr><td>${esc(f[S.lang])}${f.unit?` (${f.unit})`:''}</td><td>${esc(lab(f,p[f.k]))}</td></tr>`).join('')}</table>
  ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o)}</div>`};
 const listDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
- return `<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('auth')}</span>`:''} ${u.wholesale?`<span class="tag ok">${t('whl')}</span>`:''}</div>
- <small>${nm(u.city)}${u.address?' · '+esc(u.address):''}</small><small>${esc((u.brands||[]).join(' · '))}</small>${u.supplier?`<small>${t('sup')}: ${esc(u.supplier)}</small>`:''}
- <div class=gal>${(u.photos||[]).slice(0,4).map(x=>`<img src="${esc(x)}">`).join('')}</div>${ctas(u)}</div>`).join('')||`<p>${t('empty')}</p>`}</div>`};
-const vDir=()=>bar(['q','city','role'])+`<div id=res>${listDir()}</div>`;
-
-/* compare */
-const vC=()=>{const L=S.cmp.map(i=>S.prods.find(p=>p.id==i)).filter(Boolean);
- if(L.length<2)return `<p>${t('cmpHint')}</p>`+(L.length?`<div class=grid>${L.map(card).join('')}</div>`:'');
- const cat=L[0].cat,pk=p=>S.prods.filter(x=>x.cat==cat&&key(x)==key(p)).map(x=>x.price);
- const rows=[...C.fieldsAll(cat).filter(f=>!['brand','model','inverters'].includes(f.k)).map(f=>({l:fl(f).replace(' *',''),g:p=>p[f.k],b:f.better,s:p=>lab(f,p[f.k])})),
-  {l:t('range'),g:()=>NaN,s:p=>{const a=pk(p);return `${fmt(Math.min(...a))} – ${fmt(Math.max(...a))} IQD`}}];
- if(cat=='battery')rows.push({l:t('kwhp')+' (IQD)',g:p=>p.price/p.usable,b:'lo',s:p=>fmt(p.price/p.usable)});
- const best=r=>{if(!r.b)return null;const v=L.map(r.g).map(Number);if(v.some(isNaN)||new Set(v).size<2)return null;return r.b=='hi'?Math.max(...v):Math.min(...v)};
- let cp='';if(cat=='battery'){const cl=L.map(p=>p.volt<=60?'LV':'HV'),cm=L.map(p=>p.comm||[]),cc=cm[0].filter(x=>cm.every(c=>c.includes(x))),iv=L.map(p=>(p.inverters||'').split(/[,،]/).map(s=>s.trim().toLowerCase()).filter(Boolean)),ci=iv[0].filter(x=>iv.every(a=>a.includes(x)));
-  cp=`<h3>${t('compat')}</h3><p>${new Set(cl).size==1?'✔':'✖'} ${t('vclass')}: ${cl.map(c=>t(c=='LV'?'lv':'hv')).join(' / ')}</p><p>${cc.length?'✔ '+cc.join(', '):'✖ '+t('nocomm')}</p><p>${t('invclaim')}: ${ci.length?esc(ci.join(', ')):'—'}<br><small>${t('claimNote')}</small></p>`}
- return `<button data-a=clear>${t('clear')}</button><div class=sc><table><tr><th></th>${L.map(p=>`<th>${esc(p.brand)} ${esc(p.model)}<br><small>${esc(own(p).name||'')}</small></th>`).join('')}</tr>
- <tr><td>${t('products')}</td>${L.map(p=>`<td>${money(p)}</td>`).join('')}</tr>
- ${rows.map(r=>{const b=best(r);return `<tr><td>${esc(r.l)}</td>${L.map(p=>`<td class="${b!==null&&Number(r.g(p))==b?'best':''}">${esc(r.s(p))}</td>`).join('')}</tr>`}).join('')}</table></div>${cp}`};
-
-/* forms */
-const fld=f=>{let i;if(f.type=='sel')i=`<select name=${f.k}><option value=""></option>${f.opts.map(o=>`<option value="${o[0]}">${esc(ol(o))}</option>`).join('')}</select>`;
- else if(f.type=='multi')i=f.opts.map(o=>`<label class=cb><input type=checkbox name=${f.k} value="${o[0]}"> ${esc(ol(o))}</label>`).join('');
- else i=`<input name=${f.k} ${f.type=='num'?'type=number step=any inputmode=decimal':''} ${f.k=='brand'?'list=bl':''}>`;
- return `<div class=fld><label>${esc(fl(f))}</label>${i}<small id=e_${f.k}></small></div>`};
-const vAdd=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;
- return `<form id=pform class=form onsubmit="return false"><datalist id=bl>${C.brands.map(b=>`<option>${b}</option>`).join('')}</datalist>
- <div class=fld><label>${t('cat').replace(/^.*$/,'')}${['battery','inverter','panel'].map(x=>`<label class=cb><input type=radio name=cat value=${x} ${S.cat==x?'checked':''}> ${t(x)}</label>`).join('')}</label></div>
- ${C.fieldsAll(S.cat).map(fld).join('')}
- <div class=fld><label>${t('photos')}</label><input type=file name=photos accept="image/*" multiple></div>
- <div class=fld><label>${t('ds')}</label><input type=file name=ds accept="application/pdf"></div>
- <button class=pri data-a=save>${t('save')}</button></form>`};
-const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><input id=em type=email></div><div class=fld><label>${t('pass')}</label><input id=pw type=password></div><button class=pri data-a=login>${t('login')}</button> <button data-a=view data-v=register>${t('register')}</button></div>`;
-const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} ${x}></div>`;
- return `<form id=rf class=form onsubmit="return false"><div class=fld><label>${t('acct')}</label><select name=role data-role>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${r==x?'selected':''}>${t(x)}</option>`).join('')}</select></div>
- ${I('name','name')}<div class=fld><label>${t('city').replace(/^.*$/,'')}<select name=city>${cityOpts('')}</select></label></div>
- ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=url'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}${SOC.map(([k])=>I(k,k,'type=url placeholder=https://')).join('')}
- ${r!='installer'?`<div class=fld><label><input type=checkbox name=wholesale> ${t('whl')}</label></div>`:''}
- ${r=='subdealer'?`<div class=fld><label>${t('sup')}</label><select name=supplier>${S.users.filter(u=>u.role=='dealer').map(u=>`<option>${esc(u.name)}</option>`).join('')}</select></div>`:''}
- <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
- ${I('email','email','type=email')}${I('pass','pass','type=password')}<button class=pri data-a=reg>${t('register')}</button></form>`};
-const vAdm=()=>{if(!isAdmin())return'';
- return `<h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button data-a=rej data-id=${u.id}>✕</button></div></div>`).join('')}</div>
- <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=del data-id=${p.id}>✕</button></div></div>`).join('')}</div>`};
-const slider=()=>{const l=S.prods.slice(0,8);if(!l.length)return'';
- return `<section class=slw><h2>${t('latest')}</h2><div class=sl id=sl><div class=tr id=tr>${l.map(p=>`<div class=sli data-a=open data-id=${p.id}><img src="${esc(p.photos?.[0]||'')}" alt=""><div><span class="tag ok">${t('newT')}</span><h3>${esc(p.brand)} ${esc(p.model)}</h3><p>${money(p)}</p><small>${esc(own(p).name||'')} · ${nm(own(p).city)}</small></div></div>`).join('')}</div>
- <button class="sb l" data-a=sl data-d=-1 aria-label="prev">❮</button><button class="sb r" data-a=sl data-d=1 aria-label="next">❯</button><div class=dots>${l.map((_,i)=>`<i data-a=sl data-i=${i}></i>`).join('')}</div></div></section>`};
-const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label><input name=${k} type=number min=0 step=any inputmode=decimal value="${c[k]??d}"></div>`;
- return `<section class=hero><h1>${t('heroT')}</h1><p>${t('calcSub')}</p></section>
- <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',40)}${inp('nightA',25)}${inp('dayH',6)}${inp('nightH',8)}</div>
- <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
- <div class=out><div class=res><small>${t('rP')}</small><b id=oP>0</b><i id=oP2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=panel>${t('findP')}</button></div></div>
- <div class=res><small>${t('rI')} (kW)</small><b id=oI>0</b><i id=oI2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=inverter>${t('findI')}</button></div></div>
- <div class=res><small>${t('rB')} (kWh)</small><b id=oB>0</b><i id=oB2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=battery>${t('findB')}</button></div></div></div>
- <p class=note id=oE></p><p class=note>${t('rNote')}</p></form>${slider()}`};
-const vProf=()=>{if(!S.me||!S.prof)return `<p>${t('need')}</p>`;const p=S.prof,I=(k,l,v,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} value="${esc(v)}" ${x}></div>`;
- return `<form id=pf class=form onsubmit="return false">${p.approved?'':`<p class=warn>${t('pend')}</p>`}${I('name','name',p.name)}${I('phone','phone',p.phone,'type=tel')}${I('whatsapp','wnum',p.whatsapp,'type=tel')}${I('address','address',p.address)}${I('mapsUrl','mapsUrl',p.mapsUrl,'type=url')}${I('brands','brands',(p.brands||[]).join(', '))}${SOC.map(([k])=>I(k,k,(p.links||{})[k]||'','type=url placeholder=https://')).join('')}<button class=pri data-a=saveP>${t('save')}</button></form>`};
-const V={home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
-
-function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
- const nav=(v,k)=>`<button data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b>☀ ${S.lang=='ar'?'سوق الطاقة الشمسية':'Iraq Solar Market'}</b>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
- const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
- if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
- stagger(app);initSlider();if(S.view=='home')calcRun()}
-
-/* ---------- live validation ---------- */
-const collect=form=>{const v={};for(const f of C.fieldsAll(S.cat))v[f.k]=f.type=='multi'?[...form.querySelectorAll(`[name=${f.k}]:checked`)].map(x=>x.value):form.elements[f.k].value.trim();return v};
-const peers=v=>S.prods.filter(p=>p.cat==S.cat&&(S.cat!='battery'||p.chem==v.chem));
-function paint2(form,r){for(const f of C.fieldsAll(S.cat)){const el=form.querySelector('#e_'+f.k);if(!el)continue;const x=r.e[f.k],w=r.w[f.k],showE=x&&(!x.req||form.dataset.sub);
- el.className=showE?'err':w?'warn':'';el.innerHTML=showE?`${x.ar}<br>${x.en}`:w?`⚠ ${w.ar}<br>${w.en}`:''}}
-document.addEventListener('input',e=>{if(e.target.closest('#calc'))calcRun();if(e.target.dataset.f==='q'){clearTimeout(S.dt);S.dt=setTimeout(()=>setF(e.target),200)}const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(S.cat,collect(f),peers(collect(f))))});
-document.addEventListener('change',e=>{const el=e.target;
- if(el.name=='cat'&&el.closest('#pform')){S.cat=el.value;render()}
- else if(el.dataset.f!==undefined&&el.dataset.f!=='q')setF(el);
- else if(el.dataset.role!==undefined){S.role=el.value;render()}
- else if(el.closest('#pform'))paint2(el.closest('#pform'),validate(S.cat,collect(el.closest('#pform')),peers(collect(el.closest('#pform')))))});
-
-/* ---------- actions ---------- */
-const A={
- view:d=>go(d.v),
- lang:()=>{S.lang=S.lang=='ar'?'en':'ar';localStorage.lang=S.lang;render()},
- open:d=>go('p-'+d.id),
- find:d=>{S.f={cat:d.c};go('products')},
- sl:d=>{slide(d.i!==undefined?+d.i:S.si+ +d.d);initSlider()},
- saveP:async(d,el)=>{const f=$('#pf').elements,g=k=>f[k].value.trim();el.disabled=true;
-  try{const data={name:g('name'),phone:g('phone'),whatsapp:g('whatsapp'),address:g('address'),mapsUrl:safe(g('mapsUrl')),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),links:Object.fromEntries(SOC.map(([k])=>[k,safe(g(k))]).filter(x=>x[1]))};
-   await db.doc('users/'+S.me.uid).update(data);Object.assign(S.prof,data);toast(t('saved'))}catch(e){toast(e.message)}el.disabled=false},
- cmp:d=>{const p=S.prods.find(x=>x.id==d.id);if(S.cmp.includes(d.id))S.cmp=S.cmp.filter(x=>x!=d.id);
-  else{const f=S.prods.find(x=>x.id==S.cmp[0]);if(f&&f.cat!=p.cat)return toast(t('cmpc'));if(S.cmp.length>=3)S.cmp.shift();S.cmp.push(d.id)}render()},
- clear:()=>{S.cmp=[];render()},
- logout:()=>auth.signOut(),
- login:async()=>{try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);go('products')}catch(e){toast(e.message)}},
- reg:async()=>{const f=$('#rf').elements,g=k=>f[k]?.value.trim()||'';
-  if(!g('name')||!g('city')||!g('phone')||!g('email')||g('pass').length<6)return toast(t('fix'));
-  const b=$('#rf .pri');b.disabled=true;
-  try{const cr=await auth.createUserWithEmailAndPassword(g('email'),g('pass')),ph=await Promise.all([...(f.photos?.files||[])].slice(0,12).map(up));
-   await db.doc('users/'+cr.user.uid).set({role:g('role'),name:g('name'),city:g('city'),address:g('address'),mapsUrl:safe(g('mapsUrl')),phone:g('phone'),whatsapp:g('whatsapp')||g('phone'),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),wholesale:!!f.wholesale?.checked,supplier:g('supplier'),photos:ph,links:Object.fromEntries(SOC.map(([k])=>[k,safe(g(k))]).filter(x=>x[1])),approved:false,authorized:false});
-   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();toast(t('pend'));go('products')}catch(e){toast(e.message);b.disabled=false}},
- save:async(d,el)=>{const form=$('#pform');form.dataset.sub=1;const v=collect(form),r=validate(S.cat,v,peers(v));paint2(form,r);
-  if(Object.keys(r.e).length){toast(t('fix'));form.querySelector('.err')?.scrollIntoView({block:'center'});return}
-  el.disabled=true;
-  try{const ph=await Promise.all([...form.elements.photos.files].slice(0,6).map(up)),ds=form.elements.ds.files[0]?await up(form.elements.ds.files[0]):'';
-   for(const f of C.fieldsAll(S.cat))if(f.type=='num')v[f.k]=+v[f.k];
-   await db.collection('products').add({...v,cat:S.cat,photos:ph,datasheet:ds,verified:false,dsOk:false,ownerId:S.me.uid,created:firebase.firestore.FieldValue.serverTimestamp()});
-   go('products')}catch(e){toast(e.message);el.disabled=false}},
- ap:d=>db.doc('users/'+d.id).update({approved:true}),
- au:d=>db.doc('users/'+d.id).update({authorized:!S.users.find(u=>u.id==d.id).authorized}),
- rej:d=>confirm('?')&&db.doc('users/'+d.id).delete(),
- vf:d=>db.doc('products/'+d.id).update({verified:!S.prods.find(p=>p.id==d.id).verified}),
- dso:d=>db.doc('products/'+d.id).update({dsOk:!S.prods.find(p=>p.id==d.id).dsOk}),
- del:d=>confirm('?')&&db.doc('products/'+d.id).delete()
-};
-document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el&&A[el.dataset.a])A[el.dataset.a](el.dataset,el)});
-if(!db)S.ready=true;route();
-</script></body></html>
+ return `<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('au
