@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>سوق الشمسية العراق | Iraq Solar Market</title>
+<title>سوق الطاقة الشمسية في العراق | Iraq Solar Market</title>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b6b4f">
 <link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="سوق الشمسية">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="سوق الطاقة الشمسية">
 <style>
 :root{--g:#0b6b4f;--bg:#f5f7f6;--tx:#1b2a25;--bd:#dfe6e3}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--tx)}
@@ -123,7 +123,7 @@ st1:['سجّل حسابك','Create your account'],st2:['موافقة الإدا�
 joinNow:['سجّل شركتك الآن','Register your company'],haveAcc:['لدي حساب','I have an account'],addP:['أضف منتجاً الآن','Add a product now'],
 heroS:['منصتك للطاقة الشمسية في العراق: احسب احتياجك، قارن الألواح والانفرترات والبطاريات، وتواصل مع التجار والفنيين في محافظتك.','Your solar platform in Iraq: size your system, compare panels, inverters and batteries, and contact dealers and installers in your city.'],
 calcGo:['احسب منظومتك','Size my system'],imDealer:['أنا تاجر / شركة','I am a dealer / company'],install:['تثبيت التطبيق','Install app'],iosHint:['في سفاري: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية»','In Safari: tap Share, then “Add to Home Screen”'],
-ftT:['سوق الشمسية العراق','Iraq Solar Market'],ftS:['منصة تجمع تجّار وفنّيي الطاقة الشمسية في العراق','A platform for solar dealers and installers in Iraq']};
+ftT:['سوق الطاقة الشمسية في العراق','Iraq Solar Market'],ftS:['منصة تجمع تجّار وفنّيي الطاقة الشمسية في العراق','A platform for solar dealers and installers in Iraq']};
 const t=k=>U[k]?U[k][S.lang=='ar'?0:1]:k;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Math.round(n).toLocaleString('en-US');
@@ -294,7 +294,7 @@ const V={home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:v
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v9</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v10</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  stagger(app);initSlider();reveal();fabObs();showInstall();if(!S.menu)renderMenu();$('#ft').innerHTML=`<img src="${LOGO}" alt=""><div><b>${t('ftT')}</b></div><div>${t('ftS')}</div>`;if(S.view=='home')calcRun()}
