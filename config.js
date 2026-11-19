@@ -9,7 +9,6 @@ const CONFIG = {
     messagingSenderId:"1090985815108",
     appId:"1:1090985815108:web:16a770d9236a26aa652011"
   },
-  rate: 1520,                       // IQD per 1 USD (shown next to every price)
   adminUids: ["HMSqWwbh6YMoKU6REIyWz6rqO532"],// Firebase Auth UID(s) of admins
   cities: [["Baghdad","بغداد"],["Basra","البصرة"],["Mosul","الموصل"],["Erbil","أربيل"],["Sulaymaniyah","السليمانية"],["Duhok","دهوك"],["Kirkuk","كركوك"],["Najaf","النجف"],["Karbala","كربلاء"],["Nasiriyah","الناصرية"],["Amarah","العمارة"],["Diwaniyah","الديوانية"],["Hillah","الحلة"],["Kut","الكوت"],["Ramadi","الرمادي"],["Fallujah","الفلوجة"],["Tikrit","تكريت"],["Baqubah","بعقوبة"],["Samawah","السماوة"]],
   brands: ["Pylontech","Huawei","Sungrow","Growatt","Deye","Felicity","Dyness","BYD","Victron","Voltronic","Must","SRNE","Jinko","Longi","Trina","Canadian Solar","JA Solar"],
@@ -29,81 +28,81 @@ const CONFIG = {
   tail: [
     { k:"price", type:"num", req:1, ar:"السعر", en:"Price", unit:"IQD", better:"lo" },
     { k:"stock", type:"sel", req:1, ar:"المخزون", en:"Stock", opts:[["in","متوفر","In stock"],["order","حسب الطلب","On order"],["out","نافد","Out of stock"]] },
-    { k:"warranty", type:"num", req:1, ar:"الضمان", en:"Warranty", unit:"yr", better:"hi", max:15 }
+    { k:"warranty", type:"num", ar:"الضمان", en:"Warranty", unit:"yr", better:"hi", max:15 }
   ],
   /* Spec fields per "set". set = battery | inverter | ctrl | panel | mount | acc | kit (see setOf) */
   fields: {
     battery: [
-      { k:"chem", type:"sel", req:1, ar:"الكيمياء", en:"Chemistry", opts:[["LFP","LFP"],["NMC","NMC"],["LEAD","رصاص حمضي","Lead-acid"]] },
-      { k:"volt", type:"num", req:1, ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V" },
-      { k:"ah", type:"num", req:1, ar:"السعة", en:"Capacity", unit:"Ah", better:"hi" },
-      { k:"kwh", type:"num", req:1, ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi" },
-      { k:"usable", type:"num", req:1, ar:"الطاقة المفيدة", en:"Usable energy", unit:"kWh", better:"hi" },
-      { k:"dod", type:"num", req:1, ar:"عمق التفريغ", en:"Depth of discharge", unit:"%", max:100, better:"hi" },
-      { k:"contChg", type:"num", req:1, ar:"تيار الشحن المستمر", en:"Continuous charge current", unit:"A", better:"hi" },
-      { k:"contDis", type:"num", req:1, ar:"تيار التفريغ المستمر", en:"Continuous discharge current", unit:"A", better:"hi" },
-      { k:"maxA", type:"num", req:1, ar:"التيار الأقصى", en:"Max current", unit:"A", better:"hi" },
-      { k:"peakA", type:"num", req:1, ar:"تيار الذروة", en:"Peak current", unit:"A", better:"hi" },
-      { k:"peakSec", type:"num", req:1, ar:"مدة تيار الذروة", en:"Peak duration", unit:"s", better:"hi" },
-      { k:"cycles", type:"num", req:1, ar:"عدد الدورات", en:"Cycle life", better:"hi" },
-      { k:"testDoD", type:"num", req:1, ar:"ظرف الاختبار: DoD", en:"Cycle test DoD", unit:"%", max:100 },
-      { k:"testC", type:"num", req:1, ar:"ظرف الاختبار: C-rate", en:"Cycle test C-rate", unit:"C", max:3 },
-      { k:"ip", type:"sel", req:1, ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
-      { k:"kg", type:"num", req:1, ar:"الوزن", en:"Weight", unit:"kg", better:"lo" },
-      { k:"tmin", type:"num", req:1, neg:1, ar:"أدنى حرارة تشغيل", en:"Min operating temp", unit:"°C" },
-      { k:"tmax", type:"num", req:1, neg:1, ar:"أعلى حرارة تشغيل", en:"Max operating temp", unit:"°C" },
-      { k:"comm", type:"multi", req:1, ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
-      { k:"cooling", type:"sel", req:1, ar:"التبريد", en:"Cooling", opts:[["air","هوائي","Air"],["liquid","سائل","Liquid"]] },
-      { k:"fire", type:"sel", req:1, ar:"إطفاء الحريق", en:"Fire suppression", opts:[["none","بدون","None"],["aerosol","إيروسول مدمج","Built-in aerosol"],["optional","اختياري","Optional"]] },
-      { k:"certs", type:"multi", req:1, ar:"الشهادات", en:"Certifications", opts:[["UN38.3"],["IEC 62619"],["CE"],["UL 1973"],["IEC 63056"],["none","بدون","None"]] },
-      { k:"parallel", type:"num", req:1, ar:"أقصى عدد على التوازي", en:"Max units in parallel", better:"hi", max:100 },
+      { k:"chem", type:"sel", ar:"الكيمياء", en:"Chemistry", opts:[["LFP","LFP"],["NMC","NMC"],["LEAD","رصاص حمضي","Lead-acid"]] },
+      { k:"volt", type:"num", ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V" },
+      { k:"ah", type:"num", ar:"السعة", en:"Capacity", unit:"Ah", better:"hi" },
+      { k:"kwh", type:"num", ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi" },
+      { k:"usable", type:"num", ar:"الطاقة المفيدة", en:"Usable energy", unit:"kWh", better:"hi" },
+      { k:"dod", type:"num", ar:"عمق التفريغ", en:"Depth of discharge", unit:"%", max:100, better:"hi" },
+      { k:"contChg", type:"num", ar:"تيار الشحن المستمر", en:"Continuous charge current", unit:"A", better:"hi" },
+      { k:"contDis", type:"num", ar:"تيار التفريغ المستمر", en:"Continuous discharge current", unit:"A", better:"hi" },
+      { k:"maxA", type:"num", ar:"التيار الأقصى", en:"Max current", unit:"A", better:"hi" },
+      { k:"peakA", type:"num", ar:"تيار الذروة", en:"Peak current", unit:"A", better:"hi" },
+      { k:"peakSec", type:"num", ar:"مدة تيار الذروة", en:"Peak duration", unit:"s", better:"hi" },
+      { k:"cycles", type:"num", ar:"عدد الدورات", en:"Cycle life", better:"hi" },
+      { k:"testDoD", type:"num", ar:"ظرف الاختبار: DoD", en:"Cycle test DoD", unit:"%", max:100 },
+      { k:"testC", type:"num", ar:"ظرف الاختبار: C-rate", en:"Cycle test C-rate", unit:"C", max:3 },
+      { k:"ip", type:"sel", ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
+      { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo" },
+      { k:"tmin", type:"num", neg:1, ar:"أدنى حرارة تشغيل", en:"Min operating temp", unit:"°C" },
+      { k:"tmax", type:"num", neg:1, ar:"أعلى حرارة تشغيل", en:"Max operating temp", unit:"°C" },
+      { k:"comm", type:"multi", ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
+      { k:"cooling", type:"sel", ar:"التبريد", en:"Cooling", opts:[["air","هوائي","Air"],["liquid","سائل","Liquid"]] },
+      { k:"fire", type:"sel", ar:"إطفاء الحريق", en:"Fire suppression", opts:[["none","بدون","None"],["aerosol","إيروسول مدمج","Built-in aerosol"],["optional","اختياري","Optional"]] },
+      { k:"certs", type:"multi", ar:"الشهادات", en:"Certifications", opts:[["UN38.3"],["IEC 62619"],["CE"],["UL 1973"],["IEC 63056"],["none","بدون","None"]] },
+      { k:"parallel", type:"num", ar:"أقصى عدد على التوازي", en:"Max units in parallel", better:"hi", max:100 },
       { k:"inverters", type:"txt", ar:"عاكسات يدّعي التاجر توافقها (مفصولة بفاصلة)", en:"Inverters the dealer claims it works with (comma-separated)" }
     ],
     inverter: [
-      { k:"itype", type:"sel", req:1, ar:"النوع", en:"Type", opts:[["hybrid","هجين","Hybrid"],["ongrid","ربط شبكة","On-grid"],["offgrid","منفصل","Off-grid"],["pump","غطاسات","Pumping"]] },
-      { k:"kw", type:"num", req:1, ar:"القدرة", en:"Rated power", unit:"kW", better:"hi", max:150 },
-      { k:"phase", type:"sel", req:1, ar:"الأطوار", en:"Phases", opts:[["1"],["3"]] },
-      { k:"mppt", type:"num", req:1, ar:"عدد MPPT", en:"MPPT trackers", better:"hi", max:12 },
-      { k:"pvVmax", type:"num", req:1, ar:"أقصى جهد ألواح", en:"Max PV voltage", unit:"V", max:1500 },
+      { k:"itype", type:"sel", ar:"النوع", en:"Type", opts:[["hybrid","هجين","Hybrid"],["ongrid","ربط شبكة","On-grid"],["offgrid","منفصل","Off-grid"],["pump","غطاسات","Pumping"]] },
+      { k:"kw", type:"num", ar:"القدرة", en:"Rated power", unit:"kW", better:"hi", max:150 },
+      { k:"phase", type:"sel", ar:"الأطوار", en:"Phases", opts:[["1"],["3"]] },
+      { k:"mppt", type:"num", ar:"عدد MPPT", en:"MPPT trackers", better:"hi", max:12 },
+      { k:"pvVmax", type:"num", ar:"أقصى جهد ألواح", en:"Max PV voltage", unit:"V", max:1500 },
       { k:"battV", type:"num", ar:"جهد البطارية (إن وُجد)", en:"Battery voltage (if any)", unit:"V", max:800 },
-      { k:"eff", type:"num", req:1, ar:"الكفاءة", en:"Efficiency", unit:"%", max:99.5, better:"hi" },
-      { k:"comm", type:"multi", req:1, ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
-      { k:"ip", type:"sel", req:1, ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
-      { k:"kg", type:"num", req:1, ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:300 }
+      { k:"eff", type:"num", ar:"الكفاءة", en:"Efficiency", unit:"%", max:99.5, better:"hi" },
+      { k:"comm", type:"multi", ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
+      { k:"ip", type:"sel", ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
+      { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:300 }
     ],
     ctrl: [
-      { k:"ctype", type:"sel", req:1, ar:"النوع", en:"Type", opts:[["mppt","MPPT"],["pwm","PWM"]] },
-      { k:"amps", type:"num", req:1, ar:"أقصى تيار شحن", en:"Max charge current", unit:"A", better:"hi", max:200 },
-      { k:"pvVmax", type:"num", req:1, ar:"أقصى جهد ألواح", en:"Max PV voltage", unit:"V", max:600 },
-      { k:"battV", type:"num", req:1, ar:"جهد البطارية", en:"Battery voltage", unit:"V", max:120 },
-      { k:"eff", type:"num", req:1, ar:"الكفاءة", en:"Efficiency", unit:"%", max:99.5, better:"hi" },
-      { k:"ip", type:"sel", req:1, ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
+      { k:"ctype", type:"sel", ar:"النوع", en:"Type", opts:[["mppt","MPPT"],["pwm","PWM"]] },
+      { k:"amps", type:"num", ar:"أقصى تيار شحن", en:"Max charge current", unit:"A", better:"hi", max:200 },
+      { k:"pvVmax", type:"num", ar:"أقصى جهد ألواح", en:"Max PV voltage", unit:"V", max:600 },
+      { k:"battV", type:"num", ar:"جهد البطارية", en:"Battery voltage", unit:"V", max:120 },
+      { k:"eff", type:"num", ar:"الكفاءة", en:"Efficiency", unit:"%", max:99.5, better:"hi" },
+      { k:"ip", type:"sel", ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
       { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:30 }
     ],
     panel: [
-      { k:"watt", type:"num", req:1, ar:"القدرة", en:"Power", unit:"W", better:"hi", max:800 },
-      { k:"cell", type:"sel", req:1, ar:"نوع الخلية", en:"Cell type", opts:[["topcon","TOPCon"],["perc","PERC"],["hjt","HJT"],["poly","Poly"]] },
-      { k:"voc", type:"num", req:1, ar:"Voc", en:"Voc", unit:"V", max:60 },
-      { k:"isc", type:"num", req:1, ar:"Isc", en:"Isc", unit:"A", max:25 },
-      { k:"eff", type:"num", req:1, ar:"الكفاءة", en:"Efficiency", unit:"%", max:25, better:"hi" },
-      { k:"ip", type:"sel", req:1, ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
-      { k:"kg", type:"num", req:1, ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:50 }
+      { k:"watt", type:"num", ar:"القدرة", en:"Power", unit:"W", better:"hi", max:800 },
+      { k:"cell", type:"sel", ar:"نوع الخلية", en:"Cell type", opts:[["topcon","TOPCon"],["perc","PERC"],["hjt","HJT"],["poly","Poly"]] },
+      { k:"voc", type:"num", ar:"Voc", en:"Voc", unit:"V", max:60 },
+      { k:"isc", type:"num", ar:"Isc", en:"Isc", unit:"A", max:25 },
+      { k:"eff", type:"num", ar:"الكفاءة", en:"Efficiency", unit:"%", max:25, better:"hi" },
+      { k:"ip", type:"sel", ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
+      { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:50 }
     ],
     mount: [
-      { k:"material", type:"sel", req:1, ar:"الخامة", en:"Material", opts:[["alu","ألمنيوم","Aluminum"],["steel","حديد مجلفن","Galvanized steel"],["inox","ستانلس","Stainless"],["copper","نحاس","Copper"],["plastic","بلاستيك","Plastic"]] },
-      { k:"specs", type:"txt", req:1, ar:"المواصفات الرئيسية (القياس، الكمية، التحمّل...)", en:"Main specs (size, quantity, rating...)" },
+      { k:"material", type:"sel", ar:"الخامة", en:"Material", opts:[["alu","ألمنيوم","Aluminum"],["steel","حديد مجلفن","Galvanized steel"],["inox","ستانلس","Stainless"],["copper","نحاس","Copper"],["plastic","بلاستيك","Plastic"]] },
+      { k:"specs", type:"txt", ar:"المواصفات الرئيسية (القياس، الكمية، التحمّل...)", en:"Main specs (size, quantity, rating...)" },
       { k:"mm2", type:"num", ar:"مقطع الكيبل (اختياري)", en:"Cable cross-section (optional)", unit:"mm²", max:300 },
       { k:"ratedV", type:"num", ar:"الجهد المقنّن (اختياري)", en:"Rated voltage (optional)", unit:"V", max:1500 },
       { k:"ratedA", type:"num", ar:"التيار المقنّن (اختياري)", en:"Rated current (optional)", unit:"A", max:2000 }
     ],
     kit: [
-      { k:"kitKw", type:"num", req:1, ar:"حجم المنظومة", en:"Package size", unit:"kW", better:"hi", max:100 },
-      { k:"kitA", type:"num", req:1, ar:"الأمبير المدعوم", en:"Supported load", unit:"A", better:"hi", max:500 },
-      { k:"invKw", type:"num", req:1, ar:"قدرة الانفرتر", en:"Inverter size", unit:"kW", better:"hi", max:150 },
-      { k:"panelsN", type:"num", req:1, zero:1, ar:"عدد الألواح", en:"Number of panels", better:"hi", max:500 },
-      { k:"panelW", type:"num", req:1, zero:1, ar:"قدرة اللوح", en:"Panel power", unit:"W", max:800 },
-      { k:"batKwh", type:"num", req:1, zero:1, ar:"سعة البطاريات", en:"Battery capacity", unit:"kWh", better:"hi", max:500 },
-      { k:"includes", type:"txt", req:1, ar:"محتويات الباقة", en:"What is included" }
+      { k:"kitKw", type:"num", ar:"حجم المنظومة", en:"Package size", unit:"kW", better:"hi", max:100 },
+      { k:"kitA", type:"num", ar:"الأمبير المدعوم", en:"Supported load", unit:"A", better:"hi", max:500 },
+      { k:"invKw", type:"num", ar:"قدرة الانفرتر", en:"Inverter size", unit:"kW", better:"hi", max:150 },
+      { k:"panelsN", type:"num", zero:1, ar:"عدد الألواح", en:"Number of panels", better:"hi", max:500 },
+      { k:"panelW", type:"num", zero:1, ar:"قدرة اللوح", en:"Panel power", unit:"W", max:800 },
+      { k:"batKwh", type:"num", zero:1, ar:"سعة البطاريات", en:"Battery capacity", unit:"kWh", better:"hi", max:500 },
+      { k:"includes", type:"txt", ar:"محتويات الباقة", en:"What is included" }
     ]
   },
   /* Categories menu. item = [key, ar, en, optional set override]. A product has one main category + any number of item keys (tags). */
@@ -189,6 +188,8 @@ function validate(set, v, peers = []) {
     if (ok("maxA") && ok("volt") && ok("kwh") && mx * V / 1000 > kwh * L.maxC)
       E("maxA", `التيار الأقصى × الجهد = ${(mx * V / 1000).toFixed(1)} kW أعلى من ~1C لهذه السعة`, `Max current × voltage = ${(mx * V / 1000).toFixed(1)} kW is above ~1C for this capacity`);
     if (ok("peakA") && ok("maxA") && n("peakA") < mx) E("peakA", "تيار الذروة أقل من التيار الأقصى", "Peak current is below max current");
+    if (ok("cycles") && (!has("testDoD") || !has("testC"))) E(has("testDoD") ? "testC" : "testDoD", "اذكر ظروف اختبار عدد الدورات (DoD و C-rate)", "State the cycle-life test condition (DoD and C-rate)");
+    if (has("peakA") && !has("peakSec")) W("peakSec", "اذكر مدة تيار الذروة", "State the peak-current duration");
     if (c && ok("cycles") && n("cycles") > L.cyclesMax[c]) E("cycles", `دورات ${c} لا تتجاوز ${L.cyclesMax[c]}`, `${c} cycles cannot exceed ${L.cyclesMax[c]}`);
     if (c && ok("kg") && ok("kwh")) {
       const r = kg / kwh, [a, b] = L.kgPerKwh[c];
