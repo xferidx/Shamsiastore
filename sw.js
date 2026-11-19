@@ -1,5 +1,5 @@
 /* Network-first for our own files (so updates always arrive), cache fallback when offline */
-const V = 'solar-v8';
+const V = 'solar-v9';
 const SHELL = ['./', 'index.html', 'config.js', 'manifest.json', 'icon-192.png', 'favicon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL).catch(() => {})).then(() => self.skipWaiting()));
