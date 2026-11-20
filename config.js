@@ -54,7 +54,7 @@ const CONFIG = {
       { k:"comm", type:"multi", ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
       { k:"cooling", type:"sel", ar:"التبريد", en:"Cooling", opts:[["air","هوائي","Air"],["liquid","سائل","Liquid"]] },
       { k:"fire", type:"sel", ar:"إطفاء الحريق", en:"Fire suppression", opts:[["none","بدون","None"],["aerosol","إيروسول مدمج","Built-in aerosol"],["optional","اختياري","Optional"]] },
-      { k:"certs", type:"multi", ar:"الشهادات", en:"Certifications", opts:[["UN38.3"],["IEC 62619"],["CE"],["UL 1973"],["IEC 63056"],["none","بدون","None"]] },
+      { k:"certs", type:"certs", ar:"الشهادات", en:"Certifications" },
       { k:"parallel", type:"num", ar:"أقصى عدد على التوازي", en:"Max units in parallel", better:"hi", max:100 },
       { k:"inverters", type:"txt", ar:"عاكسات يدّعي التاجر توافقها (مفصولة بفاصلة)", en:"Inverters the dealer claims it works with (comma-separated)" }
     ],
@@ -139,6 +139,83 @@ CONFIG.fieldsAll = set => [...CONFIG.head, ...CONFIG.fields[set], ...CONFIG.tail
 CONFIG.itemOf = k => { for (const c of CONFIG.taxonomy) for (const g of c.groups) for (const i of g.items) if (i[0] === k) return i; return null; };
 CONFIG.setOf = (cat, tags) => { const s = new Set((tags || []).map(k => (CONFIG.itemOf(k) || [])[3] || cat)); return (!s.size || s.has(cat)) ? cat : [...s][0]; };
 
+
+/* ===== Certifications: tags, statuses, examples, guide article ===== */
+CONFIG.certStatus = [["certified","حاصلة على شهادة","Certified"],["claimed","مُدّعاة","Claimed"],["design","التصميم متوافق فقط","Design-compliant only"]];
+/* tier: main | basic.  ar/en = short meaning shown in the tooltip.  src: article = from the guide article, added = short note added by us */
+CONFIG.certTags = [
+ { k:"iec62619", label:"IEC 62619", tier:"main", src:"article", ar:"امتحان السلامة الأساسي لبطاريات الليثيوم الثابتة: قصر دائرة وشحن زائد وحرارة عالية، ويراقبون هل تنفجر أو تشتعل.", en:"The core safety exam for stationary lithium batteries: short circuit, overcharge and high heat, checking whether it explodes or catches fire." },
+ { k:"iec63056", label:"IEC 63056", tier:"main", src:"article", ar:"امتحان مفصّل لبطاريات تخزين الطاقة المنزلية، أي التي تُركَّب بقرب أهل البيت.", en:"A detailed exam for home energy-storage batteries, the kind installed close to the family." },
+ { k:"ul1973", label:"UL 1973", tier:"main", src:"article", ar:"امتحان سلامة أمريكي للبطاريات الثابتة، ويشبه IEC 62619 في الهدف.", en:"An American safety exam for stationary batteries, with the same goal as IEC 62619." },
+ { k:"ul9540a", label:"UL 9540A", tier:"main", src:"article", ar:"امتحان الحريق: يشعلون خلية واحدة عمداً ويراقبون هل ينتقل الحريق إلى بقية الخلايا.", en:"The fire exam: one cell is set on fire on purpose to see whether the fire spreads to the other cells." },
+ { k:"ul9540", label:"UL 9540", tier:"main", src:"added", ar:"معيار أمريكي لسلامة نظام تخزين الطاقة كاملاً وليس الخلية فقط، ويعتمد عادةً على نتائج UL 9540A.", en:"An American safety standard for the complete energy-storage system, not just the cell. It usually relies on UL 9540A results." },
+ { k:"un383", label:"UN38.3", tier:"basic", src:"article", ar:"اختبار للنقل (ارتفاع واهتزاز وصدمات). كل بطارية نظامية تحمله، فوجوده لا يعني أنها ممتازة.", en:"A transport test (altitude, vibration, shocks). Every legitimate battery has it, so having it does not make a battery excellent." },
+ { k:"ce", label:"CE", tier:"basic", src:"article", ar:"علامة أوروبية، وغالباً إقرار من الشركة نفسها.", en:"A European mark, often a declaration made by the company itself." },
+ { k:"cb", label:"CB", tier:"basic", src:"added", ar:"نظام CB: تقرير اختبار دولي تعترف به دول كثيرة فلا يُعاد الاختبار في كل بلد.", en:"The CB Scheme: an international test report recognised by many countries, so the product is not retested in each one." },
+ { k:"iec62477", label:"IEC 62477", tier:"basic", src:"added", ar:"سلامة أجهزة إلكترونيات القدرة مثل العواكس والمحوّلات.", en:"Safety of power-electronics equipment such as inverters and converters." },
+ { k:"iec62040", label:"IEC 62040", tier:"basic", src:"added", ar:"معيار أنظمة الطاقة غير المنقطعة (UPS).", en:"The standard for uninterruptible power systems (UPS)." },
+ { k:"iec60730", label:"IEC 60730", tier:"basic", src:"added", ar:"معيار أجهزة التحكم الكهربائية الأوتوماتيكية للاستخدام المنزلي (حماية وتحكم).", en:"Standard for automatic electrical controls for household use (protection and control functions)." },
+ { k:"emc", label:"EMC", tier:"basic", src:"added", ar:"التوافق الكهرومغناطيسي: الجهاز لا يسبب تشويشاً لغيره ويتحمّل تشويش غيره.", en:"Electromagnetic compatibility: the device does not disturb others and tolerates interference from others." },
+ { k:"lvd", label:"LVD", tier:"basic", src:"added", ar:"توجيه الجهد المنخفض الأوروبي: متطلبات السلامة الكهربائية للأجهزة ضمن نطاق جهد معيّن.", en:"The EU Low Voltage Directive: electrical safety requirements for equipment within a certain voltage range." },
+ { k:"rohs", label:"RoHS", tier:"basic", src:"article", ar:"يخص المواد الضارة بالبيئة.", en:"Concerns materials that are harmful to the environment." },
+ { k:"msds", label:"MSDS", tier:"basic", src:"article", ar:"ورقة معلومات وليست شهادة.", en:"An information sheet, not a certificate." },
+ { k:"cec", label:"CEC", tier:"basic", src:"added", ar:"غالباً قائمة لجنة الطاقة في كاليفورنيا (California Energy Commission) للأداء، وليست اختبار حريق. اسأل التاجر ماذا يقصد بها.", en:"Usually a California Energy Commission listing (performance/eligibility), not a fire test. Ask the dealer what it refers to." }
+];
+/* Example batteries for the guide table. From manufacturer datasheets: the dealer must verify. cell = cells carry it, pack = the battery pack carries it */
+CONFIG.examples = [
+ { n:"Hithium HeroEE 16", c:{ ul9540a:"cell", ul1973:"cell", iec62619:"cell", un383:"cell", ce:"pack", cb:"pack", iec62040:"pack" } },
+ { n:"Pylontech Fidus Plus", c:{ iec62619:1, iec63056:1, un383:1, ce:1 } },
+ { n:"Sungrow MBL160", c:{ iec62619:1, iec62477:1, ce:1, un383:1 } }
+];
+CONFIG.guide = {
+ ar:{
+  title:"لا تشتري بطارية قبل أن تفهم هذه الأرقام: دليلك لشهادات البطاريات",
+  intro:"عندما يقول لك البائع «هذي البطارية عليها شهادات»، هل تعرف ماذا يعني ذلك؟ بعض الشهادات تعني أن البطارية اجتازت **اختبارات قاسية** لحماية بيتك من الحريق، وبعضها **مجرد ورقة شحن**. وفرق كبير بين الاثنين.",
+  s1:{ h:"كيف تقرأ هذه الأسماء؟", p:"الحروف هي اسم الجهة التي كتبت الامتحان، والرقم هو رقم الامتحان نفسه، مثل رقم الورقة الامتحانية. فـ **IEC** هي اللجنة الكهروتقنية الدولية، و**UL** مختبرات أمريكية عريقة في اختبار السلامة." },
+  s2:{ h:"الامتحانات التي تهمك", items:[
+   ["iec62619","**امتحان السلامة الأساسي** لبطاريات الليثيوم الثابتة. يجبرون البطارية على قصر الدائرة والشحن الزائد والحرارة العالية، ويراقبون هل تنفجر أو تشتعل."],
+   ["iec63056","امتحان مفصّل لبطاريات **تخزين الطاقة المنزلية**، أي التي تُركَّب بقرب أهل البيت."],
+   ["ul1973","امتحان سلامة أمريكي للبطاريات الثابتة، ويشبه IEC 62619 في الهدف."],
+   ["ul9540a","**امتحان الحريق.** يشعلون خلية واحدة عمداً ويراقبون هل ينتقل الحريق إلى بقية الخلايا."] ] },
+  s3:{ h:"شهادات أقل وزناً", p:"**UN38.3** مثل جواز السفر، فهو اختبار للنقل (ارتفاع واهتزاز وصدمات) وكل بطارية نظامية تحمله، فوجوده لا يعني أنها ممتازة. **CE** علامة أوروبية وغالباً إقرار من الشركة نفسها. **RoHS** يخص المواد الضارة بالبيئة، و**MSDS** ورقة معلومات وليست شهادة." },
+  s4:{ h:"انتبه", p:"كلمة «**التصميم متوافق مع**» أضعف من «**حاصلة على شهادة**». وبعض الشركات تنشر قائمة شهادات عامة على موقعها دون ذكر الموديل، فاسأل عن **موديلك تحديداً**. والـ **QR code** سهل التزوير، فاطلب الشهادة نفسها ومعها **اسم المختبر**." },
+  s5:{ h:"ثلاثة أمثلة جيدة", note:"(الترتيب حسب الشهادات فقط، ولكل بطارية مزايا وحدود أخرى تجدها في صفحتها)", items:[
+   "**Hithium HeroEE 16:** خلاياه UL 9540A وUL 1973 وIEC 62619 وUN38.3، والبطارية CE وCB وIEC 62040. الأكثر شهادات بين الثلاث.",
+   "**Pylontech Fidus Plus:** IEC 62619 وIEC 63056 وUN38.3 وCE.",
+   "**Sungrow MBL160:** IEC 62619 وIEC 62477 وCE وUN38.3." ] },
+  tableNote:"القائمة حسب أوراق بيانات الشركات المصنّعة، وعلى التاجر التحقق منها.",
+  final:{ h:"نصيحتنا الأخيرة", p:"ابحث دائماً عن هذه الأربع، **واطلب نسخة الشهادة لموديلك:**", items:[
+   ["iec62619","امتحان السلامة الأساسي (قصر دائرة وشحن زائد وحرارة)."],
+   ["iec63056","سلامة بطاريات تخزين الطاقة المنزلية."],
+   ["ul1973","امتحان سلامة أمريكي للبطاريات الثابتة."],
+   ["ul9540a","امتحان انتشار الحريق بين الخلايا."] ] },
+  legendH:"كيف نعرض الشهادات في الموقع", glossH:"مصطلحات أخرى قد تراها في صفحات المنتجات"
+ },
+ en:{
+  title:"Don’t Buy a Battery Before You Understand These Numbers: Your Guide to Battery Certifications",
+  intro:"When a seller tells you “this battery has certificates,” do you know what that means? Some certificates mean the battery passed **tough tests** that protect your home from fire. Others are **little more than a shipping paper**. There is a big difference between the two.",
+  s1:{ h:"How do you read these names?", p:"The letters are the name of the body that wrote the exam, and the number is the number of the exam itself, like the number on an exam paper. **IEC** is the International Electrotechnical Commission, and **UL** is a long-established American laboratory for safety testing." },
+  s2:{ h:"The exams that matter", items:[
+   ["iec62619","The **core safety exam** for stationary lithium batteries. They force the battery through short circuit, overcharge and high heat, and watch whether it explodes or catches fire."],
+   ["iec63056","A detailed exam for **home energy-storage** batteries, the kind installed close to the family."],
+   ["ul1973","An American safety exam for stationary batteries, with the same goal as IEC 62619."],
+   ["ul9540a","**The fire exam.** They deliberately ignite a single cell and watch whether the fire spreads to the other cells."] ] },
+  s3:{ h:"Lighter certificates", p:"**UN38.3** is like a passport: it is a transport test (altitude, vibration and shocks), and every legitimate battery carries it, so having it does not mean the battery is excellent. **CE** is a European mark and is often a declaration made by the company itself. **RoHS** concerns materials harmful to the environment, and **MSDS** is an information sheet, not a certificate." },
+  s4:{ h:"Watch out", p:"“**Design complies with**” is weaker than “**holds a certificate**.” Some companies publish a general list of certificates on their website without naming the model, so ask about **your exact model**. A **QR code** is easy to fake, so ask for the certificate itself together with the **name of the laboratory**." },
+  s5:{ h:"Three good examples", note:"(Ranked by certificates only; each battery has other strengths and limits you will find on its page.)", items:[
+   "**Hithium HeroEE 16:** its cells carry UL 9540A, UL 1973, IEC 62619 and UN38.3, and the battery pack carries CE, CB and IEC 62040. The most certificates of the three.",
+   "**Pylontech Fidus Plus:** IEC 62619, IEC 63056, UN38.3 and CE.",
+   "**Sungrow MBL160:** IEC 62619, IEC 62477, CE and UN38.3." ] },
+  tableNote:"Listed according to the manufacturers’ datasheets; the dealer must verify them.",
+  final:{ h:"Our final advice", p:"Always look for these four, **and ask for a copy of the certificate for your model:**", items:[
+   ["iec62619","The core safety exam (short circuit, overcharge and heat)."],
+   ["iec63056","Safety of home energy-storage batteries."],
+   ["ul1973","An American safety exam for stationary batteries."],
+   ["ul9540a","The exam for fire spreading between cells."] ] },
+  legendH:"How certificates are shown on this site", glossH:"Other abbreviations you may see on product pages"
+ }
+};
+
 /* Returns {e:{field:{ar,en,req?}}, w:{field:{ar,en}}}. Any key in e blocks saving. */
 function validate(set, v, peers = []) {
   const L = CONFIG.limits, e = {}, w = {};
@@ -161,6 +238,12 @@ function validate(set, v, peers = []) {
   }
   if (v.warranty !== "" && n("warranty") > L.warrantyMax) E("warranty", `الضمان لا يتجاوز ${L.warrantyMax} سنة`, `Warranty cannot exceed ${L.warrantyMax} years`);
   if (has("ip") && !L.ip.includes(v.ip)) E("ip", "درجة IP غير صالحة", "Invalid IP rating");
+  if (Array.isArray(v.certs)) for (const c of v.certs) {
+    const T = CONFIG.certTags.find(x => x.k === c.k), nm = T ? T.label : c.k;
+    if (!c.st) E("certs", `اختر حالة الشهادة «${nm}»`, `Pick a status for “${nm}”`);
+    else if (c.st === "certified" && !c.lab) E("certs", `الشهادة «${nm}»: اكتب اسم المختبر`, `“${nm}”: enter the lab name`);
+    else if (c.st === "certified" && !c.hasImg) E("certs", `الشهادة «${nm}»: ارفع صورة الشهادة`, `“${nm}”: upload the certificate image`);
+  }
 
   if (set === "battery") {
     const c = v.chem, V = n("volt"), Ah = n("ah"), kwh = n("kwh"), us = n("usable"), mx = n("maxA"), kg = n("kg");
@@ -253,11 +336,13 @@ rules_version='2'; service cloud.firestore { match /databases/{d}/documents {
     allow read: if true;
     allow create: if request.auth!=null && request.resource.data.ownerId==request.auth.uid
       && request.resource.data.verified==false && request.resource.data.dsOk==false
+      && request.resource.data.get('certOk',[]).size()==0
       && (admin() || get(/databases/$(d)/documents/users/$(request.auth.uid)).data.approved==true);
     allow delete: if admin() || resource.data.ownerId==request.auth.uid;
     allow update: if admin() || (resource.data.ownerId==request.auth.uid && request.resource.data.ownerId==resource.data.ownerId
       && (request.resource.data.verified==resource.data.verified || request.resource.data.verified==false)
-      && (request.resource.data.dsOk==resource.data.dsOk || request.resource.data.dsOk==false));
+      && (request.resource.data.dsOk==resource.data.dsOk || request.resource.data.dsOk==false)
+      && request.resource.data.get('certOk',[]).hasOnly(resource.data.get('certOk',[])));
   }
   match /stats/{s} {
     allow read: if request.auth != null && (resource.data.oid==request.auth.uid || admin());
@@ -273,6 +358,14 @@ rules_version='2'; service cloud.firestore { match /databases/{d}/documents {
       && request.resource.data.get('wa',0) - resource.data.get('wa',0) <= 1
       && request.resource.data.get('call',0) - resource.data.get('call',0) <= 1
       && request.resource.data.get('map',0) - resource.data.get('map',0) <= 1;
+  }
+  match /certs/{id} {
+    allow read: if resource.data.approved==true || (request.auth!=null && (resource.data.ownerId==request.auth.uid || admin()));
+    allow create: if request.auth!=null && request.resource.data.ownerId==request.auth.uid && request.resource.data.approved==false
+      && get(/databases/$(d)/documents/products/$(request.resource.data.pid)).data.ownerId==request.auth.uid;
+    allow update: if admin() || (request.auth!=null && resource.data.ownerId==request.auth.uid
+      && request.resource.data.ownerId==resource.data.ownerId && request.resource.data.approved==false);
+    allow delete: if admin() || (request.auth!=null && resource.data.ownerId==request.auth.uid);
   }
   match /photos/{p} {
     allow read: if true;
