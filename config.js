@@ -259,6 +259,21 @@ rules_version='2'; service cloud.firestore { match /databases/{d}/documents {
       && (request.resource.data.verified==resource.data.verified || request.resource.data.verified==false)
       && (request.resource.data.dsOk==resource.data.dsOk || request.resource.data.dsOk==false));
   }
+  match /stats/{s} {
+    allow read: if request.auth != null && (resource.data.oid==request.auth.uid || admin());
+    allow create: if request.resource.data.keys().hasOnly(['pid','oid','day','views','wa','call','map'])
+      && request.resource.data.pid is string && request.resource.data.oid is string && request.resource.data.day is string
+      && s == request.resource.data.pid + '_' + request.resource.data.day
+      && request.resource.data.get('views',0) <= 1 && request.resource.data.get('wa',0) <= 1
+      && request.resource.data.get('call',0) <= 1 && request.resource.data.get('map',0) <= 1
+      && (request.resource.data.pid == 'd-' + request.resource.data.oid
+          || get(/databases/$(d)/documents/products/$(request.resource.data.pid)).data.ownerId == request.resource.data.oid);
+    allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views','wa','call','map'])
+      && request.resource.data.get('views',0) - resource.data.get('views',0) <= 1
+      && request.resource.data.get('wa',0) - resource.data.get('wa',0) <= 1
+      && request.resource.data.get('call',0) - resource.data.get('call',0) <= 1
+      && request.resource.data.get('map',0) - resource.data.get('map',0) <= 1;
+  }
   match /photos/{p} {
     allow read: if true;
     allow create: if request.auth!=null && request.resource.data.ownerId==request.auth.uid
