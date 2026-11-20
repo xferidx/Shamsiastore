@@ -254,8 +254,10 @@ rules_version='2'; service cloud.firestore { match /databases/{d}/documents {
     allow create: if request.auth!=null && request.resource.data.ownerId==request.auth.uid
       && request.resource.data.verified==false && request.resource.data.dsOk==false
       && (admin() || get(/databases/$(d)/documents/users/$(request.auth.uid)).data.approved==true);
-    allow update, delete: if admin() || (resource.data.ownerId==request.auth.uid
-      && request.resource.data.verified==resource.data.verified && request.resource.data.dsOk==resource.data.dsOk);
+    allow delete: if admin() || resource.data.ownerId==request.auth.uid;
+    allow update: if admin() || (resource.data.ownerId==request.auth.uid && request.resource.data.ownerId==resource.data.ownerId
+      && (request.resource.data.verified==resource.data.verified || request.resource.data.verified==false)
+      && (request.resource.data.dsOk==resource.data.dsOk || request.resource.data.dsOk==false));
   }
   match /photos/{p} {
     allow read: if true;

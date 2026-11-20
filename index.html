@@ -110,6 +110,10 @@ button.pri,.btn{position:relative;overflow:hidden}
 @keyframes sweep{from{transform:translateX(0)}to{transform:translateX(70px)}}
 @keyframes bulb{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.85;transform:scale(1.3)}}
 @keyframes blink{0%,100%{opacity:.5}50%{opacity:1}}
+.match{margin-top:12px;border-top:1px dashed var(--bd);padding-top:8px}.match h3{margin:6px 0}.match h4{margin:10px 0 4px;opacity:.75}
+.mrow{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:8px;margin-bottom:6px}
+.mrow img{width:56px;height:56px;border-radius:8px;object-fit:cover;background:#e8eeec;cursor:pointer}.mrow>div{flex:1;min-width:0}.mrow b{cursor:pointer}.mrow small{display:block;opacity:.7}
+small.warn{color:#9a6700;opacity:1}
 </style></head><body>
 <header id="hd"></header><main id="app"></main><footer id="ft"></footer><div id="mm" class="mm"></div>
 <script>
@@ -120,12 +124,15 @@ addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.mes
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="config.js?v=12"></script>
+<script src="config.js?v=14"></script>
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 let auth,db,fbErr='';try{firebase.initializeApp(C.firebase);auth=firebase.auth();db=firebase.firestore()}catch(e){fbErr=e.message}
 let S={lang:localStorage.lang||'ar',view:'home',me:null,si:0,tags:[],gal:{},calc:{},ready:false,prof:null,prods:[],users:[],cmp:[],f:{},pid:null,cat:'battery',role:'dealer'},unsub=[];
-const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6، تُصغَّر تلقائياً)','Photos (up to 6, auto-shrunk)'],wphotos:['صور أعمال سابقة (حتى 4)','Photos of past work (up to 4)'],ds:['رابط ورقة البيانات PDF (Google Drive أو موقع الشركة) — اختياري','Datasheet PDF link (Google Drive or maker site) — optional'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved'],menu:['الأقسام','Categories'],allProds:['عرض كل المنتجات','View all products'],optNote:['الحقول التي بدون نجمة * اختيارية. كلما أكملت مواصفات أكثر زادت ثقة الزبون بمنتجك.','Fields without * are optional. The more specs you fill in, the more customers trust your product.'],browse:['تصفّح الأقسام','Browse categories'],allIn:['كل','All'],cat2:['القسم','Category'],pickTags:['اختر النوع (يمكن اختيار أكثر من واحد)','Select type(s) — you can pick more than one'],tag:['كل الأنواع','All types'],sDealers:['تاجر وشركة','Dealers & companies'],sInst:['فنّي تركيب','Installers'],sProds:['منتج','Products'],sCities:['محافظة','Cities'],
+const U={products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6، تُصغَّر تلقائياً)','Photos (up to 6, auto-shrunk)'],wphotos:['صور أعمال سابقة (حتى 4)','Photos of past work (up to 4)'],ds:['رابط ورقة البيانات PDF (Google Drive أو موقع الشركة) — اختياري','Datasheet PDF link (Google Drive or maker site) — optional'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved'],menu:['الأقسام','Categories'],allProds:['عرض كل المنتجات','View all products'],mine:['منتجاتي','My products'],price:['السعر','Price'],stock:['المخزون','Stock'],edit:['تعديل','Edit'],cancel:['إلغاء','Cancel'],editing:['تعديل المنتج:','Editing product:'],saveEdit:['حفظ التعديلات','Save changes'],
+priceUpd:['تحديث السعر','Price updated'],resetV:['تم تعديل المواصفات، لذلك رجعت حالة «مؤكدة» إلى «غير مؤكدة» حتى تراجعها الإدارة','Specs changed, so the verified status was reset until admin reviews it'],delConfirm:['حذف هذا المنتج نهائياً؟','Delete this product permanently?'],keepPh:['اتركها فارغة للإبقاء على الصور الحالية','leave empty to keep current photos'],
+matchT:['منتجات مناسبة من الموقع','Matching products on the site'],mKits:['منظومات جاهزة','Ready kits'],mInv:['انفرترات','Inverters'],mBat:['بطاريات','Batteries'],mPan:['ألواح','Panels'],
+sendWa:['أرسل نتيجتي عبر واتساب','Send my result on WhatsApp'],askPrice:['اطلب السعر','Ask price'],noMatch:['لا توجد منتجات مطابقة بعد — أرسل نتيجتك للتجار عبر واتساب','No matching products yet — send your result to dealers on WhatsApp'],city2:['اقتراحات في مدينتك (اختياري)','Suggestions in your city (optional)'],optNote:['الحقول التي بدون نجمة * اختيارية. كلما أكملت مواصفات أكثر زادت ثقة الزبون بمنتجك.','Fields without * are optional. The more specs you fill in, the more customers trust your product.'],browse:['تصفّح الأقسام','Browse categories'],allIn:['كل','All'],cat2:['القسم','Category'],pickTags:['اختر النوع (يمكن اختيار أكثر من واحد)','Select type(s) — you can pick more than one'],tag:['كل الأنواع','All types'],sDealers:['تاجر وشركة','Dealers & companies'],sInst:['فنّي تركيب','Installers'],sProds:['منتج','Products'],sCities:['محافظة','Cities'],
 pitchT:['هل أنت تاجر أو شركة طاقة شمسية؟','Are you a solar dealer or company?'],pitchS:['اعرض منتجاتك أمام زبائن يبحثون عن الألواح والبطاريات والانفرترات في مدينتك','Show your products to customers searching for panels, batteries and inverters in your city'],
 b1t:['زبائن يتواصلون معك مباشرة','Customers contact you directly'],b1d:['أزرار واتساب واتصال وخريطة موقعك على كل منتج','WhatsApp, call and map buttons on every product'],
 b2t:['شارة موزع معتمد وتوثيق المواصفات','Authorized badge and verified specs'],b2d:['أضف رابط ورقة البيانات لتحصل على شارة «مؤكدة بورقة البيانات»','Add a datasheet link to earn the “verified by datasheet” badge'],
@@ -174,6 +181,28 @@ ${[104,158,212].map((x,i)=>`<g transform="translate(${x} 66) skewX(-18)"><rect w
 <path class=fil d="M285 41q2.5-8 5 0q2.5-8 5 0" fill="none" stroke="#ff9d00" stroke-width="1.6" stroke-linecap="round"/>
 <rect x="283" y="48" width="14" height="8" rx="2" fill="#d9dee0"/><rect x="284" y="56" width="12" height="7" rx="2" fill="#aeb8bd"/>
 </svg>`;
+const ago=ts=>{const s=ts&&ts.seconds?Date.now()/1000-ts.seconds:0,m=s/60,h=m/60,d=h/24,ar=S.lang=='ar';
+ if(m<2)return ar?'الآن':'just now';if(h<1)return ar?`قبل ${Math.floor(m)} دقيقة`:`${Math.floor(m)} min ago`;if(d<1)return ar?`قبل ${Math.floor(h)} ساعة`:`${Math.floor(h)} h ago`;
+ if(d<30)return ar?`قبل ${Math.floor(d)} يوم`:`${Math.floor(d)} d ago`;const mo=Math.floor(d/30);return ar?`قبل ${mo} شهر`:`${mo} mo ago`};
+const stale=ts=>!!(ts&&ts.seconds&&Date.now()/1000-ts.seconds>30*86400);
+const stockOpts=v=>C.tail.find(f=>f.k=='stock').opts.map(o=>`<option value="${o[0]}" ${v==o[0]?'selected':''}>${esc(ol(o))}</option>`).join('');
+function waLink(p,c){const ar=S.lang=='ar',o=p?own(p):{};
+ const m=ar?`السلام عليكم، حسبت منظومتي في سوق الطاقة الشمسية في العراق:\n• أمبير النهار ${c.dA} / الليل ${c.nA}\n• ساعات قطع الكهرباء: نهاراً ${c.dH} / ليلاً ${c.nH}\n• المطلوب: ${c.panels} لوح (${c.kwp.toFixed(1)} kWp)، انفرتر ${c.inv} كيلوواط، بطاريات ${c.bat.toFixed(1)} kWh (${c.bv}V)${p?`\nأريد سعر: ${p.brand} ${p.model}`:''}`
+  :`Hello, I sized my system on Iraq Solar Market:\n• Day amps ${c.dA} / night ${c.nA}\n• Grid-off hours: day ${c.dH} / night ${c.nH}\n• Needed: ${c.panels} panels (${c.kwp.toFixed(1)} kWp), ${c.inv} kW inverter, ${c.bat.toFixed(1)} kWh batteries (${c.bv}V)${p?`\nI want the price of: ${p.brand} ${p.model}`:''}`;
+ return `https://wa.me/${p?String(o.whatsapp||o.phone||'').replace(/\D/g,'').replace(/^0/,'964'):''}?text=${encodeURIComponent(m)}`}
+function matches(c,city){
+ if(!(c.panels>0||c.bat>0))return '';
+ const ps=S.prods.filter(p=>p.stock!='out'&&p.price>0&&(!city||own(p).city==city));
+ const row=(p,qty,extra)=>{const o=own(p),tot=qty>1?` × ${qty} = ${fmt(p.price*qty)} IQD`:'';
+  return `<div class=mrow><img src="${esc(p.thumb||'')}" alt="" data-a=open data-id=${p.id}><div><b data-a=open data-id=${p.id}>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(extra||'')}</small><div>${fmt(p.price)} IQD${tot}</div><small>${esc(o.name||'')} · ${nm(o.city)}</small></div><a class="btn wa" target=_blank rel=noopener href="${waLink(p,c)}">${t('askPrice')}</a></div>`};
+ const kits=ps.filter(p=>pset(p)=='kit'&&p.invKw>=c.load*.8&&p.invKw<=Math.max(c.inv,c.load)*1.5).sort((a,b)=>Math.abs(a.invKw-c.inv)-Math.abs(b.invKw-c.inv)||a.price-b.price).slice(0,3);
+ const invs=ps.filter(p=>pset(p)=='inverter'&&p.kw>=c.inv*.9&&p.kw<=c.inv*1.6).sort((a,b)=>a.price-b.price).slice(0,3);
+ const volOk=p=>c.bv==24?(p.volt>=22&&p.volt<=30):(p.volt>=44&&p.volt<=58);
+ const bats=c.bat>0?ps.filter(p=>pset(p)=='battery'&&p.kwh>0&&volOk(p)).map(p=>({p,q:Math.ceil(c.bat/p.kwh-1e-9)})).filter(x=>x.q<=40).sort((a,b)=>a.p.price*a.q-b.p.price*b.q).slice(0,3):[];
+ const pans=c.panels>0?ps.filter(p=>pset(p)=='panel'&&p.watt>0).map(p=>({p,q:Math.ceil(c.pvW/p.watt)})).sort((a,b)=>a.p.price*a.q-b.p.price*b.q).slice(0,3):[];
+ const sec=(k,r)=>r.length?`<h4>${t(k)}</h4>${r.join('')}`:'';
+ const h=sec('mKits',kits.map(p=>row(p,1,`${p.kitKw} kW${p.kitA?` · ${p.kitA} A`:''}`)))+sec('mInv',invs.map(p=>row(p,1,`${p.kw} kW`)))+sec('mBat',bats.map(({p,q})=>row(p,q,`${p.kwh} kWh · ${p.volt}V`)))+sec('mPan',pans.map(({p,q})=>row(p,q,`${p.watt} W`)));
+ return `<div class=match><h3>${t('matchT')}</h3>${h||`<p class=note>${t('noMatch')}</p>`}</div>`}
 const $$=s=>document.querySelectorAll(s);
 const safe=u=>{u=String(u||'').trim();if(!u)return'';if(!/^https?:\/\//i.test(u))u='https://'+u;try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return''}};
 const toast=m=>{const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)};
@@ -185,13 +214,13 @@ const stagger=r=>r&&r.querySelectorAll('.grid>.card').forEach((c,i)=>c.style.ani
 const setF=el=>{S.f[el.dataset.f]=el.value;if(el.dataset.f=='cat'){S.f.tag='';return render()}const r=$('#res');if(r){r.innerHTML=S.view=='directory'?listDir():listP();stagger(r)}};
 const reduced=()=>!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
 function go(v){if(location.hash.slice(1)==v)route();else location.hash=v}
-function route(){S.rd=0;const h=location.hash.slice(1)||'home';if(h.startsWith('p-')){S.pid=h.slice(2);S.view='detail';loadGal(S.pid)}else S.view=V[h]?h:'home';S.anim=1;render();scrollTo(0,0)}
+function route(){S.rd=0;if(!S.keepEdit){if(S.edit)S.tags=[];S.edit=null}S.keepEdit=0;const h=location.hash.slice(1)||'home';if(h.startsWith('p-')){S.pid=h.slice(2);S.view='detail';loadGal(S.pid)}else S.view=V[h]?h:'home';S.anim=1;render();scrollTo(0,0)}
 addEventListener('hashchange',route);
 function tween(el,to,dec=0){if(!el)return;const from=parseFloat(el.dataset.v)||0;el.dataset.v=to;if(reduced()){el.textContent=to.toFixed(dec);return}
  const t0=performance.now();(function s(n){const p=Math.min(1,(n-t0)/450),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(p<1)requestAnimationFrame(s)})(t0)}
 /* Iraqi-style sizing: amps @220V, day load runs from panels, night load from batteries */
 function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','dayH','nightH','sunH','pw','bv'];
- S.calc=Object.fromEntries(K.map(k=>[k,f.elements[k].value]));
+ S.calc=Object.fromEntries(K.map(k=>[k,f.elements[k].value]));S.calc.city=f.elements.city.value;
  const [dA,nA,dH,nH,sun,pw,bv]=K.map(k=>Math.max(0,parseFloat(f.elements[k].value)||0));
  const eD=dA*220*dH/1000,eN=nA*220*nH/1000,bat=eN/0.9/0.9,pvW=Math.max((eD+eN)/0.85*1000/(sun||1),dA*220*1.15),
   panels=pw?Math.ceil(pvW/pw):0,load=Math.max(dA,nA)*220/1000,need=load*1.25,
@@ -200,7 +229,9 @@ function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','day
  $('#oP2').textContent=`${(panels*pw/1000).toFixed(1)} kWp`;
  $('#oI2').textContent=`${t('peak')}: ${load.toFixed(1)} kW`;
  $('#oB2').textContent=bat?`${mods} × 5.12 kWh · ${Math.round(bat*1000/(bv||48))} Ah @ ${bv}V`:'—';
- $('#oE').textContent=`${t('eDay')}: ${eD.toFixed(1)} kWh · ${t('eNight')}: ${eN.toFixed(1)} kWh`}
+ $('#oE').textContent=`${t('eDay')}: ${eD.toFixed(1)} kWh · ${t('eNight')}: ${eN.toFixed(1)} kWh`;
+ S.cr={dA,nA,dH,nH,panels,kwp:panels*pw/1000,inv,bat,mods,bv:bv||48,pvW,load:need};
+ $('#oM').innerHTML=matches(S.cr,S.calc.city||'');$('#oSend').href=waLink(null,S.cr)}
 function slide(i){const tr=$('#tr');if(!tr)return;const n=tr.children.length;S.si=(i+n)%n;tr.style.transform=`translateX(${(S.lang=='ar'?1:-1)*S.si*100}%)`;[...tr.children].forEach((c,j)=>c.classList.toggle('act',j==S.si));$$('.dots i').forEach((d,j)=>d.classList.toggle('on',j==S.si))}
 function initSlider(){clearInterval(S.tm);const tr=$('#tr');if(!tr)return;slide(S.si);
  if(tr.children.length>1&&!reduced())S.tm=setInterval(()=>{if(!$('#sl:hover'))slide(S.si+1)},3800)}
@@ -228,7 +259,7 @@ function listen(){unsub.forEach(u=>u());unsub=[];
  const q=isAdmin()?db.collection('users'):db.collection('users').where('approved','==',true);
  unsub.push(q.onSnapshot(s=>{S.users=s.docs.map(d=>({id:d.id,...d.data()}));dr()},e=>toast(e.message)))}
 auth&&auth.onAuthStateChanged(async u=>{S.me=u;S.prof=u?(await db.doc('users/'+u.uid).get()).data()||null:null;listen();render()});
-const dr=()=>{if(['add','register','login','profile'].includes(S.view))return;if(S.view=='home'&&document.activeElement?.closest('#calc'))return;render()};
+const dr=()=>{if(['add','register','login','profile'].includes(S.view))return;if(S.view=='mine'&&document.activeElement&&document.activeElement.closest('#mine'))return;if(S.view=='home'&&document.activeElement?.closest('#calc'))return;render()};
 
 /* ---------- views ---------- */
 const bar=c=>`<div class=bar>${c.includes('q')?`<input data-f=q placeholder="${t('q')}" value="${esc(S.f.q||'')}">`:''}
@@ -239,14 +270,14 @@ ${c.includes('role')?`<select data-f=role><option value="">${t('role')}</option>
 const badges=p=>`<span class=tag>${esc(catName(p.cat))}</span> ${(p.tags||[]).slice(0,2).map(k=>`<span class=tag>${esc(tagShort(k))}</span>`).join(' ')} ${!p.verified?`<span class="tag no">${t('nv')}</span>`:''} ${p.dsOk&&p.datasheet?`<span class="tag ok">${t('dv')}</span>`:''}`;
 const ctas=o=>`<div class=bar>${o.whatsapp||o.phone?`<a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>`:''}${safe(o.mapsUrl)?`<a class="btn mp" target=_blank rel=noopener href="${esc(safe(o.mapsUrl))}">${t('maps')}</a>`:''}${o.phone?`<a class=btn href="tel:${esc(o.phone)}">${t('call')}</a>`:''}${links(o)}</div>`;
 const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
- return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.thumb||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div>
+ return `<div class=card><img data-a=open data-id=${p.id} src="${esc(p.thumb||'')}" alt=""><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div><div>${money(p)}</div><small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small>
  <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
  <div class=bar><a class="btn wa" target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a><button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button></div></div>`};
 const listP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.tag||(p.tags||[]).includes(f.tag))&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
  return `<div class=grid>${l.map(card).join('')||`<p>${t('empty')}</p>`}</div>`};
 const vP=()=>bar(['q','city','cat','brand'])+`<div id=res>${listP()}</div>`;
 const vD=()=>{const p=S.prods.find(x=>x.id==S.pid);if(!p)return'';const o=own(p),pr=S.prods.filter(x=>x.cat==p.cat&&key(x)==key(p)).map(x=>x.price);
- return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(S.gal[p.id]||(p.thumb?[p.thumb]:[])).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${(p.tags||[]).map(k=>`<span class=tag>${esc(tagName(k))}</span>`).join(' ')}</p><p>${money(p)}<br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
+ return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class=gal>${(S.gal[p.id]||(p.thumb?[p.thumb]:[])).map(u=>`<img src="${esc(u)}">`).join('')}</div><p>${badges(p)}</p><p>${(p.tags||[]).map(k=>`<span class=tag>${esc(tagName(k))}</span>`).join(' ')}</p><p>${money(p)}<br><small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small><br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
  <table>${C.fieldsAll(pset(p)).filter(f=>!['brand','model'].includes(f.k)&&p[f.k]!=null&&p[f.k]!==''&&!(Array.isArray(p[f.k])&&!p[f.k].length)).map(f=>`<tr><td>${esc(f[S.lang])}${f.unit?` (${f.unit})`:''}</td><td>${esc(lab(f,p[f.k]))}</td></tr>`).join('')}</table>
  ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o)}</div>`};
 const listDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
@@ -276,13 +307,13 @@ const fld=f=>{let i;if(f.type=='sel')i=`<select name=${f.k}><option value=""></o
  else i=`<input name=${f.k} ${f.type=='num'?'type=number step=any inputmode=decimal':''} ${f.k=='brand'?'list=bl':''}>`;
  return `<div class=fld><label>${esc(fl(f))}</label>${i}<small id=e_${f.k}></small></div>`};
 const vAdd=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;
- return `<form id=pform class=form onsubmit="return false"><datalist id=bl>${C.brands.map(b=>`<option>${b}</option>`).join('')}</datalist>
+ return `<form id=pform class=form onsubmit="return false"><datalist id=bl>${C.brands.map(b=>`<option>${b}</option>`).join('')}</datalist>${S.edit?`<div class=note style="margin:0 0 8px"><b>✎ ${t('editing')}</b> ${esc((S.prods.find(x=>x.id==S.edit)||{}).brand||'')} <button type=button data-a=cancelEdit>${t('cancel')}</button></div>`:''}
  <div class=fld><label>${t('cat2')} *</label>${C.taxonomy.map(x=>`<label class=cb><input type=radio name=cat value=${x.k} ${S.cat==x.k?'checked':''}> ${x.icon} ${esc(x[S.lang])}</label>`).join('')}</div>
  <div class=fld><label>${t('pickTags')} *</label>${catOf(S.cat).groups.map(g=>`<div class=gh>${esc(g[S.lang])}</div>${g.items.map(i=>`<label class=cb><input type=checkbox name=tags value="${i[0]}" ${S.tags.includes(i[0])?'checked':''}> ${esc(i[S.lang=='ar'?1:2])}</label>`).join('')}`).join('')}<small id=e_tags></small></div>
  <p class=note>${t('optNote')}</p>${C.fieldsAll(curSet()).map(fld).join('')}
- <div class=fld><label>${t('photos')}</label><input type=file name=photos accept="image/*" multiple></div>
+ <div class=fld><label>${t('photos')}${S.edit?` — ${t('keepPh')}`:''}</label><input type=file name=photos accept="image/*" multiple></div>
  <div class=fld><label>${t('ds')}</label><input type=url name=ds placeholder="https://"></div>
- <button class=pri data-a=save>${t('save')}</button></form>`};
+ <button class=pri data-a=save>${S.edit?t('saveEdit'):t('save')}</button></form>`};
 const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><input id=em type=email></div><div class=fld><label>${t('pass')}</label><input id=pw type=password></div><button class=pri data-a=login>${t('login')}</button> <button data-a=view data-v=register>${t('register')}</button></div>`;
 const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} ${x}></div>`;
  return `<form id=rf class=form onsubmit="return false"><div class=fld><label>${t('acct')}</label><select name=role data-role>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${r==x?'selected':''}>${t(x)}</option>`).join('')}</select></div>
@@ -310,25 +341,32 @@ const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label
  <div class=bar style="justify-content:center;margin:0"><button class=cta data-a=goCalc>⬇ ${t('calcGo')}</button><button class=ghost data-a=view data-v=${S.me?(canSell()?'add':'profile'):'register'}>${t('imDealer')}</button><button class="ghost inst" data-a=install hidden>${t('install')}</button></div></section>`;
  const calcF=` <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',40)}${inp('nightA',25)}${inp('dayH',6)}${inp('nightH',8)}</div>
  <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ <div class=row2><div class=fld><label>${t('city2')}</label><select name=city>${cityOpts(c.city)}</select></div></div>
  <div class=out><div class=res><small>${t('rP')}</small><b id=oP>0</b><i id=oP2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=panel>${t('findP')}</button></div></div>
  <div class=res><small>${t('rI')} (kW)</small><b id=oI>0</b><i id=oI2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=inverter>${t('findI')}</button></div></div>
  <div class=res><small>${t('rB')} (kWh)</small><b id=oB>0</b><i id=oB2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=battery>${t('findB')}</button></div></div></div>
- <p class=note id=oE></p><p class=note>${t('rNote')}</p></form>`;
+ <div id=oM></div><div class=bar style="justify-content:center;margin:10px 0 0"><a id=oSend class="btn wa" target=_blank rel=noopener href="#">💬 ${t('sendWa')}</a></div><p class=note id=oE></p><p class=note>${t('rNote')}</p></form>`;
  return hero+slider()+(S.prods.length?`<div class=bar style="justify-content:center;margin:0 0 6px"><button class=pri data-a=view data-v=products>${t('allProds')}</button></div>`:'')+catTiles()+pitch()+stats()+calcF+`<button class="cta fab" id=fab data-a=goCalc>⬇ ${t('calcGo')}</button>`};
 const vProf=()=>{if(!S.me||!S.prof)return `<p>${t('need')}</p>`;const p=S.prof,I=(k,l,v,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} value="${esc(v)}" ${x}></div>`;
  return `<form id=pf class=form onsubmit="return false">${p.approved?'':`<p class=warn>${t('pend')}</p>`}${I('name','name',p.name)}${I('phone','phone',p.phone,'type=tel')}${I('whatsapp','wnum',p.whatsapp,'type=tel')}${I('address','address',p.address)}${I('mapsUrl','mapsUrl',p.mapsUrl,'type=url')}${I('brands','brands',(p.brands||[]).join(', '))}${SOC.map(([k])=>I(k,k,(p.links||{})[k]||'','type=url placeholder=https://')).join('')}<button class=pri data-a=saveP>${t('save')}</button></form>`};
-const V={home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
+const vMine=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;const l=S.prods.filter(p=>p.ownerId==S.me.uid);
+ return `<div id=mine><div class=bar><button class=pri data-a=view data-v=add>＋ ${t('add')}</button></div><div class=grid>${l.map(p=>`<div class=card><img src="${esc(p.thumb||'')}" alt="" data-a=open data-id=${p.id}><b>${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div>
+ <small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small>
+ <div class=row2><div class=fld style="margin:2px 0"><label>${t('price')} (IQD)</label><input type=number inputmode=numeric data-prc data-id=${p.id} value="${p.price}"></div><div class=fld style="margin:2px 0"><label>${t('stock')}</label><select data-stk data-id=${p.id}>${stockOpts(p.stock)}</select></div></div>
+ <div class=bar style="margin:0"><button data-a=edit data-id=${p.id}>✎ ${t('edit')}</button><button data-a=open data-id=${p.id}>👁</button><button data-a=delp data-id=${p.id}>🗑</button></div></div>`).join('')||`<p>${t('empty')}</p>`}</div></div>`};
+const V={mine:vMine,home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm};
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v13</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v14</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
+ if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
  stagger(app);initSlider();reveal();fabObs();showInstall();if(!S.menu)renderMenu();$('#ft').innerHTML=`<img src="${LOGO}" alt=""><div><b>${t('ftT')}</b></div><div>${t('ftS')}</div>`;if(S.view=='home')calcRun()}
 
 /* ---------- live validation ---------- */
 const collect=form=>{const v={};for(const f of C.fieldsAll(curSet()))v[f.k]=f.type=='multi'?[...form.querySelectorAll(`[name=${f.k}]:checked`)].map(x=>x.value):form.elements[f.k].value.trim();v.tags=[...form.querySelectorAll('[name=tags]:checked')].map(x=>x.value);return v};
-const peers=v=>S.prods.filter(p=>pset(p)==curSet()&&(curSet()!='battery'||p.chem==v.chem)&&(!p.tags||p.tags.some(k=>(v.tags||[]).includes(k))));
+const peers=v=>S.prods.filter(p=>p.id!=S.edit&&pset(p)==curSet()&&(curSet()!='battery'||p.chem==v.chem)&&(!p.tags||p.tags.some(k=>(v.tags||[]).includes(k))));
 function paint2(form,r){for(const f of [...C.fieldsAll(curSet()),{k:'tags'}]){const el=form.querySelector('#e_'+f.k);if(!el)continue;const x=r.e[f.k],w=r.w[f.k],showE=x&&(!x.req||form.dataset.sub);
  el.className=showE?'err':w?'warn':'';el.innerHTML=showE?`${x.ar}<br>${x.en}`:w?`⚠ ${w.ar}<br>${w.en}`:''}}
 document.addEventListener('input',e=>{if(e.target.closest('#calc'))calcRun();if(e.target.dataset.f==='q'){clearTimeout(S.dt);S.dt=setTimeout(()=>setF(e.target),200)}const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(curSet(),collect(f),peers(collect(f))))});
@@ -337,6 +375,8 @@ document.addEventListener('change',e=>{const el=e.target;
  else if(el.name=='tags'&&el.closest('#pform')){const f=el.closest('#pform'),nt=[...f.querySelectorAll('[name=tags]:checked')].map(x=>x.value);
   if(C.setOf(S.cat,nt)!=curSet()){const d=loose(f);S.tags=nt;render();fillForm($('#pform'),d)}else{S.tags=nt;paint2(f,validate(curSet(),collect(f),peers(collect(f))))}}
  else if(el.dataset.f!==undefined&&el.dataset.f!=='q')setF(el);
+ else if(el.dataset.stk!==undefined){db.doc('products/'+el.dataset.id).update({stock:el.value,stockAt:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>toast(t('saved'))).catch(e=>toast(e.message))}
+ else if(el.dataset.prc!==undefined){const x=+el.value;if(!(x>0)){toast(t('fix'));return}el.blur();db.doc('products/'+el.dataset.id).update({price:x,priceAt:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>toast(t('saved'))).catch(e=>toast(e.message))}
  else if(el.dataset.role!==undefined){S.role=el.value;render()}
  else if(el.closest('#pform'))paint2(el.closest('#pform'),validate(curSet(),collect(el.closest('#pform')),peers(collect(el.closest('#pform')))))});
 
@@ -355,6 +395,11 @@ const A={
  clear:()=>{S.cmp=[];render()},
  menu:()=>{S.menu=!S.menu;renderMenu()},
  tag:d=>{S.f={cat:d.c,tag:d.t||''};S.menu=false;renderMenu();go('products')},
+ edit:d=>{const p=S.prods.find(x=>x.id==d.id);if(!p)return;S.cat=p.cat;S.tags=[...(p.tags||[])];const fill={};
+  for(const f of C.fieldsAll(C.setOf(p.cat,S.tags)))fill[f.k]=Array.isArray(p[f.k])?p[f.k]:(p[f.k]??'');fill.ds=p.datasheet||'';
+  S.edit=p.id;S.fill=fill;S.keepEdit=1;go('add')},
+ cancelEdit:()=>{S.edit=null;S.tags=[];go('mine')},
+ delp:async d=>{if(!confirm(t('delConfirm')))return;try{await Promise.all([db.doc('products/'+d.id).delete(),db.doc('photos/'+d.id).delete()]);toast(t('saved'))}catch(e){toast(e.message)}},
  goCalc:()=>$('#calc')?.scrollIntoView({behavior:'smooth',block:'center'}),
  install:async()=>{if(S.ip){S.ip.prompt();await S.ip.userChoice;S.ip=null;showInstall()}else toast(t('iosHint'))},
  logout:()=>auth.signOut(),
@@ -371,7 +416,14 @@ const A={
   try{const fl=[...form.elements.photos.files].slice(0,6),ph=await Promise.all(fl.map((x,i)=>shrink(x,900,80))),thumb=fl[0]?await shrink(fl[0],360,18):'',ds=safe(form.elements.ds.value);
    if(ph.reduce((a,b)=>a+b.length,0)>850000)throw Error(S.lang=='ar'?'الصور كبيرة جداً، قلّل عددها':'Photos too large, use fewer');
    for(const f of C.fieldsAll(curSet()))if(f.type=='num')v[f.k]=v[f.k]===''?null:+v[f.k];
-   const ref=await db.collection('products').add({...v,cat:S.cat,pset:curSet(),thumb,datasheet:ds,verified:false,dsOk:false,ownerId:S.me.uid,created:firebase.firestore.FieldValue.serverTimestamp()});
+   const TS=firebase.firestore.FieldValue.serverTimestamp();
+   if(S.edit){const old=S.prods.find(x=>x.id==S.edit),upd={...v,cat:S.cat,pset:curSet(),datasheet:ds,updated:TS},nz=x=>x===''||x==null?null:x;
+    if(thumb)upd.thumb=thumb;if(+v.price!==old.price)upd.priceAt=TS;
+    const FREE=['price','stock','warranty'],ch=C.fieldsAll(curSet()).some(f=>!FREE.includes(f.k)&&JSON.stringify(nz(old[f.k]))!==JSON.stringify(nz(v[f.k])))||JSON.stringify(old.tags||[])!==JSON.stringify(v.tags);
+    if(ch&&(old.verified||old.dsOk)){upd.verified=false;upd.dsOk=false;toast(t('resetV'))}
+    await db.doc('products/'+S.edit).update(upd);if(ph.length)await db.doc('photos/'+S.edit).set({ownerId:old.ownerId,list:ph});
+    S.edit=null;S.tags=[];go('mine');return}
+   const ref=await db.collection('products').add({...v,cat:S.cat,pset:curSet(),thumb,datasheet:ds,verified:false,dsOk:false,ownerId:S.me.uid,priceAt:TS,created:TS});
    if(ph.length)await db.doc('photos/'+ref.id).set({ownerId:S.me.uid,list:ph});
    S.tags=[];go('products')}catch(e){toast(e.message);el.disabled=false}},
  ap:d=>db.doc('users/'+d.id).update({approved:true}),
