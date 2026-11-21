@@ -193,7 +193,7 @@ addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.mes
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="config.js?v=17"></script>
+<script src="config.js?v=32"></script>
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 let auth,db,fbErr='';try{firebase.initializeApp(C.firebase);auth=firebase.auth();db=firebase.firestore()}catch(e){fbErr=e.message}
@@ -321,9 +321,11 @@ const vGuide=()=>{const g=C.guide[S.lang],chip=k=>`<span class="ct m s-neutral">
  <section><h2>${esc(g.legendH)}</h2><div class=legend><span class="ct m s-neutral">${t('lgMain')}</span><span class="ct b s-neutral">${t('lgBasic')}</span><span class="ct b s-cert">${t('lgCert')}</span><span class="ct b s-claim">${t('lgClaim')}</span><span class="ct b s-design">${t('lgDesign')}</span></div></section>
  <details class=gl><summary>${esc(g.glossH)}</summary>${C.certTags.filter(x=>x.src=='added').map(x=>`<div class=gi><span class="ct ${x.tier=='main'?'m':'b'} s-neutral">${esc(x.label)}</span><span>${esc(x[S.lang])}</span></div>`).join('')}</details></article>`};
 const guideBanner=()=>`<section class="gban rv"><span>📘</span><b>${t('gbT')}</b><button class=pri data-a=view data-v=guide>${t('readGuide')}</button></section>`;
+const tgSend=async txt=>{const k=C.telegram||{};if(!k.token||!k.chatId)return{ok:false,description:'telegram token/chatId is empty in config.js'};
+ try{const r=await fetch('https://api.telegram.org/bot'+k.token+'/sendMessage',{method:'POST',body:new URLSearchParams({chat_id:k.chatId,text:txt})});return await r.json()}catch(e){return{ok:false,description:String(e.message||e)}}};
 const notifyTG=(u)=>{try{const k=C.telegram||{};if(!k.token||!k.chatId)return;const city=((C.cities||[]).find(x=>x[0]==u.city)||[])[1]||u.city;
  const txt=`🆕 تسجيل جديد في سوق الطاقة الشمسية\n${u.name}\nالنوع: ${u.role}\nالمدينة: ${city}\nالهاتف: ${u.phone}\nالبريد: ${u.email}\n\nللموافقة: ${location.origin+location.pathname}#admin`;
- fetch('https://api.telegram.org/bot'+k.token+'/sendMessage',{method:'POST',mode:'no-cors',body:new URLSearchParams({chat_id:k.chatId,text:txt})}).catch(()=>{})}catch(_){}};
+ tgSend(txt)}catch(_){}};
 const showLb=()=>{const l=S.lbL,i=S.lbI,L=$('#lb');L.innerHTML=`<img src="${esc(l[i])}" alt=""><button class=lbc data-a=lbx>✕</button>${l.length>1?`<button class="lbn lL" data-a=lbn data-n=-1>‹</button><button class="lbn lR" data-a=lbn data-n=1>›</button><span class=lbk>${i+1} / ${l.length}</span>`:''}`;L.hidden=false};
 addEventListener('keydown',e=>{const L=$('#lb');if(!L||L.hidden)return;if(e.key=='Escape')L.hidden=true;else if(S.lbL&&S.lbL.length>1&&(e.key=='ArrowLeft'||e.key=='ArrowRight'))A.lbn({n:e.key=='ArrowRight'?1:-1})});
 const lbSrc=s=>{if(s.startsWith('a:'))return((S.adminCerts||[])[+s.slice(2)]||{}).img;const[,pid,k]=s.split(':');return((S.certImgs[pid]||[]).find(c=>c.k==k)||{}).img};
@@ -477,7 +479,7 @@ const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</lab
  <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
  ${I('email','email','type=email')}${I('pass','pass','type=password')}<button class=pri data-a=reg>${t('register')}</button></form>`};
 const vAdm=()=>{if(!isAdmin())return'';
- return `<h3>${t('certsT')}</h3><div id=ac>${certListHtml()}</div><h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button class=dng data-a=rej data-id=${u.id}>🗑 ${t('delCo')}</button></div></div>`).join('')}</div>
+ return `<div class=bar><button data-a=tgtest>🔔 ${S.lang=='ar'?'اختبار تنبيه تيليجرام':'Test Telegram alert'}</button></div><h3>${t('certsT')}</h3><div id=ac>${certListHtml()}</div><h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button class=dng data-a=rej data-id=${u.id}>🗑 ${t('delCo')}</button></div></div>`).join('')}</div>
  <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${(p.certOk||[]).map(k=>`<button data-a=revoke data-id=${p.id} data-k=${k}>✕ ${esc((ctag(k)||{}).label||k)}</button>`).join('')}${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=del data-id=${p.id}>✕</button></div></div>`).join('')}</div>`};
 const slider=()=>{const l=S.prods.slice(0,8);if(!l.length)return'';
  return `<section class=slw><h2>${t('latest')}</h2><div class=sl id=sl><div class=tr id=tr>${l.map(p=>`<div class=sli data-a=open data-id=${p.id}><img src="${esc(p.thumb||'')}" alt=""><div><span class="tag ok">${t('newT')}</span><h3>${esc(p.brand)} ${esc(p.model)}</h3><p>${money(p)}</p><small>${esc(own(p).name||'')} · ${nm(own(p).city)}</small></div></div>`).join('')}</div>
@@ -558,7 +560,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v31</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v32</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -592,6 +594,7 @@ const A={
  lb:d=>{const src=lbSrc(d.s);if(!src)return;const L=$('#lb');L.innerHTML=`<img src="${src}" alt="">`;L.hidden=false},
  lbx:()=>{$('#lb').hidden=true},
  lbu:d=>{const p=S.prods.find(x=>x.id==d.g),l=S.gal[d.g]||(p&&p.thumb?[p.thumb]:[]);if(!l.length)return;S.lbL=l;S.lbI=+d.i||0;showLb()},
+ tgtest:async()=>{toast('...');const r=await tgSend('✅ اختبار: تنبيهات سوق الطاقة الشمسية تعمل / Test: alerts work');toast(r.ok?(S.lang=='ar'?'تم الإرسال، افتح تيليجرام':'Sent, check Telegram'):('Telegram: '+(r.description||'error')))},
  lbd:d=>{const l=((S.users.find(x=>x.id==d.g)||{}).photos||[]).slice(0,4);if(!l.length)return;S.lbL=l;S.lbI=+d.i||0;showLb()},
  lbn:d=>{const n=S.lbL.length;S.lbI=(S.lbI+ +d.n+n)%n;showLb()},
  sec:d=>{const e=document.getElementById(d.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
