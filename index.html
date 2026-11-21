@@ -183,7 +183,10 @@ small.warn{color:#9a6700;opacity:1}
 .lbc,.lbn{position:fixed;border:0;background:rgba(255,255,255,.9);color:#111;border-radius:50%;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer;z-index:51}
 .lbc{top:14px;inset-inline-end:14px}.lbn{top:50%;transform:translateY(-50%)}.lbn.lL{left:10px}.lbn.lR{right:10px}
 .lbk{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.5);border-radius:999px;padding:3px 12px;font-size:13px}
-.dng{color:#b3261e;border-color:#b3261e}</style></head><body>
+.dng{color:#b3261e;border-color:#b3261e}.rad{display:flex!important;align-items:center;gap:12px;width:100%;margin:0 0 8px!important;padding:11px 12px;border:1px solid var(--bd);border-radius:12px;background:#fff;cursor:pointer}
+.fld .rad input[type=radio]{width:22px;height:22px;margin:0;flex:none;accent-color:var(--g)}
+.rad:has(input:checked){border-color:var(--g);background:#e9f6f0;font-weight:700}
+</style></head><body>
 <header id="hd"></header><main id="app"></main><footer id="ft"></footer><div id="mm" class="mm"></div><div id="tip" hidden></div><div id="lb" hidden data-a="lbx"></div>
 <script>
 function showErr(m){var a=document.getElementById('app');if(a)a.insertAdjacentHTML('afterbegin','<pre style="white-space:pre-wrap;padding:12px;margin:0 0 10px;background:#ffe3e0;color:#a31;border-radius:10px;direction:ltr;text-align:left">'+String(m).replace(/</g,'&lt;')+'</pre>')}
@@ -227,10 +230,10 @@ const wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'964')
 const nm=id=>(C.cities.find(c=>c[0]==id)||[id,id])[S.lang=='ar'?1:0];
 const own=p=>S.users.find(u=>u.id==p.ownerId)||{};
 const money=p=>`${fmt(p.price)} IQD`;
-const ol=o=>o[S.lang=='ar'?1:2]||o[0];
+const ol=o=>S.lang=='ar'?(o[1]&&o[2]&&o[1]!==o[2]?`${o[1]} (${o[2]})`:(o[1]||o[0])):(o[2]||o[0]);
 const lab=(f,v)=>f.type=='sel'?ol(f.opts.find(o=>o[0]==v)||[v]):Array.isArray(v)?(v.join(', ')||'—'):(v??'—');
 const key=p=>(p.brand+'|'+p.model).toLowerCase().replace(/\s+/g,'');
-const fl=f=>f[S.lang]+(f.unit?` (${f.unit})`:'')+(f.req?' *':'');
+const fl=f=>f[S.lang]+(S.lang=='ar'&&f.en&&f.en!==f.ar?` (${f.en})`:'')+(f.unit?` (${f.unit})`:'')+(f.req?' *':'');
 const cityOpts=(sel)=>`<option value="">${t('city')}</option>`+C.cities.map(c=>`<option value="${c[0]}" ${sel==c[0]?'selected':''}>${nm(c[0])}</option>`).join('');
 
 const curSet=()=>C.setOf(S.cat,S.tags),pset=p=>p.pset||p.cat;
@@ -463,7 +466,7 @@ const fld=f=>{if(f.type=='certs')return certField(f);let i;if(f.type=='sel')i=`<
  return `<div class=fld><label>${esc(fl(f))}</label>${i}<small id=e_${f.k}></small></div>`};
 const vAdd=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;
  return `<form id=pform class=form onsubmit="return false"><datalist id=bl>${C.brands.map(b=>`<option>${b}</option>`).join('')}</datalist>${S.edit?`<div class=note style="margin:0 0 8px"><b>✎ ${t('editing')}</b> ${esc((S.prods.find(x=>x.id==S.edit)||{}).brand||'')} <button type=button data-a=cancelEdit>${t('cancel')}</button></div>`:''}
- <div class=fld><label>${t('cat2')} *</label>${C.taxonomy.map(x=>`<label class=cb><input type=radio name=cat value=${x.k} ${S.cat==x.k?'checked':''}> ${x.icon} ${esc(x[S.lang])}</label>`).join('')}</div>
+ <div class=fld><label>${t('cat2')} *</label>${C.taxonomy.map(x=>`<label class="cb rad"><span>${x.icon} ${esc(x[S.lang])}</span><input type=radio name=cat value=${x.k} ${S.cat==x.k?'checked':''}></label>`).join('')}</div>
  <div class=fld><label>${t('pickTags')} *</label>${catOf(S.cat).groups.map(g=>`<div class=gh>${esc(g[S.lang])}</div>${g.items.map(i=>`<label class=cb><input type=checkbox name=tags value="${i[0]}" ${S.tags.includes(i[0])?'checked':''}> ${esc(i[S.lang=='ar'?1:2])}</label>`).join('')}`).join('')}<small id=e_tags></small></div>
  <p class=note>${t('optNote')}</p>${C.fieldsAll(curSet()).map(fld).join('')}
  <div class=fld><label>${t('photos')}${S.edit?` — ${t('keepPh')}`:''}</label><input type=file name=photos accept="image/*" multiple></div>
@@ -560,7 +563,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v32</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v33</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
