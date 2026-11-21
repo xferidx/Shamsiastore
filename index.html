@@ -410,13 +410,13 @@ const vAdd=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;
  <div class=fld><label>${t('pickTags')} *</label>${catOf(S.cat).groups.map(g=>`<div class=gh>${esc(g[S.lang])}</div>${g.items.map(i=>`<label class=cb><input type=checkbox name=tags value="${i[0]}" ${S.tags.includes(i[0])?'checked':''}> ${esc(i[S.lang=='ar'?1:2])}</label>`).join('')}`).join('')}<small id=e_tags></small></div>
  <p class=note>${t('optNote')}</p>${C.fieldsAll(curSet()).map(fld).join('')}
  <div class=fld><label>${t('photos')}${S.edit?` — ${t('keepPh')}`:''}</label><input type=file name=photos accept="image/*" multiple></div>
- <div class=fld><label>${t('ds')}</label><input type=url name=ds placeholder="https://"></div>
+ <div class=fld><label>${t('ds')}</label><input type=text inputmode=url dir=ltr autocapitalize=off name=ds placeholder="https://"></div>
  <button class=pri data-a=save>${S.edit?t('saveEdit'):t('save')}</button></form>`};
-const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><input id=em type=email></div><div class=fld><label>${t('pass')}</label><input id=pw type=password></div><button class=pri data-a=login>${t('login')}</button> <button data-a=view data-v=register>${t('register')}</button></div>`;
+const vLogin=()=>`<div class=form><div class=fld><label>${t('email')}</label><input id=em type=email></div><div class=fld><label>${t('pass')}</label><input id=pw type=password></div><button class=pri data-a=login>${t('login')}</button> <button data-a=view data-v=register>${t('register')}</button><p style="margin:12px 0 0"><a href="#" data-a=forgot>${S.lang=='ar'?'نسيت كلمة المرور؟':'Forgot your password?'}</a></p></div>`;
 const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} ${x}></div>`;
  return `<form id=rf class=form onsubmit="return false"><div class=fld><label>${t('acct')}</label><select name=role data-role>${['dealer','subdealer','installer'].map(x=>`<option value=${x} ${r==x?'selected':''}>${t(x)}</option>`).join('')}</select></div>
  ${I('name','name')}<div class=fld><label>${t('city').replace(/^.*$/,'')}<select name=city>${cityOpts('')}</select></label></div>
- ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=url'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}${SOC.map(([k])=>I(k,k,'type=url placeholder=https://')).join('')}
+ ${r!='installer'?I('address','address')+I('mapsUrl','mapsUrl','type=text inputmode=url dir=ltr autocapitalize=off'):''}${I('phone','phone','type=tel')}${I('whatsapp','wnum','type=tel')}${I('brands','brands')}${SOC.map(([k])=>I(k,k,'type=text inputmode=url dir=ltr autocapitalize=off placeholder=https://')).join('')}
  ${r!='installer'?`<div class=fld><label><input type=checkbox name=wholesale> ${t('whl')}</label></div>`:''}
  ${r=='subdealer'?`<div class=fld><label>${t('sup')}</label><select name=supplier>${S.users.filter(u=>u.role=='dealer').map(u=>`<option>${esc(u.name)}</option>`).join('')}</select></div>`:''}
  <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
@@ -446,7 +446,7 @@ const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label
  <div id=oM></div><div class=bar style="justify-content:center;margin:10px 0 0"><a id=oSend class="btn wa" target=_blank rel=noopener href="#">💬 ${t('sendWa')}</a></div><p class=note id=oE></p><p class=note>${t('rNote')}</p></form>`;
  return hero+slider()+(S.prods.length?`<div class=bar style="justify-content:center;margin:0 0 6px"><button class=pri data-a=view data-v=products>${t('allProds')}</button></div>`:'')+catTiles()+guideBanner()+pitch()+stats()+calcF+`<button class="cta fab" id=fab data-a=goCalc>⬇ ${t('calcGo')}</button>`};
 const vProf=()=>{if(!S.me||!S.prof)return `<p>${t('need')}</p>`;const p=S.prof,I=(k,l,v,x='')=>`<div class=fld><label>${t(l)}</label><input name=${k} value="${esc(v)}" ${x}></div>`;
- return `<div id=st class=form style="margin-bottom:12px">${statsHtml()}</div><form id=pf class=form onsubmit="return false">${p.approved?'':`<p class=warn>${t('pend')}</p>`}${I('name','name',p.name)}${I('phone','phone',p.phone,'type=tel')}${I('whatsapp','wnum',p.whatsapp,'type=tel')}${I('address','address',p.address)}${I('mapsUrl','mapsUrl',p.mapsUrl,'type=url')}${I('brands','brands',(p.brands||[]).join(', '))}${SOC.map(([k])=>I(k,k,(p.links||{})[k]||'','type=url placeholder=https://')).join('')}<button class=pri data-a=saveP>${t('save')}</button></form>`};
+ return `<div id=st class=form style="margin-bottom:12px">${statsHtml()}</div><form id=pf class=form onsubmit="return false">${p.approved?'':`<p class=warn>${t('pend')}</p>`}${I('name','name',p.name)}${I('phone','phone',p.phone,'type=tel')}${I('whatsapp','wnum',p.whatsapp,'type=tel')}${I('address','address',p.address)}${I('mapsUrl','mapsUrl',p.mapsUrl,'type=text inputmode=url dir=ltr autocapitalize=off')}${I('brands','brands',(p.brands||[]).join(', '))}${SOC.map(([k])=>I(k,k,(p.links||{})[k]||'','type=text inputmode=url dir=ltr autocapitalize=off placeholder=https://')).join('')}<button class=pri data-a=saveP>${t('save')}</button></form>`};
 const vMine=()=>{if(!S.me||!canSell())return `<p>${t('need')}</p>`;const l=S.prods.filter(p=>p.ownerId==S.me.uid);
  return `<div id=mine><div class=bar><button class=pri data-a=view data-v=add>＋ ${t('add')}</button></div><div class=grid>${l.map(p=>`<div class=card><img src="${esc(p.thumb||'')}" alt="" data-a=open data-id=${p.id}><b>${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div>
  <small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small><small class=ps data-ps=${p.id}></small>${pendC(p)}
@@ -456,7 +456,7 @@ const V={guide:vGuide,mine:vMine,home:vHome,profile:vProf,products:vP,detail:vD,
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v18</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v20</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -513,7 +513,18 @@ const A={
  goCalc:()=>$('#calc')?.scrollIntoView({behavior:'smooth',block:'center'}),
  install:async()=>{if(S.ip){S.ip.prompt();await S.ip.userChoice;S.ip=null;showInstall()}else toast(t('iosHint'))},
  logout:()=>auth.signOut(),
- login:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);go('products')}catch(e){toast(e.message)}},
+ login:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');
+  const ar=S.lang=='ar',em=$('#em'),pw=$('#pw');document.querySelectorAll('.form .ferr').forEach(x=>x.remove());[em,pw].forEach(x=>x.classList.remove('bad'));
+  const mark=(el,m)=>{el.classList.add('bad');el.closest('.fld').insertAdjacentHTML('beforeend',`<div class="err ferr">${m}</div>`)};
+  if(!em.value.trim()){mark(em,ar?'أدخل البريد الإلكتروني':'Enter your email');em.focus();return toast(t('fix'))}
+  if(!pw.value){mark(pw,ar?'أدخل كلمة المرور':'Enter your password');pw.focus();return toast(t('fix'))}
+  try{await auth.signInWithEmailAndPassword(em.value.trim(),pw.value);go('products')}catch(e){
+   const c=e.code,E={'auth/invalid-credential':[pw,ar?'البريد أو كلمة المرور غير صحيحة':'Wrong email or password'],'auth/wrong-password':[pw,ar?'كلمة المرور غير صحيحة':'Wrong password'],'auth/user-not-found':[em,ar?'لا يوجد حساب بهذا البريد':'No account with this email'],'auth/invalid-email':[em,ar?'صيغة البريد غير صحيحة':'Invalid email format'],'auth/too-many-requests':[pw,ar?'محاولات كثيرة — انتظر قليلاً أو اضغط «نسيت كلمة المرور؟»':'Too many attempts — wait a bit or use “Forgot your password?”'],'auth/user-disabled':[em,ar?'هذا الحساب موقوف':'This account is disabled'],'auth/network-request-failed':[em,ar?'لا يوجد اتصال بالإنترنت':'No internet connection']}[c];
+   if(E){mark(E[0],E[1]);toast(E[1])}else toast(e.message)}},
+ forgot:async()=>{if(!auth)return;const ar=S.lang=='ar',em=$('#em');let v=em.value.trim();
+  if(!v){em.classList.add('bad');if(!em.closest('.fld').querySelector('.ferr'))em.closest('.fld').insertAdjacentHTML('beforeend',`<div class="err ferr">${ar?'اكتب بريدك هنا ثم اضغط «نسيت كلمة المرور؟»':'Type your email here, then tap “Forgot your password?”'}</div>`);em.focus();return}
+  try{auth.languageCode=ar?'ar':'en';await auth.sendPasswordResetEmail(v);toast(ar?'أرسلنا رابط إعادة التعيين إلى بريدك — تفقّد البريد العشوائي (Spam) أيضاً':'Reset link sent — check your inbox and spam folder')}
+  catch(e){const m={'auth/invalid-email':ar?'صيغة البريد غير صحيحة':'Invalid email format','auth/user-not-found':ar?'لا يوجد حساب بهذا البريد':'No account with this email','auth/too-many-requests':ar?'محاولات كثيرة — انتظر قليلاً':'Too many attempts — wait a bit'}[e.code];toast(m||e.message)}},
  reg:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');const f=$('#rf').elements,g=k=>f[k]?.value.trim()||'';
   const ar=S.lang=='ar',bad=[],M={name:ar?'أدخل الاسم':'Enter the name',city:ar?'اختر المدينة':'Choose a city',phone:ar?'أدخل رقم الهاتف':'Enter the phone number',email:ar?'أدخل بريداً إلكترونياً صحيحاً':'Enter a valid email',pass:ar?'كلمة المرور 6 أحرف على الأقل':'Password must be at least 6 characters'};
   $('#rf').querySelectorAll('.ferr').forEach(x=>x.remove());$('#rf').querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));
@@ -551,7 +562,7 @@ const A={
  dso:d=>db.doc('products/'+d.id).update({dsOk:!S.prods.find(p=>p.id==d.id).dsOk}),
  del:d=>confirm('?')&&Promise.all([db.doc('products/'+d.id).delete(),db.doc('photos/'+d.id).delete()]).catch(e=>toast(e.message))
 };
-document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el&&A[el.dataset.a])A[el.dataset.a](el.dataset,el)});
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el&&el.tagName=='A')e.preventDefault();if(el&&A[el.dataset.a])A[el.dataset.a](el.dataset,el)});
 document.addEventListener('change',e=>{const el=e.target;
  if(el.name=='certsel'){const r=el.closest('form')&&el.closest('form').querySelector(`.cr[data-k="${el.value}"]`);if(r)r.hidden=!el.checked}
  else if(el.matches&&el.matches('.cr select')){el.closest('.cr').querySelector('.cx').hidden=el.value!='certified'}});
