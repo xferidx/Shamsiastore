@@ -206,8 +206,8 @@ CONFIG.awards = {
      certs:["UN38.3","CE-EMC","IEC 62619","MSDS","RoHS"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
      note:{ ar:"نطاق تشغيل واحد، ونهاية العمر غير مذكورة.", en:"One operating range; end-of-life level not stated." } },
    { id:"eve", brand:"EVE", model:"RES-PLW-I-16", ch:[0,60], dis:[-20,60], cyc:null, dod:null, crate:null, eol:null, ip:"IP20",
-     certs:["UN38.3","IEC 62619","CE"], sHeat:"sheet", sLife:null, sCert:"ai",
-     note:{ ar:"الحرارة من ورقة بيانات EVE الرسمية (شحن 0–60°م، تفريغ -20–60°م). الدورات والشهادات غير موجودة في الصفحات التي وصلتنا.", en:"Temperatures from the official EVE datasheet (charge 0–60°C, discharge -20–60°C). Cycles and certificates are not in the pages we received." } },
+     certs:["UN38.3"], sHeat:"sheet", sLife:null, sCert:"sheet",
+     note:{ ar:"ورقة EVE الرسمية: حرارة الشحن 0–60°م والتفريغ -20–60°م. الشهادة المؤكدة UN38.3 فقط، أما IEC 62619 وCE فمكتوب أن التصميم «متوافق» معها وليس أنها شهادة صادرة. لا يوجد رقم دورات (cycles) في الورقة.", en:"Official EVE sheet: charge 0–60°C, discharge -20–60°C. Only UN38.3 is stated as certified; for IEC 62619 and CE the sheet says the design is \"compliant with\" them, not that a certificate was issued. No cycle count is given in the sheet." } },
    { id:"srne", brand:"SRNE", model:"SR-EOS15B", ch:[0,45], dis:[-10,45], cyc:8000, dod:80, crate:0.5, eol:null, ip:"IP65",
      certs:["UN38.3","MSDS","EN 55032","EN 61000-3-2"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
      note:{ ar:"لا يذكر معيار سلامة للبطارية مثل IEC 62619.", en:"No battery safety standard such as IEC 62619 is listed." } }
