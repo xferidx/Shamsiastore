@@ -129,6 +129,10 @@ small.warn{color:#9a6700;opacity:1}
 .keybox{background:linear-gradient(135deg,#fff3c4,#ffe08a);border:2px solid #e6b422;border-radius:16px;padding:6px 16px;box-shadow:0 8px 22px rgba(230,180,34,.25)}.keybox ul{padding-inline-start:0;list-style:none}.keybox li{margin:8px 0}
 .ctab th,.ctab td{text-align:center}.ctab td:first-child{text-align:start;white-space:nowrap}.okc{color:#1f9d63}.legend{display:flex;flex-wrap:wrap;gap:6px}.gl{margin:14px 0}
 .gban{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;background:#e8f1fb;border:1px solid #bcd6ef;border-radius:14px;padding:10px 12px;margin:14px 0}.gban span{font-size:24px}
+.art h3{margin:16px 0 4px}.art ul,.art ol{padding-inline-start:24px}.art section[id^=g-]{scroll-margin-top:76px}
+.tipbox{background:#eaf7f0;border-inline-start:4px solid #1f9d63;padding:8px 12px;border-radius:8px;margin:10px 0}
+.askbox{background:#e8f1fb;border:1px solid #bcd6ef;border-radius:14px;padding:4px 16px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}.toc button{background:#fff;border:1px solid var(--bd);border-radius:99px;padding:6px 12px;font-size:13px}
 </style></head><body>
 <header id="hd"></header><main id="app"></main><footer id="ft"></footer><div id="mm" class="mm"></div><div id="tip" hidden></div><div id="lb" hidden data-a="lbx"></div>
 <script>
@@ -139,7 +143,7 @@ addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.mes
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="config.js?v=16"></script>
+<script src="config.js?v=17"></script>
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 let auth,db,fbErr='';try{firebase.initializeApp(C.firebase);auth=firebase.auth();db=firebase.firestore()}catch(e){fbErr=e.message}
@@ -251,15 +255,18 @@ function readCerts(form){const old=S.edit?normCerts(S.prods.find(x=>x.id==S.edit
 function applyCerts(form,list){form.querySelectorAll('[name=certsel]').forEach(cb=>{cb.checked=false;form.querySelector(`.cr[data-k="${cb.value}"]`).hidden=true});
  (list||[]).forEach(c=>{const cb=form.querySelector(`[name=certsel][value="${c.k}"]`),r=form.querySelector(`.cr[data-k="${c.k}"]`);if(!cb||!r)return;cb.checked=true;r.hidden=false;r.querySelector('select').value=c.st||'';r.querySelector('[data-lab]').value=c.lab||'';r.querySelector('.cx').hidden=c.st!='certified';r.querySelector('.cimg').textContent=c.img?'📎 '+t('hasCert'):''})}
 const md=x=>esc(x).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+const blk=b=>({p:x=>`<p>${md(x)}</p>`,h3:x=>`<h3>${esc(x)}</h3>`,ul:x=>`<ul>${x.map(i=>`<li>${md(i)}</li>`).join('')}</ul>`,ol:x=>`<ol>${x.map(i=>`<li>${md(i)}</li>`).join('')}</ol>`,tip:x=>`<div class=tipbox>${md(x)}</div>`,note:x=>`<p class=note>${md(x)}</p>`})[b.t](b.x);
 const vGuide=()=>{const g=C.guide[S.lang],chip=k=>`<span class="ct m s-neutral">★ ${esc(ctag(k).label)}</span>`,ex=C.examples,ks=C.certTags.filter(x=>ex.some(e=>e.c[x.k]));
  const tick=(m,k)=>m[k]?`<b class=okc>✓</b>${m[k]=='cell'?`<small> ${t('gCell')}</small>`:m[k]=='pack'?`<small> ${t('gPack')}</small>`:''}`:'—';
  return `<article class=art><button data-a=view data-v=home>←</button><h1>${esc(g.title)}</h1><p class=lead>${md(g.intro)}</p>
- <section><h2>${esc(g.s1.h)}</h2><p>${md(g.s1.p)}</p></section>
+ <div class=toc>${g.toc.map(([id,l])=>`<button data-a=sec data-id=g-${id}>${esc(l)}</button>`).join('')}</div>
+ <section id=g-certs><h2>${esc(g.s1.h)}</h2><p>${md(g.s1.p)}</p></section>
  <section><h2>${esc(g.s2.h)}</h2>${g.s2.items.map(([k,x])=>`<div class=gi>${chip(k)}<span>${md(x)}</span></div>`).join('')}</section>
  <section><h2>${esc(g.s3.h)}</h2><p>${md(g.s3.p)}</p></section>
  <section class=warnbox><h2>⚠️ ${esc(g.s4.h)}</h2><p>${md(g.s4.p)}</p></section>
  <section><h2>${esc(g.s5.h)}</h2><p class=note>${esc(g.s5.note)}</p><ol>${g.s5.items.map(x=>`<li>${md(x)}</li>`).join('')}</ol>
  <div class=sc><table class=ctab><tr><th></th>${ex.map(e=>`<th>${esc(e.n)}</th>`).join('')}</tr>${ks.map(x=>`<tr><td>${x.tier=='main'?'★ ':''}${esc(x.label)}<button class=ti type=button data-a=tip data-k=${x.k}>ⓘ</button></td>${ex.map(e=>`<td>${tick(e.c,x.k)}</td>`).join('')}</tr>`).join('')}</table></div><p class=note>${esc(g.tableNote)}</p></section>
+ ${g.more.map(m=>`<section id=g-${m.id} class="${m.cls||''}"><h2>${m.icon} ${esc(m.h)}</h2>${m.blocks.map(blk).join('')}</section>`).join('')}
  <section class=keybox><h2>⭐ ${esc(g.final.h)}</h2><p>${md(g.final.p)}</p><ul>${g.final.items.map(([k,x])=>`<li>${chip(k)} ${md(x)}</li>`).join('')}</ul></section>
  <section><h2>${esc(g.legendH)}</h2><div class=legend><span class="ct m s-neutral">${t('lgMain')}</span><span class="ct b s-neutral">${t('lgBasic')}</span><span class="ct b s-cert">${t('lgCert')}</span><span class="ct b s-claim">${t('lgClaim')}</span><span class="ct b s-design">${t('lgDesign')}</span></div></section>
  <details class=gl><summary>${esc(g.glossH)}</summary>${C.certTags.filter(x=>x.src=='added').map(x=>`<div class=gi><span class="ct ${x.tier=='main'?'m':'b'} s-neutral">${esc(x.label)}</span><span>${esc(x[S.lang])}</span></div>`).join('')}</details></article>`};
@@ -449,7 +456,7 @@ const V={guide:vGuide,mine:vMine,home:vHome,profile:vProf,products:vP,detail:vD,
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v16</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v17</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -482,6 +489,7 @@ const A={
   pop.hidden=false;const r=el.getBoundingClientRect(),w=pop.offsetWidth||280;pop.style.top=Math.max(8,Math.min(r.bottom+6,innerHeight-pop.offsetHeight-8))+'px';pop.style.left=Math.max(8,Math.min(r.left+r.width/2-w/2,innerWidth-w-8))+'px'},
  lb:d=>{const src=lbSrc(d.s);if(!src)return;const L=$('#lb');L.innerHTML=`<img src="${src}" alt="">`;L.hidden=false},
  lbx:()=>{$('#lb').hidden=true},
+ sec:d=>{const e=document.getElementById(d.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
  certApprove:async d=>{const c=(S.adminCerts||[])[+d.i];if(!c)return;try{await db.doc('certs/'+c.id).update({approved:true});await db.doc('products/'+c.pid).update({certOk:firebase.firestore.FieldValue.arrayUnion(c.k)});S.adminCerts.splice(+d.i,1);delete S.certImgs[c.pid];$('#ac').innerHTML=certListHtml();toast(t('saved'))}catch(e){toast(e.message)}},
  certNo:async d=>{const c=(S.adminCerts||[])[+d.i];if(!c||!confirm('?'))return;try{await db.doc('certs/'+c.id).delete();S.adminCerts.splice(+d.i,1);$('#ac').innerHTML=certListHtml()}catch(e){toast(e.message)}},
  revoke:async d=>{try{await db.doc('products/'+d.id).update({certOk:firebase.firestore.FieldValue.arrayRemove(d.k)});await db.doc('certs/'+d.id+'_'+d.k).update({approved:false});delete S.certImgs[d.id];toast(t('saved'))}catch(e){toast(e.message)}},
