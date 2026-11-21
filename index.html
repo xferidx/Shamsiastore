@@ -23,7 +23,7 @@ input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8
 .fld{margin:8px 0}.fld>label{display:block;font-weight:600}
 .fld input:not([type=checkbox]),.fld select{width:100%}
 .fld .cb{font-weight:400;display:inline-block;margin-inline-end:10px}
-.err{color:#b3261e;font-size:12px}.warn{color:#9a6700;font-size:12px}
+.err{color:#b3261e;font-size:12px}.fld .bad{border-color:#b3261e!important;background:#fff5f4;box-shadow:0 0 0 2px #b3261e22}.ferr{margin-top:3px;font-weight:600}.warn{color:#9a6700;font-size:12px}
 table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid var(--bd);padding:6px 8px;text-align:start;vertical-align:top}
 td.best{background:#d7f5e4;font-weight:700}.sc{overflow-x:auto}
 .form{background:#fff;padding:12px;border-radius:12px;max-width:680px;margin:auto}
@@ -456,7 +456,7 @@ const V={guide:vGuide,mine:vMine,home:vHome,profile:vProf,products:vP,detail:vD,
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v17</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v18</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -470,7 +470,7 @@ const collect=form=>{const v={};for(const f of C.fieldsAll(curSet()))v[f.k]=f.ty
 const peers=v=>S.prods.filter(p=>p.id!=S.edit&&pset(p)==curSet()&&(curSet()!='battery'||p.chem==v.chem)&&(!p.tags||p.tags.some(k=>(v.tags||[]).includes(k))));
 function paint2(form,r){for(const f of [...C.fieldsAll(curSet()),{k:'tags'}]){const el=form.querySelector('#e_'+f.k);if(!el)continue;const x=r.e[f.k],w=r.w[f.k],showE=x&&(!x.req||form.dataset.sub);
  el.className=showE?'err':w?'warn':'';el.innerHTML=showE?`${x.ar}<br>${x.en}`:w?`⚠ ${w.ar}<br>${w.en}`:''}}
-document.addEventListener('input',e=>{if(e.target.closest('#calc'))calcRun();if(e.target.dataset.f==='q'){clearTimeout(S.dt);S.dt=setTimeout(()=>setF(e.target),200)}const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(curSet(),collect(f),peers(collect(f))))});
+document.addEventListener('input',e=>{if(e.target.classList?.contains('bad')){e.target.classList.remove('bad');e.target.closest('.fld')?.querySelector('.ferr')?.remove()}if(e.target.closest('#calc'))calcRun();if(e.target.dataset.f==='q'){clearTimeout(S.dt);S.dt=setTimeout(()=>setF(e.target),200)}const f=e.target.closest('#pform');if(f&&e.target.name!='cat')paint2(f,validate(curSet(),collect(f),peers(collect(f))))});
 document.addEventListener('change',e=>{const el=e.target;
  if(el.name=='cat'&&el.closest('#pform')){const d=loose(el.closest('#pform'));S.cat=el.value;S.tags=[];render();fillForm($('#pform'),d)}
  else if(el.name=='tags'&&el.closest('#pform')){const f=el.closest('#pform'),nt=[...f.querySelectorAll('[name=tags]:checked')].map(x=>x.value);
@@ -515,11 +515,14 @@ const A={
  logout:()=>auth.signOut(),
  login:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');try{await auth.signInWithEmailAndPassword($('#em').value,$('#pw').value);go('products')}catch(e){toast(e.message)}},
  reg:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');const f=$('#rf').elements,g=k=>f[k]?.value.trim()||'';
-  if(!g('name')||!g('city')||!g('phone')||!g('email')||g('pass').length<6)return toast(t('fix'));
+  const ar=S.lang=='ar',bad=[],M={name:ar?'أدخل الاسم':'Enter the name',city:ar?'اختر المدينة':'Choose a city',phone:ar?'أدخل رقم الهاتف':'Enter the phone number',email:ar?'أدخل بريداً إلكترونياً صحيحاً':'Enter a valid email',pass:ar?'كلمة المرور 6 أحرف على الأقل':'Password must be at least 6 characters'};
+  $('#rf').querySelectorAll('.ferr').forEach(x=>x.remove());$('#rf').querySelectorAll('.bad').forEach(x=>x.classList.remove('bad'));
+  if(!g('name'))bad.push('name');if(!g('city'))bad.push('city');if(!g('phone'))bad.push('phone');if(!/^\S+@\S+\.\S+$/.test(g('email')))bad.push('email');if(g('pass').length<6)bad.push('pass');
+  if(bad.length){bad.forEach(k=>{const el=f[k];if(!el)return;el.classList.add('bad');el.closest('.fld').insertAdjacentHTML('beforeend',`<div class="err ferr">${M[k]}</div>`)});const first=f[bad[0]];first.scrollIntoView({block:'center',behavior:'smooth'});try{first.focus({preventScroll:true})}catch(_){}return toast(t('fix'))}
   const b=$('#rf .pri');b.disabled=true;
   try{const cr=await auth.createUserWithEmailAndPassword(g('email'),g('pass')),ph=await Promise.all([...(f.photos?.files||[])].slice(0,4).map(x=>shrink(x,480,25)));
    await db.doc('users/'+cr.user.uid).set({role:g('role'),name:g('name'),city:g('city'),address:g('address'),mapsUrl:safe(g('mapsUrl')),phone:g('phone'),whatsapp:g('whatsapp')||g('phone'),brands:g('brands').split(/[,،]/).map(s=>s.trim()).filter(Boolean),wholesale:!!f.wholesale?.checked,supplier:g('supplier'),photos:ph,links:Object.fromEntries(SOC.map(([k])=>[k,safe(g(k))]).filter(x=>x[1])),approved:false,authorized:false});
-   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();toast(t('pend'));go('products')}catch(e){toast(e.message);b.disabled=false}},
+   S.prof=(await db.doc('users/'+cr.user.uid).get()).data();toast(t('pend'));go('products')}catch(e){b.disabled=false;const m={'auth/email-already-in-use':[ 'email',ar?'هذا البريد مسجّل مسبقاً — جرّب تسجيل الدخول':'This email is already registered — try logging in'],'auth/invalid-email':['email',M.email],'auth/weak-password':['pass',M.pass]}[e.code];if(m&&f[m[0]]){f[m[0]].classList.add('bad');f[m[0]].closest('.fld').insertAdjacentHTML('beforeend',`<div class="err ferr">${m[1]}</div>`);f[m[0]].scrollIntoView({block:'center',behavior:'smooth'});toast(m[1])}else toast(e.message)}},
  save:async(d,el)=>{const form=$('#pform');form.dataset.sub=1;const v=collect(form),r=validate(curSet(),v,peers(v));paint2(form,r);
   if(Object.keys(r.e).length){toast(t('fix'));form.querySelector('.err')?.scrollIntoView({block:'center'});return}
   el.disabled=true;
