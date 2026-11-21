@@ -10,6 +10,11 @@ const CONFIG = {
     appId:"1:1090985815108:web:16a770d9236a26aa652011"
   },
   adminUids: ["HMSqWwbh6YMoKU6REIyWz6rqO532"],// Firebase Auth UID(s) of admins
+  // Telegram alert to the admin when a new company registers. Leave both empty to turn it off.
+  // 1) In Telegram open @BotFather -> /newbot -> copy the token.  2) Send any message to your new bot.
+  // 3) Open https://api.telegram.org/bot<TOKEN>/getUpdates and copy "chat":{"id":NUMBER}.
+  // Note: this file is public, so anyone could use the token to message YOU. If that happens, revoke it in @BotFather.
+  telegram: { token: "9213157732:AAEzgjDhgBaHaOU-E029fC1DOY7tBnwxkks", chatId: "129051601" },
   cities: [["Baghdad","بغداد"],["Basra","البصرة"],["Mosul","الموصل"],["Erbil","أربيل"],["Sulaymaniyah","السليمانية"],["Duhok","دهوك"],["Kirkuk","كركوك"],["Najaf","النجف"],["Karbala","كربلاء"],["Nasiriyah","الناصرية"],["Amarah","العمارة"],["Diwaniyah","الديوانية"],["Hillah","الحلة"],["Kut","الكوت"],["Ramadi","الرمادي"],["Fallujah","الفلوجة"],["Tikrit","تكريت"],["Baqubah","بعقوبة"],["Samawah","السماوة"]],
   brands: ["Pylontech","Huawei","Sungrow","Growatt","Deye","Felicity","Dyness","BYD","Victron","Voltronic","Must","SRNE","Jinko","Longi","Trina","Canadian Solar","JA Solar"],
   limits: {
