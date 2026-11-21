@@ -1,5 +1,5 @@
 /* ===== ALL SETTINGS + VALIDATION RULES LIVE HERE — edit freely ===== */
-const IP = ["IP20","IP21","IP31","IP42","IP43","IP44","IP45","IP54","IP55","IP56","IP65","IP66","IP67","IP68"];
+const IP = ["IP20","IP21","IP23","IP30","IP31","IP40","IP41","IP42","IP43","IP44","IP45","IP52","IP53","IP54","IP55","IP56","IP57","IP65","IP66","IP67","IP68"];
 const CONFIG = {
   firebase: {
     apiKey:"AIzaSyALx9PQ6eBVcBgBjc_fKhbnq91BV5WiGi8",
@@ -13,7 +13,7 @@ const CONFIG = {
   cities: [["Baghdad","بغداد"],["Basra","البصرة"],["Mosul","الموصل"],["Erbil","أربيل"],["Sulaymaniyah","السليمانية"],["Duhok","دهوك"],["Kirkuk","كركوك"],["Najaf","النجف"],["Karbala","كربلاء"],["Nasiriyah","الناصرية"],["Amarah","العمارة"],["Diwaniyah","الديوانية"],["Hillah","الحلة"],["Kut","الكوت"],["Ramadi","الرمادي"],["Fallujah","الفلوجة"],["Tikrit","تكريت"],["Baqubah","بعقوبة"],["Samawah","السماوة"]],
   brands: ["Pylontech","Huawei","Sungrow","Growatt","Deye","Felicity","Dyness","BYD","Victron","Voltronic","Must","SRNE","Jinko","Longi","Trina","Canadian Solar","JA Solar"],
   limits: {
-    cyclesMax: { LFP:10000, NMC:6000, LEAD:3000 },
+    cyclesMax: { LFP:15000, NMC:6000, LEAD:3000 },
     kwhTol: 0.05,                   // kWh vs V x Ah / 1000
     maxC: 1.05,                     // max current x V must not exceed this C-rate of capacity
     lowV: [44,58], smallV: [[11,15],[22,30]], highV: [100,800], leadV: [2,6,12,24,48],
