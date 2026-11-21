@@ -147,7 +147,7 @@ CONFIG.certTags = [
  { k:"iec62619", label:"IEC 62619", tier:"main", src:"article", ar:"امتحان السلامة الأساسي لبطاريات الليثيوم الثابتة (stationary lithium batteries): قصر دائرة (short circuit) وشحن زائد (overcharge) وحرارة عالية، ويراقبون هل تنفجر أو تشتعل.", en:"The core safety exam for stationary lithium batteries: short circuit, overcharge and high heat, checking whether it explodes or catches fire." },
  { k:"iec63056", label:"IEC 63056", tier:"main", src:"article", ar:"امتحان مفصّل لبطاريات تخزين الطاقة المنزلية (home energy storage)، أي التي تُركَّب بقرب أهل البيت.", en:"A detailed exam for home energy-storage batteries, the kind installed close to the family." },
  { k:"ul1973", label:"UL 1973", tier:"main", src:"article", ar:"امتحان سلامة أمريكي للبطاريات الثابتة، ويشبه IEC 62619 في الهدف.", en:"An American safety exam for stationary batteries, with the same goal as IEC 62619." },
- { k:"ul9540a", label:"UL 9540A", tier:"main", src:"article", ar:"امتحان الحريق (fire test): يشعلون خلية (cell) واحدة عمداً ويراقبون هل ينتقل الحريق إلى بقية الخلايا.", en:"The fire exam: one cell is set on fire on purpose to see whether the fire spreads to the other cells." },
+ { k:"ul9540a", label:"UL 9540A", tier:"main", src:"article", ar:"طريقة اختبار حريق (fire test method): يشعلون خلية (cell) واحدة عمداً ويسجّلون هل ينتقل الحريق إلى بقية الخلايا. نتيجتها بيانات تُستعمل في تقييم السلامة وليست شهادة نجاح مثل الباقي، فاسأل عن التقرير.", en:"A fire test method: one cell is set on fire on purpose and they record whether the fire spreads to the other cells. It produces data used in safety assessment rather than a pass/fail certificate like the others, so ask for the report." },
  { k:"ul9540", label:"UL 9540", tier:"main", src:"added", ar:"معيار أمريكي لسلامة نظام تخزين الطاقة كاملاً وليس الخلية فقط، ويعتمد عادةً على نتائج UL 9540A.", en:"An American safety standard for the complete energy-storage system, not just the cell. It usually relies on UL 9540A results." },
  { k:"un383", label:"UN38.3", tier:"basic", src:"article", ar:"اختبار للنقل (transport test: ارتفاع واهتزاز وصدمات). كل بطارية نظامية تحمله، فوجوده لا يعني أنها ممتازة.", en:"A transport test (altitude, vibration, shocks). Every legitimate battery has it, so having it does not make a battery excellent." },
  { k:"ce", label:"CE", tier:"basic", src:"article", ar:"علامة أوروبية، وغالباً إقرار من الشركة نفسها.", en:"A European mark, often a declaration made by the company itself." },
@@ -159,13 +159,13 @@ CONFIG.certTags = [
  { k:"lvd", label:"LVD", tier:"basic", src:"added", ar:"توجيه الجهد المنخفض الأوروبي: متطلبات السلامة الكهربائية للأجهزة ضمن نطاق جهد معيّن.", en:"The EU Low Voltage Directive: electrical safety requirements for equipment within a certain voltage range." },
  { k:"rohs", label:"RoHS", tier:"basic", src:"article", ar:"يخص المواد الضارة بالبيئة.", en:"Concerns materials that are harmful to the environment." },
  { k:"msds", label:"MSDS", tier:"basic", src:"article", ar:"ورقة معلومات وليست شهادة.", en:"An information sheet, not a certificate." },
- { k:"cec", label:"CEC", tier:"basic", src:"added", ar:"غالباً قائمة لجنة الطاقة في كاليفورنيا (California Energy Commission) للأداء، وليست اختبار حريق. اسأل التاجر ماذا يقصد بها.", en:"Usually a California Energy Commission listing (performance/eligibility), not a fire test. Ask the dealer what it refers to." }
+ { k:"cec", label:"CEC", tier:"basic", src:"added", ar:"اختصار يُستعمل لجهتين مختلفتين: مجلس الطاقة النظيفة الأسترالي (Clean Energy Council) أو لجنة الطاقة في كاليفورنيا (California Energy Commission). كلاهما قائمة موافقة للأداء أو الأهلية وليست اختبار حريق. اسأل التاجر أي واحدة يقصد.", en:"An abbreviation used by two different bodies: the Australian Clean Energy Council or the California Energy Commission. Both are approval/eligibility listings, not a fire test. Ask the dealer which one is meant." }
 ];
 /* Example batteries for the guide table. From manufacturer datasheets: the dealer must verify. cell = cells carry it, pack = the battery pack carries it */
 CONFIG.examples = [
- { n:"Hithium HeroEE 16", c:{ ul9540a:"cell", ul1973:"cell", iec62619:"cell", un383:"cell", ce:"pack", cb:"pack", iec62040:"pack" } },
+ { n:"Hithium HeroEE 16", c:{ ul9540a:"cell", ul1973:"cell", iec62619:"both", un383:"both", ce:"pack", cb:"pack", iec62040:"pack" } },
  { n:"Pylontech Fidus Plus", c:{ iec62619:1, iec63056:1, un383:1, ce:1 } },
- { n:"Sungrow MBL160", c:{ iec62619:1, iec62477:1, ce:1, un383:1 } }
+ { n:"Sungrow MBL160", c:{ iec62619:1, iec62477:1, ce:1, un383:1, msds:1, rohs:1 } }
 ];
 CONFIG.guide = {
  ar:{
@@ -176,15 +176,12 @@ CONFIG.guide = {
   s2:{ h:"الامتحانات التي تهمك", items:[
    ["iec62619","**امتحان السلامة الأساسي (core safety test)** لبطاريات الليثيوم الثابتة (stationary lithium batteries). يجبرون البطارية على قصر الدائرة (short circuit) والشحن الزائد (overcharge) والحرارة العالية، ويراقبون هل تنفجر أو تشتعل."],
    ["iec63056","امتحان مفصّل لبطاريات **تخزين الطاقة المنزلية (home energy storage)**، أي التي تُركَّب بقرب أهل البيت."],
-   ["ul1973","امتحان سلامة أمريكي للبطاريات الثابتة (stationary batteries)، ويشبه IEC 62619 في الهدف."],
-   ["ul9540a","**امتحان الحريق (fire test).** يشعلون خلية (cell) واحدة عمداً ويراقبون هل ينتقل الحريق إلى بقية الخلايا."] ] },
+   ["ul1973","امتحان سلامة أمريكي للبطاريات الثابتة (stationary batteries)، ويشبه IEC 62619 في الهدف، ويُطلب غالباً في سوق أمريكا الشمالية (North America)، وليس بالضرورة أفضل من IEC."],
+   ["ul9540a","**طريقة اختبار حريق (fire test method).** يشعلون خلية (cell) واحدة عمداً ويسجّلون هل ينتقل الحريق إلى بقية الخلايا. نتيجتها بيانات تُستعمل في تقييم السلامة وليست شهادة نجاح مثل الباقي، وهي مرتبطة غالباً بسوق أمريكا الشمالية، فاطلب التقرير."] ] },
   s3:{ h:"شهادات أقل وزناً", p:"**UN38.3** مثل جواز السفر، فهو اختبار للنقل (transport test: ارتفاع واهتزاز وصدمات) وكل بطارية نظامية تحمله، فوجوده لا يعني أنها ممتازة. **CE** علامة أوروبية وغالباً إقرار من الشركة نفسها (self-declaration). **RoHS** يخص المواد الضارة بالبيئة (hazardous substances)، و**MSDS** ورقة معلومات (safety data sheet) وليست شهادة." },
   s4:{ h:"انتبه", p:"كلمة «**التصميم متوافق مع** (design complies with)» أضعف من «**حاصلة على شهادة** (certified)». وبعض الشركات تنشر قائمة شهادات عامة على موقعها دون ذكر الموديل، فاسأل عن **موديلك تحديداً (exact model)**. والـ **QR code** سهل التزوير، فاطلب الشهادة نفسها ومعها **اسم المختبر (lab name)**." },
-  s5:{ h:"ثلاثة أمثلة جيدة", note:"(الترتيب حسب الشهادات فقط، ولكل بطارية مزايا وحدود أخرى تجدها في صفحتها)", items:[
-   "**Hithium HeroEE 16:** خلاياه (cells) UL 9540A وUL 1973 وIEC 62619 وUN38.3، والبطارية (pack) CE وCB وIEC 62040. الأكثر شهادات بين الثلاث.",
-   "**Pylontech Fidus Plus:** IEC 62619 وIEC 63056 وUN38.3 وCE.",
-   "**Sungrow MBL160:** IEC 62619 وIEC 62477 وCE وUN38.3." ] },
-  tableNote:"القائمة حسب أوراق بيانات الشركات المصنّعة (datasheets)، وعلى التاجر التحقق منها.",
+  s5:{ h:"كيف تعرض أوراق البيانات (datasheets) شهاداتها: ثلاثة أمثلة", note:"عدد الشهادات الأكثر لا يعني بطارية أفضل. الشهادات تختلف حسب السوق (market) وحسب إصدار ورقة البيانات، وبعضها للخلية (cell) وبعضها للبطارية كاملة (pack). مثلاً شهادات UL أمريكية الاتجاه، بينما IEC وCE أوروبية ودولية، وهي ليست بالضرورة أفضل للعراق.", items:[] },
+  tableNote:"من أوراق بيانات الشركات المصنّعة (datasheets) المتاحة علناً وقت الكتابة، وقد تتغير حسب الإصدار والسوق. على التاجر إظهار ورقة البيانات وشهادة الموديل نفسه واسم المختبر (lab).",
   more:[
    { id:"temp", icon:"🌡️", h:"الحرارة (Temperature): الرقم الذي يتجاهله أغلب الناس", blocks:[
     {t:"p",x:"ورقة المواصفات (datasheet) فيها **ثلاثة أرقام للحرارة**، وكثير من الناس ينتبه لرقم واحد فقط:"},
@@ -245,15 +242,12 @@ CONFIG.guide = {
   s2:{ h:"The exams that matter", items:[
    ["iec62619","The **core safety exam** for stationary lithium batteries. They force the battery through short circuit, overcharge and high heat, and watch whether it explodes or catches fire."],
    ["iec63056","A detailed exam for **home energy-storage** batteries, the kind installed close to the family."],
-   ["ul1973","An American safety exam for stationary batteries, with the same goal as IEC 62619."],
-   ["ul9540a","**The fire exam.** They deliberately ignite a single cell and watch whether the fire spreads to the other cells."] ] },
+   ["ul1973","An American safety exam for stationary batteries, with the same goal as IEC 62619. It is mostly asked for in the North American market and is not automatically better than IEC."],
+   ["ul9540a","**A fire test method.** They deliberately ignite a single cell and record whether the fire spreads to the other cells. It produces data used in safety assessment rather than a pass/fail certificate like the others, and is mostly tied to the North American market, so ask for the report."] ] },
   s3:{ h:"Lighter certificates", p:"**UN38.3** is like a passport: it is a transport test (altitude, vibration and shocks), and every legitimate battery carries it, so having it does not mean the battery is excellent. **CE** is a European mark and is often a declaration made by the company itself. **RoHS** concerns materials harmful to the environment, and **MSDS** is an information sheet, not a certificate." },
   s4:{ h:"Watch out", p:"“**Design complies with**” is weaker than “**holds a certificate**.” Some companies publish a general list of certificates on their website without naming the model, so ask about **your exact model**. A **QR code** is easy to fake, so ask for the certificate itself together with the **name of the laboratory**." },
-  s5:{ h:"Three good examples", note:"(Ranked by certificates only; each battery has other strengths and limits you will find on its page.)", items:[
-   "**Hithium HeroEE 16:** its cells carry UL 9540A, UL 1973, IEC 62619 and UN38.3, and the battery pack carries CE, CB and IEC 62040. The most certificates of the three.",
-   "**Pylontech Fidus Plus:** IEC 62619, IEC 63056, UN38.3 and CE.",
-   "**Sungrow MBL160:** IEC 62619, IEC 62477, CE and UN38.3." ] },
-  tableNote:"Listed according to the manufacturers’ datasheets; the dealer must verify them.",
+  s5:{ h:"How datasheets list their certificates: three examples", note:"More certificates does not mean a better battery. Certificates differ by market and by datasheet version, and some belong to the cell while others belong to the complete pack. For example, UL certificates are North-American driven, while IEC and CE are European and international, and not automatically better for Iraq.", items:[] },
+  tableNote:"From manufacturers’ publicly available datasheets at the time of writing; they may change by version and market. The dealer must show the datasheet, the certificate for the exact model and the lab name.",
   more:[
    { id:"temp", icon:"🌡️", h:"Temperature: The Number Most People Ignore", blocks:[
     {t:"p",x:"The **datasheet** lists **three temperature numbers**, and many people look at only one of them:"},
