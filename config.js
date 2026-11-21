@@ -167,6 +167,85 @@ CONFIG.examples = [
  { n:"Pylontech Fidus Plus", c:{ iec62619:1, iec63056:1, un383:1, ce:1 } },
  { n:"Sungrow MBL160", c:{ iec62619:1, iec62477:1, ce:1, un383:1, msds:1, rohs:1 } }
 ];
+
+/* ===== Battery Awards 2026 (16 kWh class) — editable data; ranking is computed from these rows =====
+   src codes: "sheet" = official datasheet, "reseller" = a seller's page, "ai" = AI-generated summary, null = not listed.
+   Only fields with src "sheet" can win an award. Update a row here and the page re-ranks itself. */
+CONFIG.awards = {
+  year: 2026, asOf: "2026-11",
+  weights: { "IEC 62619":2, "IEC 63056":2, "UL 1973":2, "UL 9540":1, "UL 9540-DC":1 },
+  rows: [
+   { id:"hithium", brand:"Hithium", model:"HeroEE 16", ch:[0,40], dis:[-20,40], cyc:11000, dod:100, crate:0.5, eol:70, ip:"IP30",
+     certs:["CE","CB","UN38.3","IEC 62619"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"ورقة بيانات أغسطس 2025. الإصدار الأحدث يذكر شحناً حتى 55°م.", en:"August 2025 datasheet. The newer version lists charging up to 55°C." } },
+   { id:"deye", brand:"Deye", model:"SE-F16 (Max)", ch:[0,55], dis:[-20,55], cyc:6000, cycGt:true, dod:null, crate:null, eol:70, ip:"IP65",
+     certs:["UN38.3","CE","CB","UL 1973","UL 9540A","UL 9540-DC","FCC"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"من ورقة SE-F16 Max، والشهادات حسب ورقة Max. الشحن من -20°م بتسخين اختياري. عمق التفريغ غير مذكور.", en:"From the SE-F16 Max sheet; certificates as listed for the Max. Charging from -20°C with optional heating. Depth of discharge not stated." } },
+   { id:"pylontech", brand:"Pylontech", model:"Fidus Plus FB-L-16", ch:[0,55], dis:[-20,60], cyc:8000, dod:90, crate:0.2, eol:null, ip:"IP65",
+     certs:["IEC 62619","IEC 63056","UN38.3","EMC/CE"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"الطراز Pro يشحن من -20 إلى 55°م. الدورات عند شحن 5–95% وتيار 0.2C.", en:"The Pro model charges at -20 to 55°C. Cycles tested at 5–95% charge range and 0.2C." } },
+   { id:"solax", brand:"Solax", model:"LD16 / LD16-S", ch:[0,55], dis:[-20,55], cyc:8000, cycGt:true, dod:95, crate:0.5, eol:70, ip:"IP65",
+     certs:["IEC 62619","IEC 63056","IEC 60730","UN38.3"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"سطر الشهادات مقطوع في الصورة بعد IEC 60730.", en:"The certificates line is cut off in the photo after IEC 60730." } },
+   { id:"dyness-plus", brand:"Dyness", model:"PowerBrick Plus", ch:[0,55], dis:[-20,55], cyc:8000, cycGt:true, dod:95, crate:0.2, eol:70, ip:"IP65",
+     certs:["IEC 62619","UN38.3"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"ورقة 20251210. اختبار الدورات بتيار 0.2C وهو أخفّ من 0.5C.", en:"Sheet 20251210. Cycle test at 0.2C, gentler than 0.5C." } },
+   { id:"dyness-sc", brand:"Dyness", model:"PowerBrick SC", ch:[0,55], dis:[-20,55], cyc:8000, cycGt:true, dod:95, crate:0.2, eol:70, ip:"IP20",
+     certs:["IEC 62619","UN38.3"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"ورقة 20251030. IP20 للتركيب الداخلي فقط.", en:"Sheet 20251030. IP20, indoor only." } },
+   { id:"sungrow", brand:"Sungrow", model:"MBL160", ch:[0,55], dis:[-20,55], cyc:8000, dod:90, crate:0.5, eol:null, ip:"IP20",
+     certs:["CE","IEC 62619","IEC 62477","UN38.3","MSDS","RoHS"], sHeat:"reseller", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"حرارة الشحن والتفريغ من صفحة تاجر، لذلك لا تدخل جائزة الحرارة.", en:"Charge/discharge temperatures come from a reseller page, so it cannot win the heat award." } },
+   { id:"chisage", brand:"Chisage", model:"MOON16-G", ch:[0,60], dis:[-20,60], cyc:8000, dod:90, crate:0.5, eol:70, ip:"IP20",
+     certs:["IEC 62619","CE-EMC","RoHS","UN38.3"], sHeat:"ai", sLife:"ai", sCert:"ai",
+     note:{ ar:"كل الأرقام من ملخص ذكاء اصطناعي، ومصدر آخر يذكر 6000 دورة.", en:"All values come from an AI summary; another source lists 6000 cycles." } },
+   { id:"lvtopsun", brand:"LVTOPSUN", model:"LVTS-512314-G4", op:[-20,60], cyc:8000, dod:90, crate:0.5, eol:60, ip:"IP65",
+     certs:["UN38.3","CE","CE-EMC","MSDS"], sHeat:"sheet", sLife:"sheet", sCert:"ai",
+     note:{ ar:"نطاق تشغيل واحد بلا فصل للشحن. اختبار الدورات ينتهي عند 60% من السعة.", en:"One operating range with no charge/discharge split. Cycle test ends at 60% capacity." } },
+   { id:"better", brand:"Better Energy", model:"ELESHELL16K", op:[0,50], cyc:8000, cycGt:true, dod:80, crate:null, eol:null, ip:"IP54",
+     certs:["UN38.3","CE-EMC","IEC 62619","MSDS","RoHS"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"نطاق تشغيل واحد، ونهاية العمر غير مذكورة.", en:"One operating range; end-of-life level not stated." } },
+   { id:"eve", brand:"EVE", model:"RES-PLW-I-16", op:[-20,60], cyc:null, dod:null, crate:null, eol:null, ip:"IP20",
+     certs:["UN38.3","IEC 62619","CE"], sHeat:"ai", sLife:null, sCert:"ai",
+     note:{ ar:"من ملخص ذكاء اصطناعي. الشحن 0–60°م.", en:"From an AI summary. Charging 0–60°C." } },
+   { id:"srne", brand:"SRNE", model:"SR-EOS15B", ch:[0,45], dis:[-10,45], cyc:8000, dod:80, crate:0.5, eol:null, ip:"IP65",
+     certs:["UN38.3","MSDS","EN 55032","EN 61000-3-2"], sHeat:"sheet", sLife:"sheet", sCert:"sheet",
+     note:{ ar:"لا يذكر معيار سلامة للبطارية مثل IEC 62619.", en:"No battery safety standard such as IEC 62619 is listed." } }
+  ],
+  text: {
+   ar: {
+    title:"جوائز البطاريات 2026", sub:"فئة 16 كيلوواط ساعة (16 kWh): الفائز والوصيف",
+    notice:"هذه الصفحة جُمعت بالذكاء الاصطناعي بعد بحث معمّق في أوراق البيانات (datasheets) المنشورة. هي ليست اختباراً مخبرياً ولا إعلاناً من أي شركة. الأرقام تتغير حسب إصدار الورقة والسوق، فاطلب من التاجر ورقة بيانات الموديل نفسه.",
+    asOf:"حسب أوراق البيانات المتاحة في نوفمبر 2026",
+    winner:"الفائز", runner:"الوصيف", tied:"تعادل", jointW:"فائزان بالتساوي",
+    heat:{ h:"الأفضل في تحمّل الحرارة", t:"Heat tolerance", d:"نجمع أعلى حرارة شحن (charge) وأعلى حرارة تفريغ (discharge) من ورقة البيانات الرسمية. الشحن في الحر هو الأهم في العراق.", u:"°م (شحن / تفريغ)" },
+    life:{ h:"الأطول عمراً", t:"Longest life", d:"عدد الدورات (cycles) × عمق التفريغ (depth of discharge)، أي الدورات الكاملة المعادلة. عند التعادل يفوز من اختُبر بتيار أعلى (C-rate) لأن اختباره أصعب.", u:"دورة كاملة معادلة" },
+    cert:{ h:"الأفضل في الشهادات", t:"Certificates", d:"نقاط للمعايير الرئيسية المذكورة في الورقة: IEC 62619 وIEC 63056 وUL 1973 (نقطتان لكل منها) وUL 9540 (نقطة). أما UL 9540A فهي طريقة اختبار حريق وليست شهادة نجاح فلا تُحسب. هذا ترتيب لما هو مكتوب في الورقة وليس حكماً على السلامة.", u:"نقطة" },
+    all:"كل الترتيب", how:"كيف حسبنا؟",
+    howP:["يدخل الترتيب فقط من لديه رقم مأخوذ من ورقة بيانات رسمية. الأرقام المأخوذة من صفحة تاجر أو ملخص ذكاء اصطناعي تظهر في الجدول بعلامة تنبيه ولا تفوز بأي جائزة.","الدورات الكاملة المعادلة حساب تقريبي (cycles × depth of discharge)، ولا تقارن بين شركات اختبرت بشروط مختلفة بدقة كاملة.","إذا لم يذكر الجدول رقماً فهو غير مذكور في الورقة التي وصلتنا، وليس صفراً."],
+    tbl:"الجدول الكامل", cols:["البطارية","حرارة الشحن / التفريغ °م","الدورات (cycles)","IP","الشهادات","ملاحظة"],
+    srcLegend:["✓ ورقة بيانات رسمية","⚠ صفحة تاجر","🤖 ملخص ذكاء اصطناعي","— غير مذكور"],
+    single:"نطاق واحد", back:"الرئيسية", guide:"دليل الشهادات", empty:"لا يوجد",
+    foot:"الأرقام أعلاه من أوراق بيانات الشركات وقد تتغير. تحقّق دائماً من الورقة والشهادة للموديل نفسه قبل الشراء."
+   },
+   en: {
+    title:"Battery Awards 2026", sub:"16 kWh class: winner and runner-up",
+    notice:"This page was compiled by AI after deep research in published datasheets. It is not a lab test and not an advertisement from any company. Numbers change with the datasheet version and market, so ask the dealer for the datasheet of the exact model.",
+    asOf:"Based on datasheets available in November 2026",
+    winner:"Winner", runner:"Runner-up", tied:"Tied", jointW:"Joint winners",
+    heat:{ h:"Best heat tolerance", t:"Heat tolerance", d:"We add the highest charge temperature and the highest discharge temperature from the official datasheet. Charging in the heat matters most in Iraq.", u:"°C (charge / discharge)" },
+    life:{ h:"Longest life", t:"Longest life", d:"Cycles × depth of discharge, i.e. equivalent full cycles. On a tie, the battery tested at a higher C-rate wins because its test is harder.", u:"equivalent full cycles" },
+    cert:{ h:"Best certificates", t:"Certificates", d:"Points for the main standards listed on the sheet: IEC 62619, IEC 63056 and UL 1973 (2 points each) and UL 9540 (1 point). UL 9540A is a fire test method, not a pass/fail certificate, so it is not counted. This ranks what is written on the sheet; it is not a safety verdict.", u:"points" },
+    all:"Full ranking", how:"How we calculated",
+    howP:["Only batteries with a number taken from an official datasheet can be ranked. Numbers from a reseller page or an AI summary appear in the table with a warning mark and cannot win.","Equivalent full cycles is a rough calculation (cycles × depth of discharge) and does not compare companies that tested under different conditions with full accuracy.","If the table shows no number, it was not stated on the sheet we received. It is not zero."],
+    tbl:"Full table", cols:["Battery","Charge / discharge °C","Cycles","IP","Certificates","Note"],
+    srcLegend:["✓ official datasheet","⚠ reseller page","🤖 AI summary","— not listed"],
+    single:"single range", back:"Home", guide:"Certifications guide", empty:"None",
+    foot:"The figures above come from company datasheets and may change. Always check the datasheet and the certificate of the exact model before buying."
+   }
+  }
+};
+
 CONFIG.guide = {
  ar:{
   title:"لا تشتري بطارية قبل أن تفهم هذه الأرقام: دليلك لشهادات ومواصفات البطاريات (Battery Certifications & Specs)",
