@@ -217,11 +217,24 @@ small.warn{color:#9a6700;opacity:1}
 .sr{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}.sl{font-weight:700;min-width:118px}.si{display:flex;gap:3px;flex-wrap:wrap;flex:1}.si span{font-size:22px;animation:pop .5s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i)*40ms)}.sr em{font-style:normal;font-weight:700;color:var(--g)}
 @media (prefers-reduced-motion:reduce){.vs,.vd.on i,.si span{animation:none}}
 
-.mps{margin:6px 0 10px}.ms{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.ms span{background:linear-gradient(160deg,#f0faf5,#dff2e8);border:1px solid var(--bd);border-radius:12px;padding:8px;text-align:center;font-size:12.5px}.ms b{display:block;font-size:20px;color:var(--g)}.ms small{opacity:.7}
-.mpre{margin:8px 0}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.chip,.tpl{border:1px solid var(--g);background:#fff;color:var(--g);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600}.chip:active,.tpl:active{background:#e9f6f0}.tpl{background:#f4faf7}.mpadd{display:block;margin-top:6px}
-.mi{border:1px solid var(--bd);border-radius:14px;padding:10px;margin:8px 0;background:#fbfdfc;animation:pop .35s cubic-bezier(.3,1.4,.5,1) both}.mih{display:flex;align-items:center;gap:8px}.mih b{flex:1}.mih .ae{font-size:24px}.mx{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid #e3b5b1;background:#fff;color:#b3261e}
-.mio{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0}.mio label,.mir label{display:flex;flex-direction:column;gap:2px;font-size:12px;opacity:.9}.mio select,.mir input{width:100%;padding:7px;font-size:14px}.mck{flex-direction:row!important;align-items:center;gap:6px!important;font-size:13px!important}.mck input{width:20px!important;height:20px;accent-color:var(--g)}
-.mir{display:grid;grid-template-columns:auto repeat(3,minmax(70px,1fr));gap:8px;align-items:end}.mir .stp{margin:0}.mcont{font-size:12px;color:#5a6a64;align-self:center;grid-column:span 2}.mci{display:block;margin-top:6px;color:#0b6b4f;font-weight:600}
+.mps{margin:6px 0 12px}.ms{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}@media(min-width:560px){.ms{grid-template-columns:repeat(4,1fr)}}
+.ms span{background:linear-gradient(160deg,#f0faf5,#dff2e8);border:1px solid var(--bd);border-radius:14px;padding:9px 6px;text-align:center;font-size:12.5px}.ms b{display:block;font-size:21px;color:var(--g);line-height:1.2}.ms small{opacity:.7}
+.gst{font-weight:700;font-size:13.5px;margin-top:2px}.gt{font-size:9px;fill:#8a9791}
+.mpre{margin:10px 0}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.tpl{border:1px solid var(--g);background:#f4faf7;color:var(--g);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700}.tpl.clr{border-color:#e3b5b1;color:#b3261e;background:#fff}
+.mpe{background:#f6f9f8;border:1px dashed var(--bd);border-radius:14px;padding:16px;text-align:center;color:#5a6a64;margin:8px 0}
+.mi{position:relative;border:1px solid var(--bd);border-top:4px solid var(--c,#0b6b4f);border-radius:16px;padding:12px;margin:10px 0;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.05)}.mi.new{animation:pop .4s cubic-bezier(.3,1.4,.5,1) both}
+.mih{display:flex;align-items:center;gap:10px}.mih .ae{font-size:28px;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--c) 14%,#fff)}.mt{flex:1;min-width:0;line-height:1.3}.mt b{font-size:15px}.mt small{opacity:.65}
+.mx{width:32px;height:32px;padding:0;border-radius:50%;border:1px solid #efc9c5;background:#fff;color:#b3261e;font-size:14px;flex:none}
+.mio{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0 4px}.mio label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#4b5b55;min-width:0}.mio select{width:100%;padding:9px 8px;font-size:14px;border-radius:10px}
+.mck{flex-direction:row!important;align-items:center;gap:8px!important;font-size:13.5px!important;background:#f4f8f6;border-radius:10px;padding:8px 10px}.mck input{width:20px!important;height:20px;accent-color:var(--g);margin:0}
+.mst{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 8px}.sg{display:flex;flex-direction:column;align-items:center;gap:4px;background:#f6f9f8;border-radius:12px;padding:6px 2px;min-width:0}.sg small{font-size:11px;color:#4b5b55;text-align:center;line-height:1.2}
+.mst .stp{direction:ltr;display:flex;align-items:center;justify-content:center;gap:4px;margin:0}.mst .stp button{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--g);background:#fff;color:var(--g);font-size:18px;line-height:1}.mst .stp button:active{background:var(--g);color:#fff}.mst .stp em{min-width:24px;text-align:center;font-style:normal;font-weight:800;font-size:16px}
+.mcont{grid-column:span 2;align-self:center;text-align:center;font-size:12.5px;color:#0b6b4f;background:#e9f6f0;border-radius:12px;padding:12px 6px;font-weight:600}
+.mwt{display:flex;align-items:center;gap:10px}.mwt label{font-size:12px;color:#4b5b55;flex:1;min-width:0}.mwi{display:flex;align-items:center;gap:6px;flex:none;width:130px}.mwi input{width:100%;min-width:0;padding:8px;font-size:15px;text-align:center;border-radius:10px}.mwi span{font-size:12px;opacity:.7}
+.mci{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.mci span{background:#e9f6f0;color:#0b6b4f;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.mpadd{font-weight:800;font-size:16px;margin:14px 0 2px}.gh{margin:12px 0 6px;font-weight:800;font-size:13.5px;color:var(--c);display:flex;align-items:center;gap:6px}.gh::after{content:"";flex:1;height:2px;background:color-mix(in srgb,var(--c) 25%,transparent);border-radius:2px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tile{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid color-mix(in srgb,var(--c) 35%,#fff);background:color-mix(in srgb,var(--c) 6%,#fff);border-radius:14px;padding:10px 4px;min-width:0;transition:transform .15s}
+.tile i{font-style:normal;font-size:28px;line-height:1.1}.tile b{font-size:12.5px;color:#1d2b26;text-align:center;line-height:1.25}.tile small{font-size:10.5px;opacity:.6;text-align:center;line-height:1.2}.tile:active{transform:scale(.94);background:color-mix(in srgb,var(--c) 18%,#fff)}
 </style></head><body>
 <header id="hd"></header><main id="app"></main><footer id="ft"></footer><div id="mm" class="mm"></div><div id="tip" hidden></div><div id="lb" hidden data-a="lbx"></div>
 <script>
@@ -241,7 +254,7 @@ const U={qVer:['مواصفات مؤكدة','Specs verified'],qUnv:['مواصفا
 duelT:['معركة البطاريات (Battery duel)','Battery duel'],duelH:['الحرارة','Heat'],duelL:['العمر','Life'],duelC:['الشهادات','Certs'],duelK:['السعة','Capacity'],duelP:['سعر kWh','Price/kWh'],duelTie:['تعادل','Tie'],claimedL:['غير مؤكدة','unverified'],duelShare:['شارك النتيجة','Share result'],
 duelNote:['الأرقام من مواصفات التاجر، وتحقق دائماً من ورقة البيانات (datasheet).','Numbers come from dealer-entered specs; always check the datasheet.'],duel3:['المعركة بين أول بطاريتين مختارتين','The duel uses the first two selected'],
 mtT:['عدّاد بيتك (House power meter)','House power meter'],mtS:['أضف أجهزة بيتك واحداً واحداً: اختر الحجم والنوع (انفرتر أو عادي) وساعات التشغيل، وشاهد المنظومة المناسبة تتكوّن مباشرة.','Add your home appliances one by one: choose size, type (inverter or normal) and hours, and watch the matching system build up.'],
-mtAdd:['أضف جهازاً','Add a device'],mtPre:['أو ابدأ بنموذج جاهز وعدّله:','Or start from a template and edit it:'],mtClr:['مسح الكل','Clear all'],mtCont:['يعمل طوال الوقت','Runs all the time'],mtD:['ساعات نهاراً','Day hours'],mtN:['ساعات ليلاً','Night hours'],mtW:['واط لكل جهاز','Watts each'],
+mtAdd:['أضف جهازاً','Add a device'],mtPre:['أو ابدأ بنموذج جاهز وعدّله:','Or start from a template and edit it:'],mtClr:['مسح الكل','Clear all'],mtCont:['يعمل طوال الوقت','Runs all the time'],mtD:['نهاراً (ساعة)','Day (h)'],mtN:['ليلاً (ساعة)','Night (h)'],mtQty:['العدد (qty)','Qty'],mtW:['واط لكل جهاز (watts each)','Watts each'],
 mtEmpty:['لم تضف أجهزة بعد. اختر جهازاً من الأسفل أو ابدأ بنموذج جاهز.','No devices yet. Pick one below or start from a template.'],mtPeak:['أقصى حمل (peak load)','Peak load'],mtSurge:['ذروة الإقلاع (startup surge)','Startup surge'],mtSurge2:['لحظة تشغيل المحركات','when motors start'],mtDay:['طاقة النهار','Day energy'],mtNight:['طاقة الليل','Night energy'],
 mtNote:['الواطات تقديرية لمتوسط الأجهزة الشائعة في العراق، وتقدر تعدّل الواط والساعات لكل جهاز. نفترض أن 85% من الأحمال تعمل معاً، وأن الانفرتر يتحمل ضعف قدرته لثوانٍ عند تشغيل التكييف أو المضخة أو البراد.','Watts are typical estimates for common devices in Iraq; you can edit watts and hours per device. We assume 85% of loads run together and that the inverter tolerates twice its rating for a few seconds when an AC, pump or fridge starts.'],
 tplA:['شقة (Flat)','Flat'],tplB:['بيت متوسط (House)','Medium house'],tplC:['بيت كبير (Large house)','Large house'],
@@ -517,72 +530,77 @@ const duel=L=>{const A=L[0],B=L[1],a=duelVals(A),b=duelVals(B),ar=S.lang=='ar';
 /* ---------- v36: full appliance load calculator ---------- */
 const N=(a,b,c)=>[a,b,c];
 const MP={
- ac:{e:'❄️',a:['تكييف سبلت','Split AC'],hd:6,hn:6,opts:[{k:'size',a:['الحجم','Size'],d:'1.5',v:[N('1','1 طن','1 ton'),N('1.5','1.5 طن','1.5 ton'),N('2','2 طن','2 ton'),N('2.5','2.5 طن','2.5 ton'),N('3','3 طن','3 ton'),N('4','4 طن','4 ton'),N('5','5 طن','5 ton')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:0}],
+ ac:{e:'❄️',a:['تكييف سبلت','Split AC'],opts:[{k:'size',a:['الحجم','Size'],d:'1.5',v:[N('1','1 طن','1 ton'),N('1.5','1.5 طن','1.5 ton'),N('2','2 طن','2 ton'),N('2.5','2.5 طن','2.5 ton'),N('3','3 طن','3 ton'),N('4','4 طن','4 ton'),N('5','5 طن','5 ton')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:0}],
   spec:o=>{const b={1:1200,1.5:1700,2:2300,2.5:2900,3:3500,4:4600,5:5700}[o.size]||1700;return +o.inv?{W:b*.85,duty:.6,sg:1.3}:{W:b,duty:.8,sg:3.5}}},
  cool:{e:'🧊',a:['براد / فريزر','Fridge / freezer'],cont:1,opts:[{k:'type',a:['النوع','Type'],d:'combo',v:[N('combo','براد + فريزر معاً','Fridge + freezer together'),N('fridge','براد فقط','Fridge only'),N('freezer','فريزر فقط','Freezer only')]},{k:'size',a:['الحجم','Size'],d:'m',v:[N('s','صغير (أقل من 250 لتر)','Small (<250 L)'),N('m','وسط (250 – 450 لتر)','Medium (250–450 L)'),N('l','كبير (أكثر من 450 لتر)','Large (>450 L)')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:0}],
   spec:o=>{const T={fridge:{s:80,m:120,l:180},combo:{s:100,m:150,l:230},freezer:{s:100,m:150,l:250}}[o.type||'combo'][o.size||'m'];return +o.inv?{W:T*.7,duty:.55,sg:1.5}:{W:T,duty:.5,sg:4}}},
- tv:{e:'📺',a:['تلفزيون','TV'],hd:2,hn:5,opts:[{k:'size',a:['الحجم (إنج)','Size (inch)'],d:'55',v:['32','43','50','55','65','75','85'].map(x=>N(x,x+'"',x+'"'))},{k:'panel',a:['نوع الشاشة','Panel'],d:'led',v:[N('led','LED / LCD','LED / LCD'),N('oled','OLED','OLED')]}],
+ tv:{e:'📺',a:['تلفزيون','TV'],opts:[{k:'size',a:['الحجم (إنج)','Size (inch)'],d:'55',v:['32','43','50','55','65','75','85'].map(x=>N(x,x+'"',x+'"'))},{k:'panel',a:['نوع الشاشة','Panel'],d:'led',v:[N('led','LED / LCD','LED / LCD'),N('oled','OLED','OLED')]}],
   spec:o=>{const b={32:40,43:60,50:80,55:95,65:125,75:165,85:210}[o.size]||95;return{W:o.panel=='oled'?b*1.3:b,duty:1,sg:1}}},
- rcv:{e:'📡',a:['ريسيفر / ستالايت','Receiver'],hd:2,hn:5,W:15},
- game:{e:'🎮',a:['بلايستيشن / إكس بوكس','Game console'],hd:1,hn:3,opts:[{k:'c',a:['الجهاز','Console'],d:'ps5',v:[N('ps5','PlayStation 5','PlayStation 5'),N('xsx','Xbox Series X','Xbox Series X'),N('xss','Xbox Series S','Xbox Series S'),N('ps4','PlayStation 4','PlayStation 4')]}],spec:o=>({W:{ps5:200,xsx:200,xss:90,ps4:140}[o.c]||200,duty:1,sg:1})},
- fan:{e:'🌀',a:['مروحة','Fan'],hd:6,hn:8,opts:[{k:'t',a:['النوع','Type'],d:'ceil',v:[N('ceil','سقفية','Ceiling'),N('stand','واقفة','Stand'),N('tower','برج','Tower')]}],spec:o=>({W:{ceil:70,stand:55,tower:45}[o.t]||70,duty:1,sg:1.5})},
- lt:{e:'💡',a:['إنارة LED','LED lights'],hd:0,hn:6,opts:[{k:'w',a:['واط للّمبة','Watts per bulb'],d:'10',v:[N('5','5 واط','5 W'),N('10','10 واط','10 W'),N('15','15 واط','15 W'),N('30','30 واط (كشاف)','30 W (flood)')]}],spec:o=>({W:+o.w||10,duty:1,sg:1})},
- heat:{e:'🔥',a:['مدفأة كهربائية','Electric heater'],hd:2,hn:4,opts:[{k:'t',a:['النوع','Type'],d:'lamp',v:[N('lamp','مدفأة لمبات (كوارتز)','Quartz lamp heater'),N('fan','مدفأة هوائية','Fan heater'),N('oil','مدفأة زيتية','Oil radiator')]},{k:'l',a:['عدد اللمبات','Lamps'],d:'2',show:o=>o.t=='lamp',v:[N('1','لمبة واحدة','1 lamp'),N('2','لمبتان','2 lamps'),N('3','3 لمبات','3 lamps')]}],
+ game:{e:'🎮',a:['بلايستيشن / إكس بوكس','Game console'],opts:[{k:'c',a:['الجهاز','Console'],d:'ps5',v:[N('ps5','PlayStation 5','PlayStation 5'),N('xsx','Xbox Series X','Xbox Series X'),N('xss','Xbox Series S','Xbox Series S'),N('ps4','PlayStation 4','PlayStation 4')]}],spec:o=>({W:{ps5:200,xsx:200,xss:90,ps4:140}[o.c]||200,duty:1,sg:1})},
+ fan:{e:'🌀',a:['مروحة','Fan'],opts:[{k:'t',a:['النوع','Type'],d:'ceil',v:[N('ceil','سقفية','Ceiling'),N('stand','واقفة','Stand'),N('tower','برج','Tower')]}],spec:o=>({W:{ceil:70,stand:55,tower:45}[o.t]||70,duty:1,sg:1.5})},
+ lt:{e:'💡',a:['إنارة LED','LED lights'],opts:[{k:'w',a:['واط للّمبة','Watts per bulb'],d:'10',v:[N('5','5 واط','5 W'),N('10','10 واط','10 W'),N('15','15 واط','15 W'),N('30','30 واط (كشاف)','30 W (flood)')]}],spec:o=>({W:+o.w||10,duty:1,sg:1})},
+ heat:{e:'🔥',a:['مدفأة كهربائية','Electric heater'],opts:[{k:'t',a:['النوع','Type'],d:'lamp',v:[N('lamp','مدفأة لمبات (كوارتز)','Quartz lamp heater'),N('fan','مدفأة هوائية','Fan heater'),N('oil','مدفأة زيتية','Oil radiator')]},{k:'l',a:['عدد اللمبات','Lamps'],d:'2',show:o=>o.t=='lamp',v:[N('1','لمبة واحدة','1 lamp'),N('2','لمبتان','2 lamps'),N('3','3 لمبات','3 lamps')]}],
   spec:o=>o.t=='fan'?{W:2000,duty:.7,sg:1}:o.t=='oil'?{W:1500,duty:.6,sg:1}:{W:500*(+o.l||2),duty:1,sg:1}},
- pump:{e:'🚿',a:['مضخة ماء','Water pump'],hd:1,hn:0,opts:[{k:'hp',a:['القدرة','Power'],d:'1',v:[N('0.5','½ حصان','0.5 HP'),N('0.75','¾ حصان','0.75 HP'),N('1','1 حصان','1 HP'),N('1.5','1.5 حصان','1.5 HP'),N('2','2 حصان','2 HP')]}],spec:o=>({W:(+o.hp||1)*746/0.7,duty:1,sg:3.5})},
- wm:{e:'🧺',a:['غسالة أوتوماتيك','Washing machine'],hd:1,hn:0,W:2000,duty:.35,sg:1.5},
- micro:{e:'🍲',a:['مايكرويف','Microwave'],hd:.3,hn:.2,W:1200,duty:.8,sg:1},
- kettle:{e:'☕',a:['غلاية كهربائية','Electric kettle'],hd:.3,hn:.2,W:2000,duty:1,sg:1},
- iron:{e:'👔',a:['مكواة','Iron'],hd:.5,hn:0,W:1200,duty:.6,sg:1},
- boiler:{e:'🛁',a:['سخان ماء كهربائي','Water heater'],hd:1,hn:1,W:1500,duty:.5,sg:1},
- pc:{e:'💻',a:['كمبيوتر / لابتوب','Computer'],hd:4,hn:3,opts:[{k:'t',a:['النوع','Type'],d:'lap',v:[N('lap','لابتوب','Laptop'),N('pc','كمبيوتر مكتبي','Desktop PC')]}],spec:o=>({W:o.t=='pc'?250:60,duty:1,sg:1})},
+ pump:{e:'🚿',a:['مضخة ماء','Water pump'],opts:[{k:'hp',a:['القدرة','Power'],d:'1',v:[N('0.5','½ حصان','0.5 HP'),N('0.75','¾ حصان','0.75 HP'),N('1','1 حصان','1 HP'),N('1.5','1.5 حصان','1.5 HP'),N('2','2 حصان','2 HP'),N('3','3 حصان','3 HP')]}],spec:o=>({W:(+o.hp||1)*746/0.7,duty:1,sg:3.5})},
+ wm:{e:'🧺',a:['غسالة أوتوماتيك','Washing machine'],W:2000,duty:.35,sg:1.5},
+ micro:{e:'🍲',a:['مايكرويف','Microwave'],W:1200,duty:.8,sg:1},
+ kettle:{e:'☕',a:['غلاية كهربائية','Electric kettle'],W:2000,duty:1,sg:1},
+ iron:{e:'👔',a:['مكواة','Iron'],W:1200,duty:.6,sg:1},
+ boiler:{e:'🛁',a:['سخان ماء كهربائي','Water heater'],W:1500,duty:.5,sg:1},
+ pc:{e:'💻',a:['كمبيوتر / لابتوب','Computer'],opts:[{k:'t',a:['النوع','Type'],d:'lap',v:[N('lap','لابتوب','Laptop'),N('pc','كمبيوتر مكتبي','Desktop PC')]}],spec:o=>({W:o.t=='pc'?250:60,duty:1,sg:1})},
  rt:{e:'📶',a:['راوتر إنترنت','Wi-Fi router'],cont:1,W:12,duty:1,sg:1},
- other:{e:'🔌',a:['جهاز آخر','Other device'],hd:2,hn:2,W:500,duty:1,sg:1}};
+ other:{e:'🔌',a:['جهاز آخر','Other device'],W:500,duty:1,sg:1}};
 const mpName=d=>S.lang=='ar'?`${d.a[0]} (${d.a[1]})`:d.a[1];
 const mpOpt=(o,a)=>S.lang=='ar'?`${a[0]} (${a[1]})`:a[1];
 const mpV=v=>S.lang=='ar'?v[1]:v[2];
+const GRP=[{ic:'❄️',c:'#2f78a8',a:['التبريد والتكييف','Cooling'],ks:['ac','cool','fan']},{ic:'💧',c:'#0e8a9c',a:['الماء','Water'],ks:['pump','boiler']},{ic:'🎮',c:'#7a52b3',a:['الترفيه والإلكترونيات','Entertainment'],ks:['tv','game','pc']},{ic:'💡',c:'#d89a14',a:['الإنارة والتدفئة','Lights & heating'],ks:['lt','heat']},{ic:'🏠',c:'#4d7a63',a:['المنزل والمطبخ','Home & kitchen'],ks:['wm','micro','kettle','iron','rt','other']}];
+const mpCol=k=>(GRP.find(g=>g.ks.includes(k))||{}).c||'#0b6b4f';
 S.mp={items:[],on:0};try{const j=JSON.parse(localStorage.getItem('solar_mp1')||'null');if(j&&Array.isArray(j.items))S.mp.items=j.items.filter(i=>MP[i.k]&&i.o)}catch(_){}
 const mpSave=()=>{try{localStorage.setItem('solar_mp1',JSON.stringify({items:S.mp.items}))}catch(_){}};
 const mpSpec=it=>{const d=MP[it.k],s=d.spec?d.spec(it.o):{W:d.W,duty:d.duty==null?1:d.duty,sg:d.sg==null?1:d.sg};return{W:it.w>0?it.w:s.W,duty:s.duty,sg:s.sg}};
 const gh=()=>{const f=$('#calc');return[+(f&&f.elements.dayH.value)||6,+(f&&f.elements.nightH.value)||8]};
-const mpNew=(k,o2,n)=>{const d=MP[k],o={};(d.opts||[]).forEach(op=>{o[op.k]=op.chk?(op.d?1:0):op.d});return{id:'i'+Math.random().toString(36).slice(2,8),k,o:Object.assign(o,o2||{}),n:n||1,hd:d.cont?null:d.hd,hn:d.cont?null:d.hn,w:null}};
+const mpNew=(k,o2,n,hd,hn)=>{const d=MP[k],o={};(d.opts||[]).forEach(op=>{o[op.k]=op.chk?(op.d?1:0):op.d});return{id:'i'+Math.random().toString(36).slice(2,8),k,o:Object.assign(o,o2||{}),n:n||1,hd:d.cont?null:(hd==null?1:hd),hn:d.cont?null:(hn==null?1:hn),w:null}};
+const mpH=(it,f)=>it[f]==null?1:it[f];
 function mpCompute(){const g=gh();let eD=0,eN=0,pD=0,pN=0,ex=0;
- S.mp.items.forEach(it=>{const sp=mpSpec(it),d=MP[it.k],hd=d.cont?g[0]:(it.hd==null?d.hd:it.hd),hn=d.cont?g[1]:(it.hn==null?d.hn:it.hn),w=it.n*sp.W;
+ S.mp.items.forEach(it=>{const sp=mpSpec(it),d=MP[it.k],hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W;
   eD+=w*sp.duty*hd/1000;eN+=w*sp.duty*hn/1000;if(hd>0)pD+=w;if(hn>0)pN+=w;ex=Math.max(ex,sp.W*(sp.sg-1))});
  const DIV=.85,peak=Math.max(pD,pN)*DIV;
  return S.mp.r={eD,eN,peak:peak/1000,ex:ex/1000,need:Math.max(peak*1.2,(peak+ex)/2)/1000,avgD:eD*1000/g[0]}}
-const mpInfo=it=>{const sp=mpSpec(it),d=MP[it.k],g=gh(),hd=d.cont?g[0]:(it.hd==null?d.hd:it.hd),hn=d.cont?g[1]:(it.hn==null?d.hn:it.hn),w=it.n*sp.W;
- return `≈ ${(w/220).toFixed(1)} A · ${(w/1000).toFixed(2)} kW · ${(w*sp.duty*(hd+hn)/1000).toFixed(1)} kWh/${S.lang=='ar'?'يوم':'day'}`};
-const mpRow=it=>{const d=MP[it.k],sp=mpSpec({...it,w:null});
- const opts=(d.opts||[]).filter(op=>!op.show||op.show(it.o)).map(op=>op.chk?`<label class=mck><input type=checkbox data-mp="o:${op.k}" data-id=${it.id} ${+it.o[op.k]?'checked':''}> ${mpOpt(0,op.a)}</label>`:
-  `<label>${mpOpt(0,op.a)}<select data-mp="o:${op.k}" data-id=${it.id}>${op.v.map(v=>`<option value="${v[0]}" ${String(it.o[op.k])==String(v[0])?'selected':''}>${esc(mpV(v))}</option>`).join('')}</select></label>`).join('');
- const hr=(f,ic,k)=>`<label>${ic} ${t(k)}<input type=number min=0 max=24 step=.5 inputmode=decimal data-mp=${f} data-id=${it.id} value="${it[f]==null?d[f]:it[f]}"></label>`;
- return `<div class=mi id=mi-${it.id}><div class=mih><span class=ae>${d.e}</span><b>${mpName(d)}</b><button type=button class=mx data-a=mpdel data-id=${it.id} aria-label=remove>✕</button></div>${opts?`<div class=mio>${opts}</div>`:''}
- <div class=mir><div class=stp><button type=button data-a=mpstep data-id=${it.id} data-d=-1 aria-label="-">−</button><em>${it.n}</em><button type=button data-a=mpstep data-id=${it.id} data-d=1 aria-label="+">+</button></div>
- ${d.cont?`<span class=mcont>∞ ${t('mtCont')}</span>`:hr('hd','☀️','mtD')+hr('hn','🌙','mtN')}
- <label>⚡ ${t('mtW')}<input type=number min=0 step=10 inputmode=numeric data-mp=w data-id=${it.id} placeholder="${Math.round(sp.W)}" value="${it.w||''}"></label></div><small class=mci id=mc-${it.id}>${mpInfo(it)}</small></div>`};
-const mpListHtml=()=>S.mp.items.length?S.mp.items.map(mpRow).join(''):`<p class=note>${t('mtEmpty')}</p>`;
+const mpInfo=it=>{const sp=mpSpec(it),d=MP[it.k],g=gh(),hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W;
+ return `<span>⚡ ${(w/220).toFixed(1)} A</span><span>🔌 ${(w/1000).toFixed(2)} kW</span><span>🔋 ${(w*sp.duty*(hd+hn)/1000).toFixed(1)} kWh/${S.lang=='ar'?'يوم':'day'}</span>`};
+const stp=(lb,vid,val,a)=>`<div class=sg><small>${lb}</small><div class=stp><button type=button ${a} data-d=-1 aria-label="-">−</button><em id=${vid}>${val}</em><button type=button ${a} data-d=1 aria-label="+">+</button></div></div>`;
+const mpRow=it=>{const d=MP[it.k],sp=mpSpec({...it,w:null}),id=it.id;
+ const opts=(d.opts||[]).filter(op=>!op.show||op.show(it.o)).map(op=>op.chk?`<label class=mck><input type=checkbox data-mp="o:${op.k}" data-id=${id} ${+it.o[op.k]?'checked':''}> ${mpOpt(0,op.a)}</label>`:
+  `<label>${mpOpt(0,op.a)}<select data-mp="o:${op.k}" data-id=${id}>${op.v.map(v=>`<option value="${v[0]}" ${String(it.o[op.k])==String(v[0])?'selected':''}>${esc(mpV(v))}</option>`).join('')}</select></label>`).join('');
+ return `<div class=mi id=mi-${id} style="--c:${mpCol(it.k)}"><div class=mih><span class=ae>${d.e}</span><div class=mt><b>${S.lang=='ar'?d.a[0]:d.a[1]}</b>${S.lang=='ar'?` <small>(${d.a[1]})</small>`:''}</div><button type=button class=mx data-a=mpdel data-id=${id} aria-label=remove>✕</button></div>
+ ${opts?`<div class=mio>${opts}</div>`:''}
+ <div class=mst>${stp(t('mtQty'),'qv-'+id,it.n,`data-a=mpstep data-id=${id}`)}${d.cont?`<div class=mcont>∞ ${t('mtCont')}</div>`:stp('☀️ '+t('mtD'),`hv-${id}-hd`,mpH(it,'hd'),`data-a=mph data-f=hd data-id=${id}`)+stp('🌙 '+t('mtN'),`hv-${id}-hn`,mpH(it,'hn'),`data-a=mph data-f=hn data-id=${id}`)}</div>
+ <div class=mwt><label>⚡ ${t('mtW')}</label><div class=mwi><input type=number min=0 step=10 inputmode=numeric data-mp=w data-id=${id} placeholder="${Math.round(sp.W)}" value="${it.w||''}"><span>W</span></div></div>
+ <div class=mci id=mc-${id}>${mpInfo(it)}</div></div>`};
+const mpListHtml=()=>S.mp.items.length?S.mp.items.map(mpRow).join(''):`<p class=mpe>${t('mtEmpty')}</p>`;
 const mpList=()=>{const l=$('#mpList');if(l)l.innerHTML=mpListHtml()};
-const TPL={flat:[['ac',{size:'1.5'},1],['cool',{type:'combo',size:'m'},1],['tv',{size:'43'},1],['rcv',{},1],['fan',{},2],['lt',{w:'10'},8],['rt',{},1]],
- house:[['ac',{size:'1.5'},2],['ac',{size:'2'},1],['cool',{type:'fridge',size:'m'},1],['cool',{type:'freezer',size:'m'},1],['tv',{size:'55'},1],['tv',{size:'43'},1],['rcv',{},1],['fan',{},4],['lt',{w:'10'},15],['pump',{hp:'1'},1],['wm',{},1],['rt',{},1]],
- big:[['ac',{size:'2',inv:1},3],['ac',{size:'1.5',inv:1},2],['cool',{type:'combo',size:'l',inv:1},2],['cool',{type:'freezer',size:'m'},1],['tv',{size:'65',panel:'oled'},1],['tv',{size:'55'},1],['game',{c:'ps5'},1],['fan',{},5],['lt',{w:'10'},25],['pump',{hp:'1.5'},1],['wm',{},1],['boiler',{},1],['pc',{t:'pc'},1],['rt',{},1]]};
-const meter=()=>{if(S.mp.items.length)setTimeout(meterApply,0);
+const TPL={flat:[['ac',{size:'1.5'},1,6,6],['cool',{type:'combo',size:'m'},1],['tv',{size:'43'},1,2,4],['fan',{},2,6,8],['lt',{w:'10'},8,0,6],['rt',{},1]],
+ house:[['ac',{size:'1.5'},2,6,6],['ac',{size:'2'},1,4,6],['cool',{type:'fridge',size:'m'},1],['cool',{type:'freezer',size:'m'},1],['tv',{size:'55'},1,2,4],['tv',{size:'43'},1,2,3],['fan',{},4,6,8],['lt',{w:'10'},15,0,6],['pump',{hp:'1'},1,1,0],['wm',{},1,1,0],['rt',{},1]],
+ big:[['ac',{size:'2',inv:1},3,6,8],['ac',{size:'1.5',inv:1},2,6,6],['cool',{type:'combo',size:'l',inv:1},2],['cool',{type:'freezer',size:'m'},1],['tv',{size:'65',panel:'oled'},1,3,5],['tv',{size:'55'},1,2,3],['game',{c:'ps5'},1,1,3],['fan',{},5,6,8],['lt',{w:'10'},25,0,6],['pump',{hp:'1.5'},1,1,0],['wm',{},1,1,0],['boiler',{},1,1,1],['pc',{t:'pc'},1,4,3],['rt',{},1]]};
+const meter=()=>{if(S.mp.items.length)setTimeout(meterApply,0);const ar=S.lang=='ar';
  return `<section class="meter rv"><h3>⚡ ${t('mtT')}</h3><p class=note>${t('mtS')}</p>
- <div class=mg><svg viewBox="0 0 200 118" class=gauge aria-hidden=true><defs><linearGradient id=gg x1=0 x2=1 y1=0 y2=0><stop offset=0 stop-color="#1fa273"/><stop offset=.6 stop-color="#f2b84b"/><stop offset=1 stop-color="#d9534f"/></linearGradient></defs>
- <path class=gbg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 /><path id=gfg class=gfg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 stroke="url(#gg)" stroke-dasharray="0 100"/><text id=gkw x=100 y=86 text-anchor=middle data-v=0>0</text><text x=100 y=106 text-anchor=middle class=gu>kW</text></svg><div id=gam>0 A</div></div>
+ <div class=mg><svg viewBox="0 0 200 122" class=gauge aria-hidden=true><defs><linearGradient id=gg x1=0 x2=1 y1=0 y2=0><stop offset=0 stop-color="#1fa273"/><stop offset=.6 stop-color="#f2b84b"/><stop offset=1 stop-color="#d9534f"/></linearGradient></defs>
+ <path class=gbg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 /><path id=gfg class=gfg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 stroke="url(#gg)" stroke-dasharray="0 100"/><text id=gkw x=100 y=84 text-anchor=middle data-v=0>0</text><text x=100 y=102 text-anchor=middle class=gu>kW</text><text x=20 y=118 text-anchor=middle class=gt>0</text><text x=180 y=118 text-anchor=middle class=gt>15+</text></svg><div id=gam>0 A</div><div id=gst class=gst></div></div>
  <div id=mpSum class=mps></div>
- <div class=mpre><small>${t('mtPre')}</small><div class=chips><button type=button class=tpl data-a=mptpl data-k=flat>🏢 ${t('tplA')}</button><button type=button class=tpl data-a=mptpl data-k=house>🏠 ${t('tplB')}</button><button type=button class=tpl data-a=mptpl data-k=big>🏰 ${t('tplC')}</button><button type=button class=tpl data-a=mpclr>🗑 ${t('mtClr')}</button></div></div>
+ <div class=mpre><small>${t('mtPre')}</small><div class=chips><button type=button class=tpl data-a=mptpl data-k=flat>🏢 ${t('tplA')}</button><button type=button class=tpl data-a=mptpl data-k=house>🏠 ${t('tplB')}</button><button type=button class=tpl data-a=mptpl data-k=big>🏰 ${t('tplC')}</button><button type=button class="tpl clr" data-a=mpclr>🗑 ${t('mtClr')}</button></div></div>
  <div id=mpList>${mpListHtml()}</div>
- <b class=mpadd>➕ ${t('mtAdd')}</b><div class=chips>${Object.keys(MP).map(k=>`<button type=button class=chip data-a=mpadd data-k=${k}>${MP[k].e} ${mpName(MP[k])}</button>`).join('')}</div>
+ <div class=mpadd>➕ ${t('mtAdd')}</div>
+ ${GRP.map(g=>`<div class=gh style="--c:${g.c}">${g.ic} ${ar?`${g.a[0]} (${g.a[1]})`:g.a[1]}</div><div class=tiles>${g.ks.map(k=>`<button type=button class=tile data-a=mpadd data-k=${k} style="--c:${g.c}"><i>${MP[k].e}</i><b>${ar?MP[k].a[0]:MP[k].a[1]}</b>${ar?`<small>${MP[k].a[1]}</small>`:''}</button>`).join('')}</div>`).join('')}
  <p class=note>${t('mtNote')}</p><div id=stk></div></section>`};
 function meterApply(){const f=$('#calc');if(!f)return;const I=S.mp.items;S.mp.on=I.length?1:0;
  if(I.length){const r=mpCompute(),g=gh();f.elements.dayA.value=+(r.eD*1000/220/g[0]).toFixed(1);f.elements.nightA.value=+(r.eN*1000/220/g[1]).toFixed(1)}calcRun()}
 function mpEdit(el,re){const it=S.mp.items.find(x=>x.id==el.dataset.id);if(!it)return;const f=el.dataset.mp;
  if(f.startsWith('o:'))it.o[f.slice(2)]=el.type=='checkbox'?(el.checked?1:0):el.value;else it[f]=el.value===''?null:+el.value;
- mpSave();if(re)mpList();else{const c=$('#mc-'+it.id);if(c)c.textContent=mpInfo(it)}meterApply()}
+ mpSave();if(re)mpList();else{const c=$('#mc-'+it.id);if(c)c.innerHTML=mpInfo(it)}meterApply()}
 document.addEventListener('change',e=>{const el=e.target;if(el.dataset&&el.dataset.mp)mpEdit(el,1)});
 document.addEventListener('input',e=>{const el=e.target;if(el.dataset&&el.dataset.mp&&el.type=='number')mpEdit(el,0)});
-function meterUpd(){const c=S.cr;if(!c||!$('#gfg'))return;const kw=c.peak||0;$('#gfg').setAttribute('stroke-dasharray',`${Math.min(100,kw/15*100).toFixed(1)} 100`);tween($('#gkw'),kw,1);$('#gam').textContent=`${Math.round(kw*1000/220)} A`;
+function meterUpd(){const c=S.cr;if(!c||!$('#gfg'))return;const kw=c.peak||0,ar=S.lang=='ar';$('#gfg').setAttribute('stroke-dasharray',`${Math.min(100,kw/15*100).toFixed(1)} 100`);tween($('#gkw'),kw,1);$('#gam').textContent=`${Math.round(kw*1000/220)} A`;
+ const gs=$('#gst');if(gs){const lv=kw<4?0:kw<10?1:2;gs.textContent=['🟢 '+(ar?'حمل خفيف (light load)':'Light load'),'🟡 '+(ar?'حمل متوسط (medium load)':'Medium load'),'🔴 '+(ar?'حمل كبير (heavy load)':'Heavy load')][lv]}
  const r=c.mp&&S.mp.r,sm=$('#mpSum');if(sm)sm.innerHTML=r?`<div class=ms><span>🔌 ${t('mtPeak')}<b>${r.peak.toFixed(1)} kW</b><small>${Math.round(r.peak*1000/220)} A</small></span><span>⚡ ${t('mtSurge')}<b>${(r.peak+r.ex).toFixed(1)} kW</b><small>${t('mtSurge2')}</small></span><span>☀️ ${t('mtDay')}<b>${r.eD.toFixed(1)}</b><small>kWh</small></span><span>🌙 ${t('mtNight')}<b>${r.eN.toFixed(1)}</b><small>kWh</small></span></div>`:'';
  const key=[c.panels,c.inv,c.mods].join('|');if(S.mk===key)return;S.mk=key;
  const ic=(e,n,m)=>Array.from({length:Math.min(n,m)},(_,i)=>`<span style="--i:${i}">${e}</span>`).join('')+(n>m?`<small>+${n-m}</small>`:''),
@@ -725,7 +743,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v36</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v37</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -761,10 +779,11 @@ const A={
  lbu:d=>{const p=S.prods.find(x=>x.id==d.g),l=S.gal[d.g]||(p&&p.thumb?[p.thumb]:[]);if(!l.length)return;S.lbL=l;S.lbI=+d.i||0;showLb()},
  tgtest:async()=>{toast('...');const r=await tgSend('✅ اختبار: تنبيهات سوق الطاقة الشمسية تعمل / Test: alerts work');toast(r.ok?(S.lang=='ar'?'تم الإرسال، افتح تيليجرام':'Sent, check Telegram'):('Telegram: '+(r.description||'error')))},
  ql:d=>qlOpen(d.id),qlx:()=>qlClose(),qlgo:d=>{qlClose();go('p-'+d.id)},
- mpadd:d=>{const it=mpNew(d.k);S.mp.items.push(it);mpSave();mpList();meterApply();setTimeout(()=>$('#mi-'+it.id)?.scrollIntoView({behavior:'smooth',block:'center'}),50)},
+ mpadd:d=>{const it=mpNew(d.k);S.mp.items.push(it);mpSave();mpList();$('#mi-'+it.id)?.classList.add('new');meterApply();setTimeout(()=>$('#mi-'+it.id)?.scrollIntoView({behavior:'smooth',block:'center'}),50)},
  mpdel:d=>{S.mp.items=S.mp.items.filter(x=>x.id!=d.id);mpSave();mpList();meterApply()},
- mpstep:d=>{const it=S.mp.items.find(x=>x.id==d.id);if(!it)return;it.n=Math.max(1,Math.min(it.k=='lt'?99:20,it.n+ +d.d));mpSave();mpList();meterApply()},
- mptpl:d=>{S.mp.items=TPL[d.k].map(x=>mpNew(x[0],x[1],x[2]));mpSave();mpList();meterApply();$('#mpSum')?.scrollIntoView({behavior:'smooth',block:'center'})},
+ mpstep:d=>{const it=S.mp.items.find(x=>x.id==d.id);if(!it)return;it.n=Math.max(1,Math.min(it.k=='lt'?99:20,it.n+ +d.d));mpSave();$('#qv-'+it.id).textContent=it.n;$('#mc-'+it.id).innerHTML=mpInfo(it);meterApply()},
+ mph:d=>{const it=S.mp.items.find(x=>x.id==d.id);if(!it)return;it[d.f]=Math.max(0,Math.min(24,mpH(it,d.f)+ +d.d));mpSave();$('#hv-'+it.id+'-'+d.f).textContent=it[d.f];$('#mc-'+it.id).innerHTML=mpInfo(it);meterApply()},
+ mptpl:d=>{S.mp.items=TPL[d.k].map(x=>mpNew(x[0],x[1],x[2],x[3],x[4]));mpSave();mpList();meterApply();$('#mpSum')?.scrollIntoView({behavior:'smooth',block:'center'})},
  mpclr:()=>{S.mp.items=[];mpSave();mpList();meterApply()},
  lbd:d=>{const l=((S.users.find(x=>x.id==d.g)||{}).photos||[]).slice(0,4);if(!l.length)return;S.lbL=l;S.lbI=+d.i||0;showLb()},
  lbn:d=>{const n=S.lbL.length;S.lbI=(S.lbI+ +d.n+n)%n;showLb()},
