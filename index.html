@@ -436,18 +436,20 @@ addEventListener('hashchange',route);
 function tween(el,to,dec=0){if(!el)return;const from=parseFloat(el.dataset.v)||0;el.dataset.v=to;if(reduced()){el.textContent=to.toFixed(dec);return}
  const t0=performance.now();(function s(n){const p=Math.min(1,(n-t0)/450),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(p<1)requestAnimationFrame(s)})(t0)}
 /* Iraqi-style sizing: amps @220V, day load runs from panels, night load from batteries */
+function batPlan(b){let n16=0,n5=0;if(b>0){if(b<=10.24)n5=Math.ceil(b/5.12-1e-9);else{n16=Math.floor(b/16);const r=b-n16*16;if(r>0.3){if(r<=5.12)n5=1;else n16++}}}
+ const a=S.lang=='ar',p=[];if(n16)p.push(`${n16} × 16 kWh`);if(n5)p.push(`${n5} × 5.12 kWh`);return{n16,n5,txt:p.join(' + ')||'—'}}
 function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','dayH','nightH','sunH','pw','bv'];
  S.calc=Object.fromEntries(K.map(k=>[k,f.elements[k].value]));S.calc.city=f.elements.city.value;
  const [dA,nA,dH,nH,sun,pw,bv]=K.map(k=>Math.max(0,parseFloat(f.elements[k].value)||0));
  const mp=S.mp&&S.mp.on&&S.mp.items.length?mpCompute():null,eD=mp?mp.eD:dA*220*dH/1000,eN=mp?mp.eN:nA*220*nH/1000,bat=eN/0.9/0.9,pvW=Math.max((eD+eN)/0.85*1000/(sun||1),mp?mp.avgD*1.15:dA*220*1.15),
   panels=pw?Math.ceil(pvW/pw):0,load=mp?mp.peak:Math.max(dA,nA)*220/1000,need=mp?mp.need:load*1.25,
-  inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0,mods=Math.ceil(bat/5.12-1e-9);
+  inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0,bp=batPlan(bat),mods=bp.n16+bp.n5;
  tween($('#oP'),panels);tween($('#oI'),inv);tween($('#oB'),bat,1);
  $('#oP2').textContent=`${(panels*pw/1000).toFixed(1)} kWp`;
  $('#oI2').textContent=`${t('peak')}: ${load.toFixed(1)} kW`;
- $('#oB2').textContent=bat?`${mods} × 5.12 kWh · ${Math.round(bat*1000/(bv||48))} Ah @ ${bv}V`:'—';
+ $('#oB2').textContent=bat?`${bp.txt} · ${Math.round(bat*1000/(bv||48))} Ah @ ${bv}V`:'—';
  $('#oE').textContent=`${t('eDay')}: ${eD.toFixed(1)} kWh · ${t('eNight')}: ${eN.toFixed(1)} kWh`;
- S.cr={peak:load,mp:!!mp,dA,nA,dH,nH,panels,kwp:panels*pw/1000,inv,bat,mods,bv:bv||48,pvW,load:need};
+ S.cr={peak:load,mp:!!mp,dA,nA,dH,nH,panels,kwp:panels*pw/1000,inv,bat,mods,bp,bv:bv||48,pvW,load:need};
  $('#oM').innerHTML=matches(S.cr,S.calc.city||'');$('#oSend').href=waLink(null,S.cr);meterUpd()}
 function slide(i){const tr=$('#tr');if(!tr)return;const n=tr.children.length;S.si=(i+n)%n;tr.style.transform=`translateX(${(S.lang=='ar'?1:-1)*S.si*100}%)`;[...tr.children].forEach((c,j)=>c.classList.toggle('act',j==S.si));$$('.dots i').forEach((d,j)=>d.classList.toggle('on',j==S.si))}
 function initSlider(){clearInterval(S.tm);const tr=$('#tr');if(!tr)return;slide(S.si);
@@ -606,10 +608,10 @@ document.addEventListener('input',e=>{const el=e.target;if(el.dataset&&el.datase
 function meterUpd(){const c=S.cr;if(!c||!$('#gfg'))return;const kw=c.peak||0,ar=S.lang=='ar';$('#gfg').setAttribute('stroke-dasharray',`${Math.min(100,kw/15*100).toFixed(1)} 100`);tween($('#gkw'),kw,1);$('#gam').textContent=`${Math.round(kw*1000/220)} A`;
  const gs=$('#gst');if(gs){const lv=kw<4?0:kw<10?1:2;gs.textContent=['🟢 '+(ar?'حمل خفيف (light load)':'Light load'),'🟡 '+(ar?'حمل متوسط (medium load)':'Medium load'),'🔴 '+(ar?'حمل كبير (heavy load)':'Heavy load')][lv]}
  const r=c.mp&&S.mp.r,sm=$('#mpSum'),tt=$('#mpTot');if(tt)tt.innerHTML=r&&S.mp.items.length?`<div class=mtot>📊 ${t('mtTot')}: <span>🛒 ${S.mp.items.length}</span><span>🔌 <b>${r.peak.toFixed(1)}</b> kW</span><span>🔋 <b>${(r.eD+r.eN).toFixed(1)}</b> kWh/${ar?'يوم':'day'}</span></div>`:'';if(sm)sm.innerHTML=r?`<div class=ms><span>🔌 ${t('mtPeak')}<b>${r.peak.toFixed(1)} kW</b><small>${Math.round(r.peak*1000/220)} A</small></span><span>⚡ ${t('mtSurge')}<b>${(r.peak+r.ex).toFixed(1)} kW</b><small>${t('mtSurge2')}</small></span><span>☀️ ${t('mtDay')}<b>${r.eD.toFixed(1)}</b><small>kWh</small></span><span>🌙 ${t('mtNight')}<b>${r.eN.toFixed(1)}</b><small>kWh</small></span></div>`:'';
- const key=[c.panels,c.inv,c.mods].join('|');if(S.mk===key)return;S.mk=key;
+ const key=[c.panels,c.inv,c.bp.n16,c.bp.n5].join('|');if(S.mk===key)return;S.mk=key;
  const ic=(e,n,m)=>Array.from({length:Math.min(n,m)},(_,i)=>`<span style="--i:${i}">${e}</span>`).join('')+(n>m?`<small>+${n-m}</small>`:''),
   row=(l,e,n,m,x)=>`<div class=sr><span class=sl>${l}</span><div class=si>${n?ic(e,n,m):'—'}</div><em>${x}</em></div>`;
- $('#stk').innerHTML=row('☀️ '+t('mtP'),'☀️',c.panels,14,'× '+c.panels)+row('🔌 '+t('mtI'),'🔌',c.inv?1:0,1,c.inv+' kW')+row('🔋 '+t('mtB'),'🔋',c.mods,8,'× '+c.mods+' (5.12 kWh)')}
+ $('#stk').innerHTML=row('☀️ '+t('mtP'),'☀️',c.panels,14,'× '+c.panels)+row('🔌 '+t('mtI'),'🔌',c.inv?1:0,1,c.inv+' kW')+row('🔋 '+t('mtB'),'🔋',c.mods,8,c.bp.txt)}
 const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
  return `<div class=card data-pid=${p.id}><div class=ph><img data-a=open data-id=${p.id} src="${esc(p.thumb||'')}" alt=""><button class=eye type=button data-a=ql data-id=${p.id} aria-label="quick look">👁</button></div><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div>${qStrip(p)}<div>${certChips(p,{max:3})}</div><div>${money(p)}</div><small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small>
  <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
@@ -747,7 +749,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v39</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v40</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
