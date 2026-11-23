@@ -39,9 +39,9 @@ const CONFIG = {
   fields: {
     battery: [
       { k:"chem", type:"sel", ar:"الكيمياء", en:"Chemistry", opts:[["LFP","LFP"],["NMC","NMC"],["LEAD","رصاص حمضي","Lead-acid"]] },
-      { k:"volt", type:"num", req:1, ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V", max:1000 },
-      { k:"ah", type:"num", req:1, ar:"السعة", en:"Capacity", unit:"Ah", better:"hi", max:2000 },
-      { k:"kwh", type:"num", req:1, ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi", max:500 },
+      { k:"volt", type:"num", req:1, hint:["حقل إلزامي (required): الجهد والسعة يحدّدان طاقة البطارية ولا يمكن نشر المنتج بدونهما. مثال: 51.2","Required: voltage and capacity define the battery energy, so the product cannot be listed without them. Example: 51.2"], ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V", max:1000 },
+      { k:"ah", type:"num", req:1, hint:["حقل إلزامي: اكتب السعة بالأمبير-ساعة كما في ورقة البيانات. مثال: 100 أو 200 أو 314","Required: capacity in amp-hours from the datasheet. Example: 100, 200 or 314"], ar:"السعة", en:"Capacity", unit:"Ah", better:"hi", max:2000 },
+      { k:"kwh", type:"num", req:1, hint:["حقل إلزامي: تُستخدم لمقارنة البطاريات بعدالة. إن تركتها فارغة أو لم تطابق الجهد × السعة فسيُحسب الرقم تلقائياً لك","Required: used for a fair comparison. If left empty or not matching voltage × capacity, it is filled in automatically"], ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi", max:500 },
       { k:"usable", type:"num", ar:"الطاقة المفيدة", en:"Usable energy", unit:"kWh", better:"hi", max:500 },
       { k:"dod", type:"num", ar:"عمق التفريغ", en:"Depth of discharge", unit:"%", max:100, better:"hi" },
       { k:"contChg", type:"num", ar:"تيار الشحن المستمر", en:"Continuous charge current", unit:"A", better:"hi", max:2000 },
@@ -399,7 +399,7 @@ function validate(set, v, peers = []) {
 
   if (!v.tags || !v.tags.length) { E("tags", "اختر نوعاً واحداً على الأقل", "Select at least one type"); e.tags.req = 1; }
   for (const f of CONFIG.fieldsAll(set)) {
-    if (f.req && !has(f.k)) { E(f.k, "هذا الحقل مطلوب", "This field is required"); e[f.k].req = 1; continue; }
+    if (f.req && !has(f.k)) { E(f.k, "هذا الحقل إلزامي، يرجى ملؤه لإكمال إضافة المنتج", "This field is required — please fill it to finish adding the product"); e[f.k].req = 1; continue; }
     if (f.type === "num" && has(f.k)) {
       const x = n(f.k);
       if (isNaN(x) || (!f.neg && (f.zero ? x < 0 : x <= 0))) E(f.k, f.zero ? "يجب ألا تكون القيمة سالبة" : "يجب أن تكون القيمة أكبر من صفر", f.zero ? "Value cannot be negative" : "Value must be greater than zero");
