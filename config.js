@@ -39,21 +39,21 @@ const CONFIG = {
   fields: {
     battery: [
       { k:"chem", type:"sel", ar:"الكيمياء", en:"Chemistry", opts:[["LFP","LFP"],["NMC","NMC"],["LEAD","رصاص حمضي","Lead-acid"]] },
-      { k:"volt", type:"num", ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V" },
-      { k:"ah", type:"num", ar:"السعة", en:"Capacity", unit:"Ah", better:"hi" },
-      { k:"kwh", type:"num", ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi" },
-      { k:"usable", type:"num", ar:"الطاقة المفيدة", en:"Usable energy", unit:"kWh", better:"hi" },
+      { k:"volt", type:"num", req:1, ar:"الجهد الاسمي", en:"Nominal voltage", unit:"V", max:1000 },
+      { k:"ah", type:"num", req:1, ar:"السعة", en:"Capacity", unit:"Ah", better:"hi", max:2000 },
+      { k:"kwh", type:"num", req:1, ar:"الطاقة", en:"Energy", unit:"kWh", better:"hi", max:500 },
+      { k:"usable", type:"num", ar:"الطاقة المفيدة", en:"Usable energy", unit:"kWh", better:"hi", max:500 },
       { k:"dod", type:"num", ar:"عمق التفريغ", en:"Depth of discharge", unit:"%", max:100, better:"hi" },
-      { k:"contChg", type:"num", ar:"تيار الشحن المستمر", en:"Continuous charge current", unit:"A", better:"hi" },
-      { k:"contDis", type:"num", ar:"تيار التفريغ المستمر", en:"Continuous discharge current", unit:"A", better:"hi" },
-      { k:"maxA", type:"num", ar:"التيار الأقصى", en:"Max current", unit:"A", better:"hi" },
-      { k:"peakA", type:"num", ar:"تيار الذروة", en:"Peak current", unit:"A", better:"hi" },
-      { k:"peakSec", type:"num", ar:"مدة تيار الذروة", en:"Peak duration", unit:"s", better:"hi" },
-      { k:"cycles", type:"num", ar:"عدد الدورات", en:"Cycle life", better:"hi" },
+      { k:"contChg", type:"num", ar:"تيار الشحن المستمر", en:"Continuous charge current", unit:"A", better:"hi", max:2000 },
+      { k:"contDis", type:"num", ar:"تيار التفريغ المستمر", en:"Continuous discharge current", unit:"A", better:"hi", max:2000 },
+      { k:"maxA", type:"num", ar:"التيار الأقصى", en:"Max current", unit:"A", better:"hi", max:2000 },
+      { k:"peakA", type:"num", ar:"تيار الذروة", en:"Peak current", unit:"A", better:"hi", max:3000 },
+      { k:"peakSec", type:"num", ar:"مدة تيار الذروة", en:"Peak duration", unit:"s", better:"hi", max:600 },
+      { k:"cycles", type:"num", ar:"عدد الدورات", en:"Cycle life", better:"hi", max:20000 },
       { k:"testDoD", type:"num", ar:"ظرف الاختبار: DoD", en:"Cycle test DoD", unit:"%", max:100 },
       { k:"testC", type:"num", ar:"ظرف الاختبار: C-rate", en:"Cycle test C-rate", unit:"C", max:3 },
       { k:"ip", type:"sel", ar:"درجة IP", en:"IP rating", opts: IP.map(x=>[x]) },
-      { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo" },
+      { k:"kg", type:"num", ar:"الوزن", en:"Weight", unit:"kg", better:"lo", max:3000 },
       { k:"tmin", type:"num", neg:1, ar:"أدنى حرارة تشغيل", en:"Min operating temp", unit:"°C" },
       { k:"tmax", type:"num", neg:1, ar:"أعلى حرارة تشغيل", en:"Max operating temp", unit:"°C" },
       { k:"comm", type:"multi", ar:"الاتصال", en:"Communication", opts:[["CAN"],["RS485"],["RS232"],["Bluetooth"],["WiFi"]] },
@@ -403,7 +403,7 @@ function validate(set, v, peers = []) {
     if (f.type === "num" && has(f.k)) {
       const x = n(f.k);
       if (isNaN(x) || (!f.neg && (f.zero ? x < 0 : x <= 0))) E(f.k, f.zero ? "يجب ألا تكون القيمة سالبة" : "يجب أن تكون القيمة أكبر من صفر", f.zero ? "Value cannot be negative" : "Value must be greater than zero");
-      else if (f.max && x > f.max) E(f.k, `القيمة أعلى من الحد الممكن (${f.max})`, `Value is above the possible maximum (${f.max})`);
+      else if (f.max && x > f.max) { const h = x >= 1000 && x / 1000 <= f.max ? [` — هل تقصد ${x / 1000}؟`, ` — did you mean ${x / 1000}?`] : ["", ""]; E(f.k, `القيمة أعلى من الحد الممكن (${f.max})${h[0]}`, `Value is above the possible maximum (${f.max})${h[1]}`); }
     }
   }
   if (v.warranty !== "" && n("warranty") > L.warrantyMax) E("warranty", `الضمان لا يتجاوز ${L.warrantyMax} سنة`, `Warranty cannot exceed ${L.warrantyMax} years`);

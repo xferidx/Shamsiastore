@@ -252,7 +252,7 @@ addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.mes
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" crossorigin="anonymous"></script>
-<script src="config.js?v=34"></script>
+<script src="config.js?v=42"></script>
 <script>
 const C=CONFIG,$=s=>document.querySelector(s);
 let auth,db,fbErr='';try{firebase.initializeApp(C.firebase);auth=firebase.auth();db=firebase.firestore();try{db.settings({experimentalAutoDetectLongPolling:true,merge:true})}catch(_){}}catch(e){fbErr=e.message}
@@ -262,6 +262,7 @@ duelT:['معركة البطاريات (Battery duel)','Battery duel'],duelH:['ا
 duelNote:['الأرقام من مواصفات التاجر، وتحقق دائماً من ورقة البيانات (datasheet).','Numbers come from dealer-entered specs; always check the datasheet.'],duel3:['المعركة بين أول بطاريتين مختارتين','The duel uses the first two selected'],
 mtT:['عدّاد بيتك (House power meter)','House power meter'],mtS:['أضف أجهزة بيتك واحداً واحداً: اختر الحجم والنوع (انفرتر أو عادي) وساعات التشغيل، وشاهد المنظومة المناسبة تتكوّن مباشرة.','Add your home appliances one by one: choose size, type (inverter or normal) and hours, and watch the matching system build up.'],
 news:['الأخبار','News'],nT:['أخبار الطاقة الشمسية (solar news)','Solar news'],nS:['آخر المستجدات العالمية والإقليمية، ملخّصة ومترجمة لك','Latest global and regional updates, summarised for you'],nAll:['الكل','All'],nSrc:['المصدر','Source'],nShare:['شارك','Share'],nEmpty:['لا توجد أخبار منشورة بعد، ترقّبوا أول نشرة قريباً','No news yet — the first digest is coming soon'],nNote:['الأخبار ملخّصة ومترجمة من مصادر عالمية. اضغط على المصدر لقراءة الخبر الأصلي. (Translated summaries; tap the source for the original.)','Summaries translated from international sources; tap the source for the original article.'],nImp:['الصق نشرة الأسبوع هنا (JSON)','Paste this week\'s digest (JSON)'],nImpB:['استيراد كمسودات (import as drafts)','Import as drafts'],nPubAll:['نشر كل المسودات (publish all drafts)','Publish all drafts'],nMore:['كل الأخبار','All news'],
+chk:['قيد المراجعة (under review)','Under review'],
 mtAdd:['أضف جهازاً','Add a device'],mtPre:['أو ابدأ بنموذج جاهز وعدّله:','Or start from a template and edit it:'],mtClr:['مسح الكل','Clear all'],mtCont:['يعمل طوال الوقت','Runs all the time'],mtD:['ساعات النهار (day hours)','Day hours'],mtN:['ساعات الليل (night hours)','Night hours'],mtQty:['العدد (qty)','Quantity'],mtEditW:['تعديل الواط إن كان جهازك مختلفاً (edit watts)','Edit watts if your device differs'],mtTot:['إجمالي ما أضفته','Your total so far'],mtW:['واط لكل جهاز (watts each)','Watts each'],
 mtEmpty:['لم تضف أجهزة بعد. اختر جهازاً من الأسفل أو ابدأ بنموذج جاهز.','No devices yet. Pick one below or start from a template.'],mtPeak:['أقصى حمل (peak load)','Peak load'],mtSurge:['ذروة الإقلاع (startup surge)','Startup surge'],mtSurge2:['لحظة تشغيل المحركات','when motors start'],mtDay:['طاقة النهار','Day energy'],mtNight:['طاقة الليل','Night energy'],
 mtNote:['الواطات تقديرية لمتوسط الأجهزة الشائعة في العراق، وتقدر تعدّل الواط والساعات لكل جهاز. نفترض أن 85% من الأحمال تعمل معاً، وأن الانفرتر يتحمل ضعف قدرته لثوانٍ عند تشغيل التكييف أو المضخة أو البراد.','Watts are typical estimates for common devices in Iraq; you can edit watts and hours per device. We assume 85% of loads run together and that the inverter tolerates twice its rating for a few seconds when an AC, pump or fridge starts.'],
@@ -519,7 +520,8 @@ addEventListener('scroll',()=>clearTimeout(lpT),{passive:true});
 document.addEventListener('click',e=>{if(S.lp){S.lp=0;e.preventDefault();e.stopPropagation()}},true);
 addEventListener('keydown',e=>{if(e.key=='Escape')qlClose()});
 
-const duelVals=p=>{const W=(C.awards&&C.awards.weights)||{},L=normCerts(p),cyc=+p.cycles>0?+p.cycles*((+p.testDoD||+p.dod||100)/100):NaN,ek=+p.usable||+p.kwh;
+const suspect=p=>{if(p.noCmp)return true;try{const v={...p,tags:p.tags||[]};delete v.certs;const r=validate(pset(p),v,[]);return Object.entries(r.e).some(([k,x])=>!x.req&&k!='tags'&&k!='certs')}catch(e){return false}};
+const duelVals=p=>{if(suspect(p))return{heat:NaN,life:NaN,cert:NaN,claimed:0,kwh:NaN,ppk:NaN};const W=(C.awards&&C.awards.weights)||{},L=normCerts(p),cyc=+p.cycles>0?+p.cycles*((+p.testDoD||+p.dod||100)/100):NaN,ek=+p.usable||+p.kwh;
  return{heat:p.tmax===''||p.tmax==null||isNaN(+p.tmax)?NaN:+p.tmax,life:cyc,
   cert:L.reduce((s,c)=>s+(effOf(p,c)=='cert'?(W[ctag(c.k).label]||0):0),0),claimed:L.reduce((s,c)=>s+(effOf(p,c)!='cert'?(W[ctag(c.k).label]||0):0),0),
   kwh:+p.kwh||NaN,ppk:ek>0&&+p.price>0?+p.price/ek:NaN}};
@@ -621,14 +623,14 @@ function meterUpd(){const c=S.cr;if(!c||!$('#gfg'))return;const kw=c.peak||0,ar=
 const card=p=>{const o=own(p),on=S.cmp.includes(p.id);
  return `<div class=card data-pid=${p.id}><div class=ph><img data-a=open data-id=${p.id} src="${esc(p.thumb||'')}" alt=""><button class=eye type=button data-a=ql data-id=${p.id} aria-label="quick look">👁</button></div><b data-a=open data-id=${p.id} style="cursor:pointer">${esc(p.brand)} ${esc(p.model)}</b><div>${badges(p)}</div>${qStrip(p)}<div>${certChips(p,{max:3})}</div><div>${money(p)}</div><small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small>
  <small>${esc(o.name||'')} ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</small>
- <div class=bar><a class="btn wa" data-trk=wa data-pid=${p.id} data-oid=${p.ownerId} target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a><button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button></div></div>`};
+ <div class=bar><a class="btn wa" data-trk=wa data-pid=${p.id} data-oid=${p.ownerId} target=_blank href="${wa(o.whatsapp||o.phone)}">${t('wa')}</a>${p.noCmp?'':`<button data-a=cmp data-id=${p.id}>${on?'✓ ':''}${t('compare')}</button>`}</div></div>`};
 const listP=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.prods.filter(p=>(!f.cat||p.cat==f.cat)&&(!f.tag||(p.tags||[]).includes(f.tag))&&(!f.brand||p.brand==f.brand)&&(!f.city||own(p).city==f.city)&&(!q||(p.brand+' '+p.model).toLowerCase().includes(q)));
  return `<div class=grid>${l.map(card).join('')||`<p>${t('empty')}</p>`}</div>`};
 const vP=()=>bar(['q','city','cat','brand'])+`<div id=res>${listP()}</div>`;
 const vD=()=>{const p=S.prods.find(x=>x.id==S.pid);if(!p)return'';const o=own(p),pr=S.prods.filter(x=>x.cat==p.cat&&key(x)==key(p)).map(x=>x.price);
  return `<button data-a=view data-v=products>←</button><div class=form><h2>${esc(p.brand)} ${esc(p.model)}</h2><div class="gal dgal">${(S.gal[p.id]||(p.thumb?[p.thumb]:[])).map((u,i)=>`<img src="${esc(u)}" alt="" data-a=lbu data-g=${p.id} data-i=${i}>`).join('')}</div><small style="opacity:.7">🔍 ${t('zoomH')}</small><p>${badges(p)}</p><p>${(p.tags||[]).map(k=>`<span class=tag>${esc(tagName(k))}</span>`).join(' ')}</p>${certBlock(p)}<p>${money(p)}<br><small class="${stale(p.priceAt||p.created)?'warn':''}">${t('priceUpd')}: ${ago(p.priceAt||p.created)}</small><br><small>${t('range')}: ${fmt(Math.min(...pr))} – ${fmt(Math.max(...pr))} IQD (${pr.length})</small></p>
  <table>${C.fieldsAll(pset(p)).filter(f=>!['brand','model','certs'].includes(f.k)&&p[f.k]!=null&&p[f.k]!==''&&!(Array.isArray(p[f.k])&&!p[f.k].length)).map(f=>`<tr><td>${esc(f[S.lang])}${f.unit?` (${f.unit})`:''}</td><td>${esc(lab(f,p[f.k]))}</td></tr>`).join('')}</table>
- ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o,p.id)}</div>`};
+ ${p.datasheet?`<p><a href="${esc(p.datasheet)}" target=_blank>PDF</a></p>`:''}${isAdmin()?`<p><button data-a=edit data-id=${p.id}>✎ ${t('edit')}</button></p>`:''}<p><b>${esc(o.name||'')}</b> ${o.authorized?`<span class="tag au">${t('auth')}</span>`:''} · ${nm(o.city)}</p>${ctas(o,p.id)}</div>`};
 const listDir=()=>{const f=S.f,q=(f.q||'').toLowerCase(),l=S.users.filter(u=>u.approved&&(!f.city||u.city==f.city)&&(!f.role||u.role==f.role)&&(!q||(u.name||'').toLowerCase().includes(q)||(u.brands||[]).join(' ').toLowerCase().includes(q)));
  return `<div class=grid>${l.map(u=>`<div class=card><b>${esc(u.name)}</b><div><span class=tag>${t(u.role)}</span> ${u.authorized?`<span class="tag au">${t('auth')}</span>`:''} ${u.wholesale?`<span class="tag ok">${t('whl')}</span>`:''}</div>
  <small>${nm(u.city)}${u.address?' · '+esc(u.address):''}</small><small>${esc((u.brands||[]).join(' · '))}</small>${u.supplier?`<small>${t('sup')}: ${esc(u.supplier)}</small>`:''}
@@ -644,12 +646,12 @@ const vC=()=>{const L=S.cmp.map(i=>S.prods.find(p=>p.id==i)).filter(Boolean);
  if(cat=='battery')rows.push({l:t('kwhp')+' (IQD)',g:p=>p.usable>0?p.price/p.usable:NaN,b:'lo',s:p=>p.usable>0?fmt(p.price/p.usable):'—'});
  if(cat=='battery')certRows(L).forEach(r=>rows.push(r));
  const num=x=>x==null||x===''?NaN:Number(x);
- const best=r=>{if(!r.b)return null;const v=L.map(p=>num(r.g(p))).filter(x=>!isNaN(x));if(v.length<2||new Set(v).size<2)return null;return r.b=='hi'?Math.max(...v):Math.min(...v)};
+ const best=r=>{if(!r.b)return null;const v=L.filter(p=>!suspect(p)).map(p=>num(r.g(p))).filter(x=>!isNaN(x));if(v.length<2||new Set(v).size<2)return null;return r.b=='hi'?Math.max(...v):Math.min(...v)};
  let cp='';if(cat=='battery'){const cl=L.map(p=>p.volt<=60?'LV':'HV'),cm=L.map(p=>p.comm||[]),cc=cm[0].filter(x=>cm.every(c=>c.includes(x))),iv=L.map(p=>(p.inverters||'').split(/[,،]/).map(s=>s.trim().toLowerCase()).filter(Boolean)),ci=iv[0].filter(x=>iv.every(a=>a.includes(x)));
   cp=`<h3>${t('compat')}</h3><p>${new Set(cl).size==1?'✔':'✖'} ${t('vclass')}: ${cl.map(c=>t(c=='LV'?'lv':'hv')).join(' / ')}</p><p>${cc.length?'✔ '+cc.join(', '):'✖ '+t('nocomm')}</p><p>${t('invclaim')}: ${ci.length?esc(ci.join(', ')):'—'}<br><small>${t('claimNote')}</small></p>`}
- return (cat=='battery'?duel(L):'')+`<button data-a=clear>${t('clear')}</button><div class=sc><table><tr><th></th>${L.map(p=>`<th>${esc(p.brand)} ${esc(p.model)}<br><small>${esc(own(p).name||'')}</small></th>`).join('')}</tr>
+ return (cat=='battery'?duel(L):'')+`<button data-a=clear>${t('clear')}</button><div class=sc><table><tr><th></th>${L.map(p=>`<th>${esc(p.brand)} ${esc(p.model)}<br><small>${esc(own(p).name||'')}</small>${suspect(p)?`<br><small class=warn>🔍 ${t('chk')}</small>`:''}</th>`).join('')}</tr>
  <tr><td>${t('products')}</td>${L.map(p=>`<td>${money(p)}</td>`).join('')}</tr>
- ${rows.map(r=>{const b=best(r);return `<tr><td>${r.lh||esc(r.l)}</td>${L.map(p=>`<td class="${b!==null&&num(r.g(p))==b?'best':''}">${r.h?r.s(p):esc(r.s(p))}</td>`).join('')}</tr>`}).join('')}</table></div>${cp}`};
+ ${rows.map(r=>{const b=best(r);return `<tr><td>${r.lh||esc(r.l)}</td>${L.map(p=>`<td class="${b!==null&&!suspect(p)&&num(r.g(p))==b?'best':''}">${r.h?r.s(p):esc(r.s(p))}</td>`).join('')}</tr>`}).join('')}</table></div>${cp}`};
 
 /* forms */
 const fld=f=>{if(f.type=='certs')return certField(f);let i;if(f.type=='sel')i=`<select name=${f.k}><option value=""></option>${f.opts.map(o=>`<option value="${o[0]}">${esc(ol(o))}</option>`).join('')}</select>`;
@@ -675,7 +677,7 @@ const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</lab
  ${I('email','email','type=email')}${I('pass','pass','type=password')}<button class=pri data-a=reg>${t('register')}</button></form>`};
 const vAdm=()=>{if(!isAdmin())return'';
  return newsAdm()+`<div class=bar><button data-a=tgtest>🔔 ${S.lang=='ar'?'اختبار تنبيه تيليجرام':'Test Telegram alert'}</button></div><h3>${t('certsT')}</h3><div id=ac>${certListHtml()}</div><h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button class=dng data-a=rej data-id=${u.id}>🗑 ${t('delCo')}</button></div></div>`).join('')}</div>
- <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${(p.certOk||[]).map(k=>`<button data-a=revoke data-id=${p.id} data-k=${k}>✕ ${esc((ctag(k)||{}).label||k)}</button>`).join('')}${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=del data-id=${p.id}>✕</button></div></div>`).join('')}</div>`};
+ <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${(p.certOk||[]).map(k=>`<button data-a=revoke data-id=${p.id} data-k=${k}>✕ ${esc((ctag(k)||{}).label||k)}</button>`).join('')}${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=edit data-id=${p.id}>✎ ${t('edit')}</button><button data-a=nocmp data-id=${p.id}>${p.noCmp?'✓ ':''}🚫 ${S.lang=='ar'?'إخفاء من المقارنة':'Hide from compare'}</button><button data-a=del data-id=${p.id}>✕</button></div>${suspect(p)&&!p.noCmp?`<small class=warn>⚠ ${S.lang=='ar'?'قيم مشكوك فيها (suspect values)':'Suspect values'}</small>`:''}</div>`).join('')}</div>`};
 const slider=()=>{const l=S.prods.slice(0,8);if(!l.length)return'';
  return `<section class=slw><h2>${t('latest')}</h2><div class=sl id=sl><div class=tr id=tr>${l.map(p=>`<div class=sli data-a=open data-id=${p.id}><img src="${esc(p.thumb||'')}" alt=""><div><span class="tag ok">${t('newT')}</span><h3>${esc(p.brand)} ${esc(p.model)}</h3><p>${money(p)}</p><small>${esc(own(p).name||'')} · ${nm(own(p).city)}</small></div></div>`).join('')}</div>
  <button class="sb l" data-a=sl data-d=-1 aria-label="prev">❮</button><button class="sb r" data-a=sl data-d=1 aria-label="next">❯</button><div class=dots>${l.map((_,i)=>`<i data-a=sl data-i=${i}></i>`).join('')}</div></div></section>`};
@@ -769,7 +771,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v41</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v42</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -841,7 +843,8 @@ const A={
  edit:d=>{const p=S.prods.find(x=>x.id==d.id);if(!p)return;S.cat=p.cat;S.tags=[...(p.tags||[])];const fill={};
   for(const f of C.fieldsAll(C.setOf(p.cat,S.tags)))fill[f.k]=Array.isArray(p[f.k])?p[f.k]:(p[f.k]??'');fill.ds=p.datasheet||'';fill.__certs=normCerts(p);
   S.edit=p.id;S.fill=fill;S.keepEdit=1;go('add')},
- cancelEdit:()=>{S.edit=null;S.tags=[];go('mine')},
+ cancelEdit:()=>{const o=S.prods.find(x=>x.id==S.edit),bk=isAdmin()&&o&&o.ownerId!=S.me.uid?'admin':'mine';S.edit=null;S.tags=[];go(bk)},
+ nocmp:d=>{const p=S.prods.find(x=>x.id==d.id);if(p)db.doc('products/'+d.id).update({noCmp:!p.noCmp}).catch(e=>toast(e.message))},
  delp:async d=>{if(!confirm(t('delConfirm')))return;try{await Promise.all([db.doc('products/'+d.id).delete(),db.doc('photos/'+d.id).delete()]);toast(t('saved'))}catch(e){toast(e.message)}},
  goCalc:()=>$('#calc')?.scrollIntoView({behavior:'smooth',block:'center'}),
  install:async()=>{if(S.ip){S.ip.prompt();await S.ip.userChoice;S.ip=null;showInstall()}else toast(t('iosHint'))},
@@ -879,11 +882,11 @@ const A={
    if(S.edit){const old=S.prods.find(x=>x.id==S.edit),upd={...v,cat:S.cat,pset:curSet(),datasheet:ds,updated:TS},nz=x=>x===''||x==null||(Array.isArray(x)&&!x.length)?null:x;
     if(thumb)upd.thumb=thumb;if(+v.price!==old.price)upd.priceAt=TS;
     const FREE=['price','stock','warranty','certs'],ch=C.fieldsAll(curSet()).some(f=>!FREE.includes(f.k)&&JSON.stringify(nz(old[f.k]))!==JSON.stringify(nz(v[f.k])))||JSON.stringify(old.tags||[])!==JSON.stringify(v.tags);
-    if(ch&&(old.verified||old.dsOk)){upd.verified=false;upd.dsOk=false;toast(t('resetV'))}
+    if(ch&&!isAdmin()&&(old.verified||old.dsOk)){upd.verified=false;upd.dsOk=false;toast(t('resetV'))}
     if(curSet()=='battery'){upd.certs=CL;const oldC=normCerts(old),oldOk=old.certOk||[],keep=oldOk.filter(k=>{const n=CL.find(c=>c.k==k),o=oldC.find(c=>c.k==k);return n&&n.st=='certified'&&o&&n.lab===(o.lab||'')&&!CF.some(c=>c.k==k)});if(keep.length!==oldOk.length)upd.certOk=keep}
     await db.doc('products/'+S.edit).update(upd);
     if(curSet()=='battery'){for(const o of normCerts(old).filter(o=>o.img)){const n=CL.find(c=>c.k==o.k);if(!n||n.st!='certified')db.doc('certs/'+S.edit+'_'+o.k).delete().catch(()=>{});else if(n.lab!==(o.lab||'')&&!CF.some(c=>c.k==o.k))db.doc('certs/'+S.edit+'_'+o.k).update({lab:n.lab,approved:false}).catch(()=>{})}await upCerts(S.edit)}if(ph.length)await db.doc('photos/'+S.edit).set({ownerId:old.ownerId,list:ph});
-    S.edit=null;S.tags=[];go('mine');return}
+    const bk=isAdmin()&&old.ownerId!=S.me.uid?'admin':'mine';S.edit=null;S.tags=[];go(bk);return}
    const ref=await db.collection('products').add({...v,cat:S.cat,pset:curSet(),thumb,datasheet:ds,verified:false,dsOk:false,certs:CL,certOk:[],ownerId:S.me.uid,priceAt:TS,created:TS});
    await upCerts(ref.id);
    if(ph.length)await db.doc('photos/'+ref.id).set({ownerId:S.me.uid,list:ph});
