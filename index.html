@@ -571,7 +571,7 @@ const mpCol=k=>(GRP.find(g=>g.ks.includes(k))||{}).c||'#0b6b4f';
 S.mp={items:[],on:0};try{const j=JSON.parse(localStorage.getItem('solar_mp1')||'null');if(j&&Array.isArray(j.items))S.mp.items=j.items.filter(i=>MP[i.k]&&i.o)}catch(_){}
 const mpSave=()=>{try{localStorage.setItem('solar_mp1',JSON.stringify({items:S.mp.items}))}catch(_){}};
 const mpSpec=it=>{const d=MP[it.k],s=d.spec?d.spec(it.o):{W:d.W,duty:d.duty==null?1:d.duty,sg:d.sg==null?1:d.sg};return{W:it.w>0?it.w:s.W,duty:s.duty,sg:s.sg}};
-const gh=()=>{const f=$('#calc');return[+(f&&f.elements.dayH.value)||6,+(f&&f.elements.nightH.value)||8]};
+const gh=()=>{const f=$('#calc');return[+(f&&f.elements.dayH.value)||3,+(f&&f.elements.nightH.value)||3]};
 const mpNew=(k,o2,n,hd,hn)=>{const d=MP[k],o={};(d.opts||[]).forEach(op=>{o[op.k]=op.chk?(op.d?1:0):op.d});return{id:'i'+Math.random().toString(36).slice(2,8),k,o:Object.assign(o,o2||{}),n:n||1,hd:d.cont?null:(hd==null?1:hd),hn:d.cont?null:(hn==null?1:hn),w:null}};
 const mpH=(it,f)=>it[f]==null?1:it[f];
 function mpCompute(){const g=gh();let eD=0,eN=0,pD=0,pN=0,ex=0;
@@ -707,7 +707,7 @@ const newsAdm=()=>{const ar=S.lang=='ar',L=(S.news||[]).slice().sort((a,b)=>(b.c
 const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label><input name=${k} type=number min=0 step=any inputmode=decimal value="${c[k]??d}"></div>`;
  const hero=`<section class=hero>${SCENE}<h1>${t('heroT')}</h1><p>${t('heroS')}</p>
  <div class=bar style="justify-content:center;margin:0"><button class=cta data-a=goCalc>⬇ ${t('calcGo')}</button><button class=ghost data-a=view data-v=${S.me?(canSell()?'add':'profile'):'register'}>${t('imDealer')}</button><button class=awbtn data-a=view data-v=awards>🏆 ${t('awBtn')}</button><button class="ghost inst" data-a=install hidden>${t('install')}</button></div></section>`;
- const calcF=` <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',40)}${inp('nightA',25)}${inp('dayH',6)}${inp('nightH',8)}</div>
+ const calcF=` <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',20)}${inp('nightA',16)}${inp('dayH',3)}${inp('nightH',3)}</div>
  <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
  <div class=row2><div class=fld><label>${t('city2')}</label><select name=city>${cityOpts(c.city)}</select></div></div>
  <div class=out><div class=res><small>${t('rP')}</small><b id=oP>0</b><i id=oP2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=panel>${t('findP')}</button></div></div>
@@ -771,7 +771,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v43</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v44</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
