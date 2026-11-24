@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><script>(function(){var d="dark";try{d=localStorage.theme||"dark"}catch(e){}document.documentElement.dataset.theme=d})();function isDark(){return document.documentElement.dataset.theme=="dark"}function setTcm(){var m=document.getElementById("tcm");if(m)m.content=isDark()?"#08402f":"#0b6b4f"}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>سوق الطاقة الشمسية في العراق | Iraq Solar Market</title>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b6b4f">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b6b4f" id="tcm"><script>setTcm()</script>
 <link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="سوق الطاقة الشمسية">
 <style>
@@ -58,6 +58,14 @@ header{box-shadow:0 2px 10px rgba(0,0,0,.18)}
 body{background:radial-gradient(1100px 480px at 90% -8%,#dff1e8,transparent),var(--bg);min-height:100vh}
 header{background:linear-gradient(90deg,#0a5c44,#0e7d5a)}
 .brand{display:flex;align-items:center;gap:8px}.brand img{width:34px;height:34px;border-radius:9px;background:#fff}.brand small{font-weight:400;opacity:.55;font-size:11px}
+.admh{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:4px 0 14px}
+.admc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:#fff;border:1px solid var(--bd);text-decoration:none;color:var(--tx);text-align:center}
+.admc span{font-size:20px}.admc b{font-size:22px;line-height:1.1}.admc small{font-size:12px;opacity:.8}
+.admc.w{background:#fff4dc;border-color:#f2b84b;color:#6b4500}
+.adms{margin:0 0 18px;scroll-margin-top:150px}.adms h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#e8f3ef;color:#0b5c43}
+.adms h3 em{font-style:normal;margin-inline-start:auto;background:#0b6b4f;color:#fff;border-radius:99px;padding:1px 10px;font-size:13px}
+.adms.hi h3{background:#fff4dc;color:#6b4500}.adms.hi h3 em{background:#d9822b}
+.card.pend{border:2px solid #f2b84b}
 header{padding:8px 12px 10px;row-gap:8px}
 .hn{display:flex;flex-wrap:wrap;gap:6px;width:100%}
 header .hb{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:99px;font-size:13.5px;line-height:1.35;font-weight:600;border:1px solid transparent;box-shadow:none;transition:transform .12s,filter .2s,background .2s}
@@ -276,6 +284,234 @@ small.warn{color:#9a6700;opacity:1}
 .nh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nh small{opacity:.65;margin-inline-start:auto}.nc{background:#e9f6f0;color:#0b6b4f;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
 .tpl.on{background:var(--g);color:#fff}.nt{margin:14px 0}.nt h2{margin:0 0 6px}.ntl{display:flex;flex-direction:column;gap:8px}.nti{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--bd);border-inline-start:5px solid #1fa273;border-radius:12px;padding:10px 12px}.nti b{display:block;line-height:1.5}.nti small{opacity:.65}
 .nadm input,.nadm textarea,#newsAdm textarea{width:100%;box-sizing:border-box;margin:4px 0}
+/*DARK-START*/
+:root[data-theme=dark] body{background:#1e2925;color:#d6e5e0}
+:root[data-theme=dark] header{background:var(--g);color:#fff}
+:root[data-theme=dark] button,:root[data-theme=dark] .btn{border:1px solid #36453e;background:#19221f;color:#adebd9}
+:root[data-theme=dark] .pri{background:var(--g);color:#fff}
+:root[data-theme=dark] .wa{background:#25d366;color:#fff}
+:root[data-theme=dark] .mp{background:#4285f4;color:#fff}
+:root[data-theme=dark] .card{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .card img{background:#232d28}
+:root[data-theme=dark] input,:root[data-theme=dark] select{border:1px solid #36453e}
+:root[data-theme=dark] .instBox{background:#1b2d26}
+:root[data-theme=dark] .instl{color:#adebd9}
+:root[data-theme=dark] .tag{background:#25322d}
+:root[data-theme=dark] .ok{background:#1a442c;color:#adebd9}
+:root[data-theme=dark] .no{background:#3a1a16;color:#e7af9f}
+:root[data-theme=dark] .au{background:#463a1b;color:#cbb6ac}
+:root[data-theme=dark] .err{color:#e59b97}
+:root[data-theme=dark] .fld .bad{border-color:#b3261e!important;background:#301512}
+:root[data-theme=dark] .warn{color:#ead5ab}
+:root[data-theme=dark] .err.rq{color:#ead5ab}
+:root[data-theme=dark] .hint{color:#c2cdc9}
+:root[data-theme=dark] table{background:#19221f}
+:root[data-theme=dark] td,:root[data-theme=dark] th{border:1px solid #36453e}
+:root[data-theme=dark] td.best{background:#1a442c}
+:root[data-theme=dark] .form{background:#19221f}
+:root[data-theme=dark] :focus-visible{outline:3px solid #f5a623}
+:root[data-theme=dark] .hero{background:linear-gradient(135deg,#0b6b4f,#1fa273);color:#fff}
+:root[data-theme=dark] .res{background:linear-gradient(160deg,#143524,#1a402c);border:1px solid #36453e}
+:root[data-theme=dark] .res b{color:#adebd9}
+:root[data-theme=dark] .sl{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .sli img{background:#25322d}
+:root[data-theme=dark] .dots i{background:#35443d}
+:root[data-theme=dark] .dots i.on{background:var(--g)}
+:root[data-theme=dark] .sk{background:linear-gradient(90deg,#232d28 25%,#1c2722 50%,#232d28 75%)}
+:root[data-theme=dark] .toast{background:#1b2a25;color:#fff}
+:root[data-theme=dark] body{background:radial-gradient(1100px 480px at 90% -8%,#1c3f2d,transparent),#1e2925}
+:root[data-theme=dark] header{background:linear-gradient(90deg,#0a5c44,#0e7d5a)}
+:root[data-theme=dark] .brand img{background:#19221f}
+:root[data-theme=dark] .admc{background:#19221f;border:1px solid #36453e;color:#d6e5e0}
+:root[data-theme=dark] .admc.w{background:#3c3117;border-color:#f2b84b;color:#ebd5ad}
+:root[data-theme=dark] .adms h3{background:#1d372d;color:#adebd8}
+:root[data-theme=dark] .adms h3 em{background:#0b6b4f;color:#fff}
+:root[data-theme=dark] .adms.hi h3{background:#3c3117;color:#ebd5ad}
+:root[data-theme=dark] .adms.hi h3 em{background:#d9822b}
+:root[data-theme=dark] .card.pend{border:2px solid #f2b84b}
+:root[data-theme=dark] header .nb{background:#173d2d;color:#adebd8}
+:root[data-theme=dark] header .ns{background:#162639;color:#a4c1e8}
+:root[data-theme=dark] header .na{background:#2b4b1c;color:#bdebad}
+:root[data-theme=dark] header .nx{background:#211537;color:#b69be2}
+:root[data-theme=dark] header .nl{background:#19221f;color:#adebd8}
+:root[data-theme=dark] header .no{background:#3a1916;color:#e6a69c}
+:root[data-theme=dark] header .ng{background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,.45)}
+:root[data-theme=dark] header .hb.act{background:#f2b84b;color:#3a2600;border-color:#f7d48a}
+:root[data-theme=dark] h2::before{background:linear-gradient(#f2b84b,#0b6b4f)}
+:root[data-theme=dark] .hero{background:linear-gradient(135deg,#0a5c44,#12936a 58%,#2f78a8)}
+:root[data-theme=dark] .hero::before{background:radial-gradient(circle,rgba(255,214,102,.55),transparent 66%)}
+:root[data-theme=dark] .hero::after{background:radial-gradient(circle,rgba(255,255,255,0.14),transparent 66%)}
+:root[data-theme=dark] .hero .lg{background:#19221f}
+:root[data-theme=dark] .cta{background:linear-gradient(135deg,#f6c354,#e89a1f);color:#3a2600}
+:root[data-theme=dark] .ghost{background:rgba(255,255,255,0.14);color:#fff;border:1px solid rgba(255,255,255,.55)}
+:root[data-theme=dark] .calc{border-top:4px solid #f2b84b}
+:root[data-theme=dark] .res b{background:linear-gradient(135deg,#0b6b4f,#2f78a8);color:transparent}
+:root[data-theme=dark] .pitch{background:linear-gradient(160deg,#19221f,#163526);border:1px solid #36453e}
+:root[data-theme=dark] .ben>div{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .steps li{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .steps li::before{background:linear-gradient(135deg,#0b6b4f,#2f78a8);color:#fff}
+:root[data-theme=dark] .stats>div{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .stats b{color:#adebd9}
+:root[data-theme=dark] footer img{background:#19221f}
+:root[data-theme=dark] .mmb{background:rgba(0,0,0,.45)}
+:root[data-theme=dark] .mmp{background:#19221f}
+:root[data-theme=dark] .mmp details{border-bottom:1px solid #36453e}
+:root[data-theme=dark] .mmp button{background:none;color:var(--tx)}
+:root[data-theme=dark] .mmp button:hover{background:#163526}
+:root[data-theme=dark] .ctile{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .wcard{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .wcv{background:linear-gradient(135deg,#0b6b4f,#14916b 55%,#f3b845)}
+:root[data-theme=dark] .wpi{background:#19221f}
+:root[data-theme=dark] .wpi i{background:rgba(11,40,30,.55);color:#fff}
+:root[data-theme=dark] .wcv.n0{color:#fff}
+:root[data-theme=dark] .wnew{background:#f3b845;color:#3b2a00}
+:root[data-theme=dark] .wav{background:#25322d;border:4px solid #354640}
+:root[data-theme=dark] .whi{color:#adebd9}
+:root[data-theme=dark] .wtags span{background:#1d372d;color:#adebd9}
+:root[data-theme=dark] .wtags .au{background:#3c3117;color:#ebd5ad}
+:root[data-theme=dark] .wgo{background:var(--g);color:#fff}
+:root[data-theme=dark] .match{border-top:1px dashed #36453e}
+:root[data-theme=dark] .mrow{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .mrow img{background:#25322d}
+:root[data-theme=dark] small.warn{color:#ead5ab}
+:root[data-theme=dark] .sgrid>div{background:#143524;border:1px solid #36453e}
+:root[data-theme=dark] .sgrid b{color:#adebd9}
+:root[data-theme=dark] .sgrid i{color:#adebd9}
+:root[data-theme=dark] .trow{border-bottom:1px solid #36453e}
+:root[data-theme=dark] .s-cert{background:#1a442c;border-color:#1f9d63;color:#adebd6}
+:root[data-theme=dark] .s-claim{background:#443a1a;border-color:#e0a800;color:#ebd8ad}
+:root[data-theme=dark] .s-design{background:#232a2f;border-color:#344047;color:#bdcbd1}
+:root[data-theme=dark] .s-neutral{background:#162b3b;border-color:#2f78a8;color:#add3eb}
+:root[data-theme=dark] .ti{background:rgba(0,0,0,.1);color:inherit}
+:root[data-theme=dark] #tip{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] #lb{background:rgba(0,0,0,.85)}
+:root[data-theme=dark] .cnote{background:#152638;border:1px solid #2b3e50}
+:root[data-theme=dark] .cr{background:#182c22;border:1px solid #36453e}
+:root[data-theme=dark] .warnbox{background:#3a3116;border:1px solid #f1d27a}
+:root[data-theme=dark] .keybox{background:linear-gradient(135deg,#fff3c4,#ffe08a);border:2px solid #e6b422}
+:root[data-theme=dark] .okc{color:#9fe7c6}
+:root[data-theme=dark] .gban{background:#152638;border:1px solid #2b3e50}
+:root[data-theme=dark] .tipbox{background:#163926;border-inline-start:4px solid #1f9d63}
+:root[data-theme=dark] .askbox{background:#152638;border:1px solid #2b3e50}
+:root[data-theme=dark] .toc button{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .awbtn{background:linear-gradient(135deg,#2a2208,#5a4510);color:#ffe29a;border:1px solid #f6c354}
+:root[data-theme=dark] .awh{color:#fff;background:linear-gradient(135deg,#1d1a0a,#3b2f08 45%,#0a5c44)}
+:root[data-theme=dark] .awh h1{background:linear-gradient(90deg,#ffe29a,#f6c354,#fff3c4,#f6c354);color:transparent}
+:root[data-theme=dark] .spk{color:#ffd666}
+:root[data-theme=dark] .ainote{background:#3a3116;border:1px solid #f2d27a;border-inline-start:5px solid #e89a1f}
+:root[data-theme=dark] .lgd span{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .awc{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .awc>p{color:#c2cdc9}
+:root[data-theme=dark] .aw{border:1px solid #36453e}
+:root[data-theme=dark] .aw.w{background:linear-gradient(135deg,#3f3718,#594c22);border-color:#e8c45a}
+:root[data-theme=dark] .aw.r{background:linear-gradient(135deg,#1c242c,#252f37);border-color:#343e46}
+:root[data-theme=dark] .aw.w::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,0.14),transparent)}
+:root[data-theme=dark] .trk{background:rgba(0,0,0,.09)}
+:root[data-theme=dark] .trk i{background:linear-gradient(90deg,#e89a1f,#f6c354)}
+:root[data-theme=dark] .rk .trk i{background:linear-gradient(90deg,#3f5769,#2a4050)}
+:root[data-theme=dark] .rk.g1 .trk i{background:linear-gradient(90deg,#e89a1f,#f6c354)}
+:root[data-theme=dark] .rk.g2 .trk i{background:linear-gradient(90deg,#0b6b4f,#1fa273)}
+:root[data-theme=dark] .nr span{background:#202d28;color:#bcc6c2}
+:root[data-theme=dark] .cc{background:#212e29}
+:root[data-theme=dark] .cc.k{background:#1a4430;color:#adebd9}
+:root[data-theme=dark] .tp{border-bottom:1px dashed #36453e}
+:root[data-theme=dark] .tt{background:repeating-linear-gradient(90deg,transparent 0 calc(11.11% - 1px),#26342f calc(11.11% - 1px) 11.11%)}
+:root[data-theme=dark] .sg.c{background:linear-gradient(90deg,#1fa273,#f2b84b)}
+:root[data-theme=dark] .sg.d{background:linear-gradient(90deg,#2f78a8,#8ec5e8)}
+:root[data-theme=dark] .sg.o{background:#506f64}
+:root[data-theme=dark] .awt th{background:#1d3128}
+:root[data-theme=dark] .awt td{border-bottom:1px solid #36453e}
+:root[data-theme=dark] .awt .nt{color:#bcc6c2}
+:root[data-theme=dark] .awf{color:#bcc6c2}
+:root[data-theme=dark] .spon{color:#fff;background:linear-gradient(120deg,#16324f,#1f6f8b 55%,#0b6b4f)}
+:root[data-theme=dark] .spon::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,0.14),transparent)}
+:root[data-theme=dark] .spb{background:rgba(255,255,255,0.14)}
+:root[data-theme=dark] .spg{background:#f6c354;color:#3a2600}
+:root[data-theme=dark] .dgal img{background:#232d28}
+:root[data-theme=dark] .lbc,:root[data-theme=dark] .lbn{background:rgba(255,255,255,0.14);color:#e6e6e6}
+:root[data-theme=dark] .lbk{color:#fff;background:rgba(0,0,0,.5)}
+:root[data-theme=dark] .dng{color:#e59b97;border-color:#b3261e}
+:root[data-theme=dark] .rad{border:1px solid #36453e;background:#19221f}
+:root[data-theme=dark] .rad:has(input:checked){border-color:var(--g);background:#173929}
+:root[data-theme=dark] .eye{background:rgba(255,255,255,0.14)}
+:root[data-theme=dark] .qk span{background:#1d2e27}
+:root[data-theme=dark] .qk .vd{background:transparent}
+:root[data-theme=dark] .vd i{background:#3f584f}
+:root[data-theme=dark] .vd.on i{background:#1fa273}
+:root[data-theme=dark] .qb{background:rgba(0,0,0,.45)}
+:root[data-theme=dark] .qsh{background:#19221f}
+:root[data-theme=dark] .qsh::before{background:#2f413a}
+:root[data-theme=dark] .qx{background:#232d28}
+:root[data-theme=dark] .qh img{background:#232d28}
+:root[data-theme=dark] .qp{color:#adebd9}
+:root[data-theme=dark] .qg div{background:#1d2e27}
+:root[data-theme=dark] .duel{background:linear-gradient(160deg,#10231c,#0b3d2e);color:#fff}
+:root[data-theme=dark] .duel h3{color:#ffe29a}
+:root[data-theme=dark] .dfi img{background:#19221f;border:3px solid #f6c354}
+:root[data-theme=dark] .vs{color:#f6c354}
+:root[data-theme=dark] .duel .tk{background:rgba(255,255,255,0.14)}
+:root[data-theme=dark] .duel .tk i{background:linear-gradient(90deg,#395f76,#1c3a4b)}
+:root[data-theme=dark] .db.w .tk i{background:linear-gradient(90deg,#f6c354,#ffe29a)}
+:root[data-theme=dark] .db.w b{color:#ffd666}
+:root[data-theme=dark] .dscore{color:#ffe29a}
+:root[data-theme=dark] .meter{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .gbg{stroke:#e3ebe7}
+:root[data-theme=dark] #gkw{fill:#adebd9}
+:root[data-theme=dark] .gu{fill:#b5bebb}
+:root[data-theme=dark] .ap{border:1px solid #36453e;background:#152a1f}
+:root[data-theme=dark] .ap.on{border-color:var(--g);background:#173929}
+:root[data-theme=dark] .stp button{border:1px solid var(--g);background:#19221f;color:#adebd9}
+:root[data-theme=dark] .sr em{color:#adebd9}
+:root[data-theme=dark] .ms span{background:linear-gradient(160deg,#143524,#1a402c);border:1px solid #36453e}
+:root[data-theme=dark] .ms b{color:#adebd9}
+:root[data-theme=dark] .gt{fill:#8a9791}
+:root[data-theme=dark] .tpl{border:1px solid var(--g);background:#163023;color:#adebd9}
+:root[data-theme=dark] .tpl.clr{border-color:#e3b5b1;color:#e59b97;background:#19221f}
+:root[data-theme=dark] .mpe{background:#1c2925;border:1px dashed #36453e;color:#bcc6c2}
+:root[data-theme=dark] .mi{border:1px solid #36453e;border-top:4px solid var(--c,#0b6b4f);background:#19221f}
+:root[data-theme=dark] .mih .ae{background:color-mix(in srgb,var(--c) 14%,#19221f)}
+:root[data-theme=dark] .mx{border:1px solid #502e2b;background:#19221f;color:#e59b97}
+:root[data-theme=dark] .mio label{color:#c2cdc9}
+:root[data-theme=dark] .mck{background:#1c2c24}
+:root[data-theme=dark] .mrw{background:#1c2925}
+:root[data-theme=dark] .mrw>span{color:#d6e4df}
+:root[data-theme=dark] .mrw>span small{color:#b5bebb}
+:root[data-theme=dark] .mrw .stp button{border:1.5px solid var(--g);background:#19221f;color:#adebd9}
+:root[data-theme=dark] .mrw .stp button:active{background:var(--g);color:#fff}
+:root[data-theme=dark] .mrw .stp em small{color:#b5bebb}
+:root[data-theme=dark] .mcont{color:#adebd9;background:#173929}
+:root[data-theme=dark] .mwd summary{color:#adebd9}
+:root[data-theme=dark] .mwt{background:#1c2925}
+:root[data-theme=dark] .mwt label{color:#c2cdc9}
+:root[data-theme=dark] .mtot{background:linear-gradient(160deg,#0b6b4f,#1fa273);color:#fff}
+:root[data-theme=dark] .mtot span{background:rgba(255,255,255,0.14)}
+:root[data-theme=dark] .mci span{background:#173929;color:#adebd9}
+:root[data-theme=dark] .gh{color:var(--c)}
+:root[data-theme=dark] .gh::after{background:color-mix(in srgb,var(--c) 25%,transparent)}
+:root[data-theme=dark] .tile{border:1px solid color-mix(in srgb,var(--c) 35%,#354640);background:color-mix(in srgb,var(--c) 6%,#19221f)}
+:root[data-theme=dark] .tile b{color:#d6e4df}
+:root[data-theme=dark] .tile:active{background:color-mix(in srgb,var(--c) 18%,#19221f)}
+:root[data-theme=dark] .ncard{background:#19221f;border:1px solid #36453e}
+:root[data-theme=dark] .ncard p{color:#d1dcd8}
+:root[data-theme=dark] .nc{background:#173929;color:#adebd9}
+:root[data-theme=dark] .tpl.on{background:var(--g);color:#fff}
+:root[data-theme=dark] .nti{color:inherit;background:#19221f;border:1px solid #36453e;border-inline-start:5px solid #1fa273}
+:root[data-theme=dark] .sk{background-size:200% 100%}
+:root[data-theme=dark] .res b{-webkit-background-clip:text;background-clip:text}
+:root[data-theme=dark] .awh h1{background-size:200% 100%;-webkit-background-clip:text;background-clip:text}
+:root[data-theme=dark]{--bg:#0d1411;--tx:#dbe7e2;--bd:#2f3d37;color-scheme:dark}
+:root[data-theme=dark] body{background:radial-gradient(1100px 480px at 90% -8%,#10301f,transparent),#0d1411;color:#dbe7e2}
+:root[data-theme=dark] a{color:#7fd6b5}
+:root[data-theme=dark] input,:root[data-theme=dark] select,:root[data-theme=dark] textarea{background:#141e1a;color:#dbe7e2;border-color:#34443d}
+:root[data-theme=dark] input::placeholder,:root[data-theme=dark] textarea::placeholder{color:#8aa197}
+:root[data-theme=dark] header{background:linear-gradient(90deg,#08402f,#0b5a41)}
+:root[data-theme=dark] [style*="background:#ffe3e0"]{background:#3a1714!important;color:#f2b3aa!important}
+:root[data-theme=dark] [style*="background:#fff3cd"]{background:#3a3116!important;color:#f1dfb0!important}
+:root[data-theme=dark] img{opacity:.96}
+:root[data-theme=dark] .keybox{background:linear-gradient(135deg,#3a3014,#4a3b12);border-color:#b8901c;color:#f3e6c0}
+:root[data-theme=dark] .gh{color:color-mix(in srgb,var(--c,#7fd6b5) 55%,#fff)}
+:root[data-theme=dark] .tile small,:root[data-theme=dark] .nti small{opacity:.85}
+/*DARK-END*/
 </style></head><body>
 <header id="hd"></header><main id="app"></main><footer id="ft"></footer><div id="mm" class="mm"></div><div id="tip" hidden></div><div id="lb" hidden data-a="lbx"></div>
 <script>
@@ -711,9 +947,24 @@ const vReg=()=>{const r=S.role,I=(k,l,x='')=>`<div class=fld><label>${t(l)}</lab
  ${r=='subdealer'?`<div class=fld><label>${t('sup')}</label><select name=supplier>${S.users.filter(u=>u.role=='dealer').map(u=>`<option>${esc(u.name)}</option>`).join('')}</select></div>`:''}
  <div class=fld><label>${t('wphotos')}</label><input type=file name=photos accept="image/*" multiple></div>
  ${I('email','email','type=email')}${I('pass','pass','type=password')}<button class=pri data-a=reg>${t('register')}</button></form>`};
-const vAdm=()=>{if(!isAdmin())return'';
- return newsAdm()+`<div class=bar><button data-a=tgtest>🔔 ${S.lang=='ar'?'اختبار تنبيه تيليجرام':'Test Telegram alert'}</button></div><h3>${t('certsT')}</h3><div id=ac>${certListHtml()}</div><h3>${t('users')}</h3><div class=grid>${S.users.map(u=>`<div class=card><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · ${esc(u.phone)}</small><div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button class=dng data-a=rej data-id=${u.id}>🗑 ${t('delCo')}</button></div></div>`).join('')}</div>
- <h3>${t('products')}</h3><div class=grid>${S.prods.map(p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${(p.certOk||[]).map(k=>`<button data-a=revoke data-id=${p.id} data-k=${k}>✕ ${esc((ctag(k)||{}).label||k)}</button>`).join('')}${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=edit data-id=${p.id}>✎ ${t('edit')}</button><button data-a=nocmp data-id=${p.id}>${p.noCmp?'✓ ':''}🚫 ${S.lang=='ar'?'إخفاء من المقارنة':'Hide from compare'}</button><button data-a=del data-id=${p.id}>✕</button></div>${suspect(p)&&!p.noCmp?`<small class=warn>⚠ ${S.lang=='ar'?'قيم مشكوك فيها (suspect values)':'Suspect values'}</small>`:''}</div>`).join('')}</div>`};
+const admSec=(id,ic,title,n,body,hi)=>`<section class="adms${hi&&n?' hi':''}" id=adm-${id}><h3><span>${ic}</span>${title}<em>${n}</em></h3>${body}</section>`;
+const vAdm=()=>{if(!isAdmin())return'';const ar=S.lang=='ar';
+ const ts=u=>u.created?.seconds||0,ats=u=>u.approvedAt?.seconds||u.created?.seconds||0;
+ const pend=S.users.filter(u=>!u.approved).sort((x,y)=>ts(y)-ts(x));
+ const appr=S.users.filter(u=>u.approved).sort((x,y)=>ats(y)-ats(x)||(x.name||'').localeCompare(y.name||''));
+ const rank=p=>(suspect(p)&&!p.noCmp?0:!p.verified||!p.dsOk?1:2);
+ const prods=S.prods.slice().sort((x,y)=>rank(x)-rank(y));
+ const nCert=(S.adminCerts||[]).length,nSus=S.prods.filter(p=>suspect(p)&&!p.noCmp).length,nDraft=(S.news||[]).filter(n=>n.status!='live').length;
+ const ucard=u=>`<div class="card${u.approved?'':' pend'}"><b>${esc(u.name)}</b><small>${t(u.role)} · ${nm(u.city)} · <a href="tel:${esc(u.phone||'')}">${esc(u.phone||'')}</a></small>${u.created?`<small>🕒 ${ago(u.created)}</small>`:''}<div class=bar>${u.approved?'':`<button class=pri data-a=ap data-id=${u.id}>${t('approve')}</button>`}<button data-a=au data-id=${u.id}>${u.authorized?'✓ ':''}${t('auth')}</button><button class=dng data-a=rej data-id=${u.id}>🗑 ${t('delCo')}</button></div></div>`;
+ const pcard=p=>`<div class=card><b>${esc(p.brand)} ${esc(p.model)}</b><small>${esc(own(p).name||'')}</small>${(p.certOk||[]).map(k=>`<button data-a=revoke data-id=${p.id} data-k=${k}>✕ ${esc((ctag(k)||{}).label||k)}</button>`).join('')}${p.datasheet?`<a href="${esc(p.datasheet)}" target=_blank>PDF</a>`:''}<div class=bar><button data-a=vf data-id=${p.id}>${p.verified?'✓ ':''}${t('verified')}</button><button data-a=dso data-id=${p.id}>${p.dsOk?'✓ ':''}${t('dv')}</button><button data-a=edit data-id=${p.id}>✎ ${t('edit')}</button><button data-a=nocmp data-id=${p.id}>${p.noCmp?'✓ ':''}🚫 ${S.lang=='ar'?'إخفاء من المقارنة':'Hide from compare'}</button><button data-a=del data-id=${p.id}>✕</button></div>${suspect(p)&&!p.noCmp?`<small class=warn>⚠ ${S.lang=='ar'?'قيم مشكوك فيها (suspect values)':'Suspect values'}</small>`:''}</div>`;
+ const chip=(id,ic,lab,n,warn)=>`<a class="admc${warn&&n?' w':''}" href="#adm-${id}" data-a=admgo data-s=${id}><span>${ic}</span><b>${n}</b><small>${lab}</small></a>`;
+ return `<div class=admh>${chip('pend','🏢',ar?'شركات بانتظار الموافقة':'Companies to approve',pend.length,1)}${chip('certs','📜',ar?'شهادات للمراجعة':'Certificates to review',nCert,1)}${chip('prods','⚠️',ar?'منتجات مشكوك فيها':'Suspect products',nSus,1)}${chip('news','📰',ar?'أخبار غير منشورة':'Unpublished news',nDraft,0)}</div>`
+ +admSec('pend','🏢',ar?'شركات بانتظار الموافقة':'Companies awaiting approval',pend.length,pend.length?`<div class=grid>${pend.map(ucard).join('')}</div>`:`<p class=note>✅ ${ar?'لا توجد شركات بانتظار الموافقة':'No companies waiting'}</p>`,1)
+ +admSec('certs','📜',t('certsT'),nCert,`<div id=ac>${certListHtml()}</div>`,1)
+ +admSec('cos','🏪',ar?'الشركات المعتمدة (الأحدث أولاً)':'Approved companies (newest first)',appr.length,`<div class=grid>${appr.map(ucard).join('')}</div>`)
+ +admSec('prods','📦',ar?'المنتجات (المشكوك فيها وغير المؤكدة أولاً)':'Products (suspect and unverified first)',prods.length,`<div class=grid>${prods.map(pcard).join('')}</div>`)
+ +admSec('news','📰',t('nT'),(S.news||[]).length,newsAdm())
+ +admSec('tools','🔧',ar?'أدوات':'Tools','',`<div class=bar><button data-a=tgtest>🔔 ${ar?'اختبار تنبيه تيليجرام':'Test Telegram alert'}</button></div>`)};
 const slider=()=>{const l=S.prods.slice(0,8);if(!l.length)return'';
  return `<section class=slw><h2>${t('latest')}</h2><div class=sl id=sl><div class=tr id=tr>${l.map(p=>`<div class=sli data-a=open data-id=${p.id}><img src="${esc(p.thumb||'')}" alt=""><div><span class="tag ok">${t('newT')}</span><h3>${esc(p.brand)} ${esc(p.model)}</h3><p>${money(p)}</p><small>${esc(own(p).name||'')} · ${nm(own(p).city)}</small></div></div>`).join('')}</div>
  <button class="sb l" data-a=sl data-d=-1 aria-label="prev">❮</button><button class="sb r" data-a=sl data-d=1 aria-label="next">❯</button><div class=dots>${l.map((_,i)=>`<i data-a=sl data-i=${i}></i>`).join('')}</div></div></section>`};
@@ -747,7 +998,7 @@ const newsTeaser=()=>{const l=nLive().slice(0,3);if(!l.length)return'';
  return `<section class="nt rv"><h2>📰 ${t('nT')}</h2><div class=ntl>${l.map(n=>`<a class=nti href="#news"><small>${(NCAT[n.cat]||NCAT.world)[0]} ${esc(nDate(n))}</small><b>${esc(nl(n,'title'))}</b></a>`).join('')}</div><div class=bar style="justify-content:center"><button class=pri data-a=view data-v=news>${t('nMore')} ←</button></div></section>`};
 const newsAdm=()=>{const ar=S.lang=='ar',L=(S.news||[]).slice().sort((a,b)=>(b.created?.seconds||9e9)-(a.created?.seconds||9e9));
  const row=n=>`<div class="card nadm"><small>${n.status=='live'?'🟢 '+(ar?'منشور (live)':'Live'):'🟡 '+(ar?'مسودة (draft)':'Draft')} · ${esc(n.date||'')} · ${esc(n.source||'')} · ${(NCAT[n.cat]||NCAT.world)[0]}</small><input data-nf=title_ar data-id=${n.id} value="${esc(n.title_ar)}"><textarea data-nf=summary_ar data-id=${n.id} rows=4>${esc(n.summary_ar)}</textarea><a href="${esc(n.url||'#')}" target=_blank rel=noopener>${esc(n.url||'')}</a><div class=bar>${n.status=='live'?`<button data-a=newsub data-id=${n.id}>⏸ ${ar?'إخفاء (unpublish)':'Unpublish'}</button>`:`<button class=pri data-a=newspub data-id=${n.id}>✅ ${ar?'نشر (publish)':'Publish'}</button>`}<button class=dng data-a=newsdel data-id=${n.id}>🗑</button></div></div>`;
- return `<h3>📰 ${t('nT')}</h3><div id=newsAdm class=form><label>${t('nImp')}</label><textarea id=nimp rows=5 dir=ltr placeholder='[{"cat":"iraq","date":"2026-11-23","source":"Reuters","url":"https://...","title_ar":"...","summary_ar":"..."}]'></textarea><div class=bar><button class=pri data-a=newsimp>⬇ ${t('nImpB')}</button><button data-a=newspubAll>✅ ${t('nPubAll')}</button></div></div><div class=grid>${L.map(row).join('')}</div>`};
+ return `<div id=newsAdm class=form><label>${t('nImp')}</label><textarea id=nimp rows=5 dir=ltr placeholder='[{"cat":"iraq","date":"2026-11-23","source":"Reuters","url":"https://...","title_ar":"...","summary_ar":"..."}]'></textarea><div class=bar><button class=pri data-a=newsimp>⬇ ${t('nImpB')}</button><button data-a=newspubAll>✅ ${t('nPubAll')}</button></div></div><div class=grid>${L.map(row).join('')}</div>`};
 const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label><input name=${k} type=number min=0 step=any inputmode=decimal value="${c[k]??d}"></div>`;
  const hero=`<section class=hero>${SCENE}<h1>${t('heroT')}</h1><p>${t('heroS')}</p>
  <div class=bar style="justify-content:center;margin:0"><button class=cta data-a=goCalc>⬇ ${t('calcGo')}</button><button class=ghost data-a=view data-v=${S.me?(canSell()?'add':'profile'):'register'}>${t('imDealer')}</button><button class=awbtn data-a=view data-v=awards>🏆 ${t('awBtn')}</button><button class="ghost inst" data-a=install hidden>${t('install')}</button></div></section>`;
@@ -823,7 +1074,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
 const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v48</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button></nav>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v50</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -884,6 +1135,8 @@ const A={
  certNo:async d=>{const c=(S.adminCerts||[])[+d.i];if(!c||!confirm('?'))return;try{await db.doc('certs/'+c.id).delete();S.adminCerts.splice(+d.i,1);$('#ac').innerHTML=certListHtml()}catch(e){toast(e.message)}},
  revoke:async d=>{try{await db.doc('products/'+d.id).update({certOk:firebase.firestore.FieldValue.arrayRemove(d.k)});await db.doc('certs/'+d.id+'_'+d.k).update({approved:false});delete S.certImgs[d.id];toast(t('saved'))}catch(e){toast(e.message)}},
  lang:()=>{S.lang=S.lang=='ar'?'en':'ar';localStorage.lang=S.lang;render()},
+ admgo:d=>{const e=document.getElementById('adm-'+d.s);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},
+ theme:()=>{const d=isDark()?'light':'dark';document.documentElement.dataset.theme=d;try{localStorage.theme=d}catch(e){}setTcm();render()},
  open:d=>go('p-'+d.id),
  find:d=>{S.f={cat:d.c};go('products')},
  sl:d=>{slide(d.i!==undefined?+d.i:S.si+ +d.d);initSlider()},
