@@ -58,7 +58,20 @@ header{box-shadow:0 2px 10px rgba(0,0,0,.18)}
 body{background:radial-gradient(1100px 480px at 90% -8%,#dff1e8,transparent),var(--bg);min-height:100vh}
 header{background:linear-gradient(90deg,#0a5c44,#0e7d5a)}
 .brand{display:flex;align-items:center;gap:8px}.brand img{width:34px;height:34px;border-radius:9px;background:#fff}.brand small{font-weight:400;opacity:.55;font-size:11px}
-header button{background:rgba(255,255,255,.95)}header button.act{background:#f2b84b;color:#3a2600;font-weight:700}
+header{padding:8px 12px 10px;row-gap:8px}
+.hn{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+header .hb{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:99px;font-size:13.5px;line-height:1.35;font-weight:600;border:1px solid transparent;box-shadow:none;transition:transform .12s,filter .2s,background .2s}
+header .hb i{font-style:normal;font-size:14px;line-height:1}
+header .hb:hover{filter:brightness(1.08);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+header .nb{background:#e3f6ee;color:#0b5c43}
+header .ns{background:#e2efff;color:#1d4f91}
+header .na{background:#d7f5c9;color:#24620f}
+header .nx{background:#efe6ff;color:#5a2fa0}
+header .nl{background:#fff;color:#0b5c43}
+header .no{background:#ffe4e1;color:#a5321f}
+header .ng{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
+header .hb.act{background:#f2b84b;color:#3a2600;border-color:#f7d48a;box-shadow:0 2px 10px rgba(242,184,75,.45)}
+@media(min-width:900px){.hn{width:auto;flex:1;justify-content:flex-end}}@media(max-width:620px){header .hb{padding:4px 9px;font-size:12.5px;gap:4px}header .hb i{font-size:12.5px}.hn{gap:5px}}
 h2{position:relative;padding-inline-start:12px;margin:18px 0 10px}h2::before{content:"";position:absolute;inset-inline-start:0;top:.2em;bottom:.2em;width:4px;border-radius:4px;background:linear-gradient(#f2b84b,#0b6b4f)}
 .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0a5c44,#12936a 58%,#2f78a8);padding:26px 14px 22px;box-shadow:0 10px 30px rgba(11,107,79,.25)}
 .hero::before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,102,.55),transparent 66%);top:-150px;inset-inline-end:-110px;animation:pulse 6s ease-in-out infinite}
@@ -808,8 +821,9 @@ const vAwards=()=>{const AW=C.awards,T=AW.text[S.lang],ar=S.lang=='ar',W=AW.weig
 const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,products:vP,detail:vD,directory:vDir,compare:vC,add:vAdd,login:vLogin,register:vReg,admin:vAdm,news:vNews};
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
- const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v47</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
+const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v48</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
