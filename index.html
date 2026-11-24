@@ -96,7 +96,27 @@ button.pri,.btn{position:relative;overflow:hidden}
 .mmp button{display:flex;justify-content:space-between;gap:8px;width:100%;background:none;border:0;padding:9px 12px;text-align:start;border-radius:8px;color:var(--tx)}.mmp button:hover{background:#eef8f3}
 .gh{font-size:12px;opacity:.6;padding:8px 12px 2px}.ctiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .ctile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;background:#fff;border:1px solid var(--bd);border-radius:14px;text-align:center;transition:transform .25s,box-shadow .25s}
-.wel .wcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.wel>p{margin:-4px 0 10px;opacity:.75}.wcard{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 10px;background:linear-gradient(160deg,#fff,#f3f8f6);border:1px solid var(--bd);border-radius:14px;text-align:center;transition:transform .25s,box-shadow .25s}.wcard:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(11,107,79,.14)}.wcard .wav{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#e8eeec;display:grid;place-items:center;font-size:26px}.wcard .whi{font-size:13px;color:#0b6b4f;font-weight:600}.wcard b{font-size:17px}.wcard small{opacity:.7}.wcard .wgo{margin-top:4px;font-size:13px;color:#0b6b4f;text-decoration:underline}
+.wel>p{margin:-4px 0 12px;opacity:.75}
+.wcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+@media(max-width:620px){.wcards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:4px 2px 14px;margin:0 -2px;scrollbar-width:none}.wcards::-webkit-scrollbar{display:none}.wcard{flex:0 0 84%;scroll-snap-align:center}}
+.wcard{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--bd);border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(11,107,79,.08);transition:transform .25s,box-shadow .25s;animation:wIn .6s ease both}
+.wcard:nth-child(2){animation-delay:.12s}.wcard:nth-child(3){animation-delay:.24s}
+@keyframes wIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.wcard:hover{transform:translateY(-5px);box-shadow:0 14px 28px rgba(11,107,79,.18)}
+.wcv{position:relative;height:150px;display:grid;gap:3px;background:linear-gradient(135deg,#0b6b4f,#14916b 55%,#f3b845)}
+.wcv.n1{grid-template-columns:1fr}.wcv.n2{grid-template-columns:1fr 1fr}.wcv.n3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}.wcv.n3>.wpi:first-child{grid-row:span 2}
+.wpi{position:relative;overflow:hidden;background:#fff;cursor:pointer;padding:0;border:0;border-radius:0}
+.wpi img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.wpi:hover img{transform:scale(1.08)}
+.wpi i{position:absolute;inset:0;display:grid;place-items:center;background:rgba(11,40,30,.55);color:#fff;font-style:normal;font-weight:700;font-size:18px}
+.wcv.n0{place-items:center;color:#fff;font-size:44px}.wcv.n0 small{display:block;font-size:13px;opacity:.9;text-align:center}
+.wnew{position:absolute;top:10px;inset-inline-start:10px;z-index:2;background:#f3b845;color:#3b2a00;font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px;box-shadow:0 2px 8px rgba(0,0,0,.2);animation:wPulse 2s ease-in-out infinite}
+@keyframes wPulse{50%{transform:scale(1.08)}}
+.wbd{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 14px 14px;text-align:center;flex:1}
+.wav{width:68px;height:68px;margin-top:-34px;z-index:1;border-radius:50%;object-fit:cover;background:#e8eeec;border:4px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.15);display:grid;place-items:center;font-size:30px}
+.whi{font-size:13px;color:var(--g);font-weight:600}.wbd>b{font-size:18px;line-height:1.3}.wbd>small{opacity:.7}
+.wtags{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:2px}.wtags span{font-size:11.5px;padding:2px 8px;border-radius:99px;background:#e8f3ef;color:var(--g);font-weight:600}.wtags .au{background:#fff4dc;color:#8a5a00}
+.wst{display:flex;justify-content:center;gap:14px;font-size:13px;opacity:.85;margin-top:2px}
+.wgo{margin-top:auto;width:100%;padding:9px;border-radius:12px;background:var(--g);color:#fff;font-weight:700;border:0;cursor:pointer}.wst+small,.wst{margin-bottom:6px}.wgo:hover{filter:brightness(1.1)}
 .ctile:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(11,107,79,.14)}.ctile span{font-size:30px}.ctile small{opacity:.7}
 .fld .gh{padding:6px 0 0}
 .hero{padding:12px 12px 14px}.hero h1{font-size:clamp(19px,3.2vw,26px);margin:2px 0 4px}.hero p{font-size:14px;margin:0 auto 10px;line-height:1.6}
@@ -692,8 +712,13 @@ const stats=()=>{const ok=S.users.filter(u=>u.approved),c=[[ok.filter(u=>u.role!
  return c.length?`<section class="stats rv">${c.map(([n,k,e])=>`<div><span>${e}</span><b data-cnt=${n}>0</b><small>${t(k)}</small></div>`).join('')}</section>`:''};
 const catTiles=()=>`<section class="cats rv"><h2>${t('browse')}</h2><div class=ctiles>${C.taxonomy.map(c=>`<button class=ctile data-a=tag data-c=${c.k}><span>${c.icon}</span><b>${esc(c[S.lang])}</b><small>${S.prods.filter(p=>p.cat==c.k).length} ${t('sProds')}</small></button>`).join('')}</div></section>`;
 const welTs=u=>u.approvedAt?.seconds||u.created?.seconds||0;
+const welCard=u=>{const ar=S.lang=='ar',ps=S.prods.filter(p=>p.ownerId==u.id),th=ps.filter(p=>p.thumb),sh=th.slice(0,3),more=th.length-sh.length,av=(u.photos||[])[0],ts=u.approvedAt||u.created,isNew=welTs(u)&&Date.now()/1000-welTs(u)<14*86400;
+ const cover=sh.length?`<div class="wcv n${sh.length}">${sh.map((p,i)=>`<button class=wpi data-a=open data-id=${p.id} aria-label="${esc((p.brand||'')+' '+(p.model||''))}"><img src="${esc(p.thumb)}" alt="" loading=lazy>${i==sh.length-1&&more>0?`<i>+${more}</i>`:''}</button>`).join('')}</div>`
+  :`<div class="wcv n0"><div>☀️<small>${ar?'منتجاتهم قريباً':'Products coming soon'}</small></div></div>`;
+ const tags=[u.authorized?`<span class=au>✔ ${t('auth')}</span>`:'',u.inst&&u.inst.on?`<span>💳 ${t('instTag')}</span>`:'',u.wholesale?`<span>📦 ${t('whl')}</span>`:''].join('');
+ return `<div class=wcard>${isNew?`<span class=wnew>✨ ${ar?'جديد':'New'}</span>`:''}${cover}<div class=wbd>${av?`<img class=wav src="${esc(av)}" alt="">`:`<span class=wav>${u.role=='installer'?'🔧':'🏪'}</span>`}<span class=whi>👋 ${t('welHi')}</span><b>${esc(u.name||'')}</b><small>${t(u.role||'dealer')} · 📍 ${nm(u.city)}</small>${tags?`<div class=wtags>${tags}</div>`:''}<div class=wst><span>🛒 ${ps.length} ${t('sProds')}</span>${ts?`<span>🕒 ${ar?'انضمّت':'Joined'} ${ago(ts)}</span>`:''}</div>${(u.brands||[]).length?`<small>🏷️ ${esc(u.brands.slice(0,3).join(' · '))}</small>`:''}<button class=wgo data-a=co data-n="${esc(u.name||'')}">${t('welGo')} ${ar?'←':'→'}</button></div></div>`};
 const welcome=()=>{const l=S.users.filter(u=>u.approved).sort((a,b)=>welTs(b)-welTs(a)).slice(0,3);if(!l.length)return'';
- return `<section class="wel rv"><h2>${t('welT')}</h2><p>${t('welS')}</p><div class=wcards>${l.map(u=>{const ph=(u.photos||[])[0];return `<button class=wcard data-a=co data-n="${esc(u.name||'')}">${ph?`<img class=wav src="${esc(ph)}" alt="">`:`<span class=wav>${u.role=='installer'?'🔧':'🏪'}</span>`}<span class=whi>👋 ${t('welHi')}</span><b>${esc(u.name||'')}</b><small>${t(u.role||'dealer')} · ${nm(u.city)}</small>${u.inst&&u.inst.on?`<small>💳 ${t('instTag')}</small>`:''}<span class=wgo>${t('welGo')} ${S.lang=='ar'?'←':'→'}</span></button>`}).join('')}</div></section>`};
+ return `<section class="wel rv"><h2>${t('welT')}</h2><p>${t('welS')}</p><div class=wcards>${l.map(welCard).join('')}</div></section>`};
 const SPON_URL='http://www.dardoor.net';
 const sponsor=()=>`<a class=spon href="${SPON_URL}" target=_blank rel="noopener sponsored"><span class=spb>${t('sponTag')}</span><span class=spi>🏠</span><span class=spt><b>${t('sponT')}</b><small>${t('sponS')}</small></span><span class=spg>${t('sponGo')} ↗</span></a>`;
 const NCAT={iraq:['🇮🇶','العراق والخليج','Iraq & Gulf'],prices:['💰','الأسعار','Prices'],tech:['🔬','التقنيات','Technology'],policy:['📜','سياسات وقرارات','Policy'],world:['🌍','العالم','World']};
@@ -784,7 +809,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const nav=(v,k)=>`<button class="${S.view==v?'act':''}" data-a=view data-v=${v}>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v46</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v47</small></b><button data-a=menu>☰ ${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button data-a=logout>${t('logout')}</button>`:nav('login')}<button data-a=lang>${S.lang=='ar'?'EN':'عربي'}</button>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
