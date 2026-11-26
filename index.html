@@ -38,7 +38,20 @@ button,.btn{transition:transform .12s,box-shadow .2s}button:hover,.btn:hover{box
 header{box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .hero{text-align:center;padding:26px 10px 16px;background:linear-gradient(135deg,#0b6b4f,#1fa273);color:#fff;border-radius:16px;margin-bottom:14px}
 .hero h1{margin:0 0 6px;font-size:clamp(22px,4vw,32px)}.hero p{margin:0;opacity:.92}
-.calc{max-width:820px}.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.calc{max-width:820px}
+.cst{margin:16px 0 6px;font-size:16px}.calc .cst:first-child{margin-top:4px}
+.seg{display:flex;gap:6px;margin:6px 0 4px}.seg label{flex:1}.seg input{position:absolute;opacity:0}.seg span{display:block;text-align:center;padding:10px 6px;border-radius:12px;border:1.5px solid var(--bd);background:#fff;font-weight:700;cursor:pointer}.seg input:checked+span{border-color:var(--g);background:var(--g);color:#fff}.seg input:focus-visible+span{outline:3px solid #f5a623}
+.sumr{display:flex!important;gap:8px;align-items:flex-start;margin:8px 0;font-size:13.5px;background:#fff8e1;border-radius:10px;padding:8px 10px}
+.socv{border:2px solid var(--bd);border-radius:16px;padding:12px;margin:8px 0;background:#fff}.socv.v0{border-color:#1fa273}.socv.v1{border-color:#e0a800}.socv.v2{border-color:#d9534f}
+.sbig>small{display:block;opacity:.75;font-weight:600}.sbt{display:flex;align-items:center;gap:14px;margin:8px 0}.sbt b{font-size:40px;line-height:1}.sbt small{display:block;opacity:.75}
+.bico{position:relative;width:46px;height:78px;border:3px solid currentColor;border-radius:8px;flex:none;opacity:.9}.bico::before{content:"";position:absolute;top:-8px;left:13px;width:14px;height:5px;background:currentColor;border-radius:2px 2px 0 0}.bico i{position:absolute;left:3px;right:3px;bottom:3px;height:calc((100% - 6px) * var(--p) / 100%);max-height:calc(100% - 6px);background:var(--c);border-radius:4px;transition:height .8s}
+.svt{font-weight:800;margin:4px 0}.sln{margin:2px 0;font-size:13.5px}.sbad{color:#b3261e;font-weight:700;margin:6px 0 0}
+.soch{width:100%;height:auto;display:block;margin:10px 0 2px}.cbg{fill:rgba(31,162,115,.12)}.cbo{fill:rgba(217,83,79,.07)}.cgl{stroke:#e3ebe7;stroke-width:1}.c20{stroke:#e0a800;stroke-width:1.2;stroke-dasharray:4 3}.cln{fill:none;stroke:#0b6b4f;stroke-width:2.5;stroke-linejoin:round}.cfl{fill:rgba(11,107,79,.08)}.ct2{font-size:9px;fill:#6b7a74}.cl{font-size:10px;font-weight:800;fill:#1d2b26}
+.clg{display:flex;flex-wrap:wrap;gap:10px;font-size:11.5px;opacity:.85}.clg i{display:inline-block;width:12px;height:10px;border-radius:3px;margin-inline-end:4px;vertical-align:middle}.lg1{background:rgba(31,162,115,.35)}.lg2{background:rgba(217,83,79,.25)}.lg3{border-top:2px dashed #e0a800;height:0!important}
+.tls{display:flex;flex-direction:column;gap:4px;margin-top:10px}.tl{display:grid;grid-template-columns:1.3fr 1fr auto;gap:6px;align-items:center;font-size:12.5px;padding:5px 9px;border-radius:9px;background:#f6f9f8}.tl.on{background:#e9f6f0}.tl.off{background:#fdf1ef}.tl em{font-style:normal;font-weight:800;direction:ltr}
+.sadv{background:#fff8e1;border:1px solid #f1d27a;border-radius:12px;padding:4px 12px;margin:8px 0;font-size:13.5px;line-height:1.7}.sadv p{margin:6px 0}
+.s16{margin:12px 0}.s16 h4{margin:0 0 4px}.s16t th,.s16t td{text-align:center;font-size:13px}.s16t th:first-child{text-align:start;white-space:nowrap}.s16t td{font-weight:800}.s16t td.v0{color:#137a52;background:#e9f6f0}.s16t td.v1{color:#7a5a00;background:#fff6db}.s16t td.v2{color:#a3261e;background:#fdeceb}.s16t tr.cur th{box-shadow:inset 4px 0 0 #f2b84b}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
 .res{background:linear-gradient(160deg,#f0faf5,#dff2e8);border:1px solid var(--bd);border-radius:12px;padding:12px;text-align:center}
 .res b{display:block;font-size:36px;color:var(--g);line-height:1.1}.res small{display:block;opacity:.75}.res i{font-style:normal;font-size:13px;opacity:.8}
@@ -311,6 +324,35 @@ small.warn{color:#9a6700;opacity:1}
 :root[data-theme=dark] .form{background:#19221f}
 :root[data-theme=dark] :focus-visible{outline:3px solid #f5a623}
 :root[data-theme=dark] .hero{background:linear-gradient(135deg,#0b6b4f,#1fa273);color:#fff}
+:root[data-theme=dark] .seg span{border:1.5px solid #36453e;background:#19221f}
+:root[data-theme=dark] .seg input:checked+span{border-color:var(--g);background:var(--g);color:#fff}
+:root[data-theme=dark] .seg input:focus-visible+span{outline:3px solid #f5a623}
+:root[data-theme=dark] .sumr{background:#3a3116}
+:root[data-theme=dark] .socv{border:2px solid #36453e;background:#19221f}
+:root[data-theme=dark] .socv.v0{border-color:#1fa273}
+:root[data-theme=dark] .socv.v1{border-color:#e0a800}
+:root[data-theme=dark] .socv.v2{border-color:#d9534f}
+:root[data-theme=dark] .bico::before{background:currentColor}
+:root[data-theme=dark] .bico i{background:var(--c)}
+:root[data-theme=dark] .sbad{color:#e59b97}
+:root[data-theme=dark] .cbg{fill:rgba(157,230,204,0.12)}
+:root[data-theme=dark] .cbo{fill:rgba(217,83,79,.07)}
+:root[data-theme=dark] .cgl{stroke:#e3ebe7}
+:root[data-theme=dark] .c20{stroke:#e4cf92}
+:root[data-theme=dark] .cln{stroke:#adebd9}
+:root[data-theme=dark] .cfl{fill:rgba(173,235,217,0.08)}
+:root[data-theme=dark] .ct2{fill:#b5bebb}
+:root[data-theme=dark] .cl{fill:#d6e4df}
+:root[data-theme=dark] .lg1{background:rgba(31,162,115,.35)}
+:root[data-theme=dark] .lg2{background:rgba(217,83,79,.25)}
+:root[data-theme=dark] .lg3{border-top:2px dashed #e0a800}
+:root[data-theme=dark] .tl{background:#1c2925}
+:root[data-theme=dark] .tl.on{background:#173929}
+:root[data-theme=dark] .tl.off{background:#341814}
+:root[data-theme=dark] .sadv{background:#3a3116;border:1px solid #f1d27a}
+:root[data-theme=dark] .s16t td.v0{color:#adebd3;background:#173929}
+:root[data-theme=dark] .s16t td.v1{color:#ebdbad;background:#3d3317}
+:root[data-theme=dark] .s16t td.v2{color:#e6a19d;background:#361614}
 :root[data-theme=dark] .res{background:linear-gradient(160deg,#143524,#1a402c);border:1px solid #36453e}
 :root[data-theme=dark] .res b{color:#adebd9}
 :root[data-theme=dark] .sl{background:#19221f;border:1px solid #36453e}
@@ -510,6 +552,7 @@ small.warn{color:#9a6700;opacity:1}
 :root[data-theme=dark] img{opacity:.96}
 :root[data-theme=dark] .keybox{background:linear-gradient(135deg,#3a3014,#4a3b12);border-color:#b8901c;color:#f3e6c0}
 :root[data-theme=dark] .gh{color:color-mix(in srgb,var(--c,#7fd6b5) 55%,#fff)}
+:root[data-theme=dark] .cgl{stroke:#2f3d37}:root[data-theme=dark] .cln{stroke:#7fd6b5}:root[data-theme=dark] .cfl{fill:rgba(127,214,181,.08)}:root[data-theme=dark] .cbg{fill:rgba(31,162,115,.18)}:root[data-theme=dark] .cbo{fill:rgba(217,83,79,.12)}:root[data-theme=dark] .bico{color:#8aa197}
 :root[data-theme=dark] .tile small,:root[data-theme=dark] .nti small{opacity:.85}
 /*DARK-END*/
 </style></head><body>
@@ -538,7 +581,7 @@ mtAdd:['أضف جهازاً','Add a device'],mtPre:['أو ابدأ بنموذج 
 mtEmpty:['لم تضف أجهزة بعد. اختر جهازاً من الأسفل أو ابدأ بنموذج جاهز.','No devices yet. Pick one below or start from a template.'],mtPeak:['أقصى حمل (peak load)','Peak load'],mtSurge:['ذروة الإقلاع (startup surge)','Startup surge'],mtSurge2:['لحظة تشغيل المحركات','when motors start'],mtDay:['طاقة النهار','Day energy'],mtNight:['طاقة الليل','Night energy'],
 mtNote:['الواطات تقديرية لمتوسط الأجهزة الشائعة في العراق، وتقدر تعدّل الواط والساعات لكل جهاز. نفترض أن 85% من الأحمال تعمل معاً، وأن الانفرتر يتحمل ضعف قدرته لثوانٍ عند تشغيل التكييف أو المضخة أو البراد.','Watts are typical estimates for common devices in Iraq; you can edit watts and hours per device. We assume 85% of loads run together and that the inverter tolerates twice its rating for a few seconds when an AC, pump or fridge starts.'],
 tplA:['شقة (Flat)','Flat'],tplB:['بيت متوسط (House)','Medium house'],tplC:['بيت كبير (Large house)','Large house'],
-mtP:['الألواح (panels)','Panels'],mtI:['الانفرتر (inverter)','Inverter'],mtB:['البطاريات (batteries)','Batteries'],delCo:['حذف الشركة','Delete company'],zoomH:['اضغط على الصورة لعرضها كاملة وكبيرة','Tap a photo to view it full size'],sponTag:['برعاية','Sponsored'],sponT:['سوق العقارات بالعراق','Iraq Real Estate Market'],sponS:['بيع وإيجار العقارات في بغداد وكل المحافظات — dardoor.net','Property for sale and rent in Baghdad and all provinces — dardoor.net'],sponGo:['زيارة الموقع','Visit site'],awBtn:['جوائز البطاريات 2026','Battery Awards 2026'],products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6، تُصغَّر تلقائياً)','Photos (up to 6, auto-shrunk)'],wphotos:['صور أعمال سابقة (حتى 4)','Photos of past work (up to 4)'],ds:['رابط ورقة البيانات PDF (Google Drive أو موقع الشركة) — اختياري','Datasheet PDF link (Google Drive or maker site) — optional'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dayH:['ساعات قطع الكهرباء نهاراً','Grid-off hours (day)'],nightH:['ساعات قطع الكهرباء ليلاً','Grid-off hours (night)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['تقدير أولي: 220 فولت، كفاءة 85%، عمق تفريغ 90%، هامش أمان 25% للانفرتر. استشر فنياً قبل الشراء.','Estimate: 220 V, 85% efficiency, 90% DoD, 25% inverter margin. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved'],menu:['الأقسام','Categories'],allProds:['عرض كل المنتجات','View all products'],guide:['دليل الشهادات','Certifications guide'],readGuide:['اقرأ الدليل','Read the guide'],tierMain:['رئيسية','Main'],tierBasic:['أساسية','Basic'],
+mtP:['الألواح (panels)','Panels'],mtI:['الانفرتر (inverter)','Inverter'],mtB:['البطاريات (batteries)','Batteries'],delCo:['حذف الشركة','Delete company'],zoomH:['اضغط على الصورة لعرضها كاملة وكبيرة','Tap a photo to view it full size'],sponTag:['برعاية','Sponsored'],sponT:['سوق العقارات بالعراق','Iraq Real Estate Market'],sponS:['بيع وإيجار العقارات في بغداد وكل المحافظات — dardoor.net','Property for sale and rent in Baghdad and all provinces — dardoor.net'],sponGo:['زيارة الموقع','Visit site'],awBtn:['جوائز البطاريات 2026','Battery Awards 2026'],products:['المنتجات','Products'],directory:['الدليل','Directory'],compare:['مقارنة','Compare'],add:['إضافة منتج','Add product'],admin:['الإدارة','Admin'],login:['دخول','Login'],register:['حساب جديد','Sign up'],logout:['خروج','Logout'],q:['بحث…','Search…'],city:['كل المدن','All cities'],cat:['كل الفئات','All categories'],brand:['كل الماركات','All brands'],role:['كل الأنواع','All types'],battery:['بطاريات','Batteries'],inverter:['انفرترات','Inverters'],panel:['ألواح شمسية','Solar panels'],dealer:['تاجر / مكتب','Dealer / office'],installer:['فنّي تركيب','Installer'],subdealer:['مكتب فرعي','Sub-dealer office'],wa:['واتساب','WhatsApp'],maps:['الخريطة','Maps'],call:['اتصال','Call'],auth:['موزع معتمد','Authorized distributor'],nv:['المواصفات غير مؤكدة','Specs not verified'],dv:['مؤكدة بورقة البيانات','Verified by datasheet'],whl:['جملة','Wholesale'],sup:['المورّد','Supplier'],name:['الاسم','Name'],address:['العنوان','Address'],mapsUrl:['رابط Google Maps','Google Maps link'],phone:['الهاتف','Phone'],wnum:['واتساب','WhatsApp'],email:['البريد الإلكتروني','Email'],pass:['كلمة المرور (6+)','Password (6+)'],acct:['نوع الحساب','Account type'],brands:['الماركات (مفصولة بفاصلة)','Brands (comma-separated)'],photos:['الصور (حتى 6، تُصغَّر تلقائياً)','Photos (up to 6, auto-shrunk)'],wphotos:['صور أعمال سابقة (حتى 4)','Photos of past work (up to 4)'],ds:['رابط ورقة البيانات PDF (Google Drive أو موقع الشركة) — اختياري','Datasheet PDF link (Google Drive or maker site) — optional'],save:['حفظ','Save'],fix:['صحّح الأخطاء أولاً','Fix the errors first'],empty:['لا توجد نتائج','Nothing found'],pend:['تم إنشاء الحساب وهو بانتظار موافقة الإدارة','Account created; awaiting admin approval'],cmpHint:['اختر منتجين أو ثلاثة من نفس الفئة للمقارنة','Pick 2–3 products of the same category to compare'],range:['نطاق الأسعار عند التجّار','Dealer price range'],compat:['فحص التوافق','Compatibility check'],vclass:['فئة الجهد','Voltage class'],lv:['منخفض 48V','Low-voltage 48V'],hv:['عالي الجهد','High-voltage'],nocomm:['لا يوجد بروتوكول اتصال مشترك','No common communication protocol'],invclaim:['عاكسات مشتركة يدّعيها التجّار','Inverters claimed by all dealers'],claimNote:['هذا ادّعاء من التاجر وليس ضماناً.','Dealer claim, not a guarantee.'],approve:['موافقة','Approve'],verified:['مواصفات مؤكدة','Specs verified'],kwhp:['السعر لكل kWh مفيد','Price per usable kWh'],need:['سجّل الدخول بحساب معتمد لإضافة منتج','Log in with an approved account to add products'],users:['الحسابات','Accounts'],clear:['مسح','Clear'],cmpc:['اختر منتجاً من نفس الفئة','Pick a product of the same category'],home:['الرئيسية','Home'],profile:['صفحتي','My page'],heroT:['احسب منظومتك الشمسية بالأمبير','Size your solar system from your amps'],calcSub:['أدخل أحمالك بالأمبير ونحسب لك الألواح والانفرتر والبطاريات','Enter your load in amps and get panels, inverter and batteries'],dayA:['أمبير النهار','Daytime amps'],nightA:['أمبير الليل','Night-time amps'],dod:['عمق التفريغ المسموح (DoD %)','Usable depth of discharge (DoD %)'],sunH:['ساعات الشمس الفعالة','Peak sun hours'],pw:['قدرة اللوح (واط)','Panel power (W)'],bv:['جهد البطاريات','Battery voltage'],rP:['ألواح شمسية','Solar panels'],rI:['انفرتر','Inverter'],rB:['بطاريات','Batteries'],peak:['أقصى حمل','Peak load'],eDay:['طاقة النهار','Day energy'],eNight:['طاقة الليل','Night energy'],rNote:['المحاكاة تقديرية: 220 فولت، كفاءة شحن وتفريغ 95%، شحن البطارية بحد أقصى 0.5C، الحمل موزّع بالتساوي على 12 ساعة، والقطع يبدأ الساعة 6 مساءً. نكرر الجدول يومين ثم نعرض اليوم الثالث. نسبة البطارية هنا مثل شاشة الانفرتر: 0% يعني وصلت حد الفصل. استشر فنياً قبل الشراء.','Estimate: 220 V, 95% charge and discharge efficiency, battery charging capped at 0.5C, load spread evenly over 12 hours, outages start at 6 pm. The schedule runs for two days and the third is shown. Battery % works like the inverter screen: 0% means the cut-off level. Consult an installer before buying.'],findP:['ابحث عن ألواح','Find panels'],findI:['ابحث عن انفرتر','Find inverters'],findB:['ابحث عن بطاريات','Find batteries'],latest:['أحدث المنتجات','Latest products'],newT:['جديد','New'],saved:['تم الحفظ','Saved'],menu:['الأقسام','Categories'],allProds:['عرض كل المنتجات','View all products'],guide:['دليل الشهادات','Certifications guide'],readGuide:['اقرأ الدليل','Read the guide'],tierMain:['رئيسية','Main'],tierBasic:['أساسية','Basic'],
 stCert:['حاصلة على شهادة','Certified'],stClaim:['مُدّعاة','Claimed'],stDesign:['التصميم متوافق فقط','Design-compliant only'],stPick:['اختر الحالة','Pick status'],
 noMain:['لا توجد شهادة سلامة رئيسية مدرجة','No main safety certification listed'],certLab:['اسم المختبر','Lab name'],certImg:['صورة الشهادة','Certificate image'],hasCert:['الشهادة مرفوعة سابقاً','Certificate already uploaded'],
 certsT:['شهادات بانتظار المراجعة','Certificates awaiting review'],mainCnt:['شهادات رئيسية','Main certificates'],certAttached:['الشهادات المرفقة (راجعتها الإدارة)','Attached certificates (reviewed by admin)'],rejectB:['رفض','Reject'],certPend:['شهادة بانتظار مراجعة الإدارة','certificate(s) awaiting admin review'],
@@ -681,8 +724,8 @@ const ago=ts=>{const s=ts&&ts.seconds?Date.now()/1000-ts.seconds:0,m=s/60,h=m/60
 const stale=ts=>!!(ts&&ts.seconds&&Date.now()/1000-ts.seconds>30*86400);
 const stockOpts=v=>C.tail.find(f=>f.k=='stock').opts.map(o=>`<option value="${o[0]}" ${v==o[0]?'selected':''}>${esc(ol(o))}</option>`).join('');
 function waLink(p,c){const ar=S.lang=='ar',o=p?own(p):{};
- const m=ar?`السلام عليكم، حسبت منظومتي في سوق الطاقة الشمسية في العراق:\n• أمبير النهار ${c.dA} / الليل ${c.nA}\n• ساعات قطع الكهرباء: نهاراً ${c.dH} / ليلاً ${c.nH}\n• المطلوب: ${c.panels} لوح (${c.kwp.toFixed(1)} kWp)، انفرتر ${c.inv} كيلوواط، بطاريات ${c.bat.toFixed(1)} kWh (${c.bv}V)${p?`\nأريد سعر: ${p.brand} ${p.model}`:''}`
-  :`Hello, I sized my system on Iraq Solar Market:\n• Day amps ${c.dA} / night ${c.nA}\n• Grid-off hours: day ${c.dH} / night ${c.nH}\n• Needed: ${c.panels} panels (${c.kwp.toFixed(1)} kWp), ${c.inv} kW inverter, ${c.bat.toFixed(1)} kWh batteries (${c.bv}V)${p?`\nI want the price of: ${p.brand} ${p.model}`:''}`;
+ const m=ar?`السلام عليكم، حسبت منظومتي في سوق الطاقة الشمسية في العراق:\n• أمبير النهار ${c.dA} / الليل ${c.nA}\n• جدول الكهرباء: ${c.off} ساعات قطع / ${c.on} ساعات كهرباء بالتناوب\n• أقل نسبة للبطارية (${c.cap} kWh): ليلاً ${Math.round(c.minN)}% / نهاراً ${Math.round(c.minD)}%\n• المطلوب: ${c.panels} لوح (${c.kwp.toFixed(1)} kWp)، انفرتر ${c.inv} كيلوواط، بطاريات ${c.bat.toFixed(1)} kWh (${c.bv}V)${p?`\nأريد سعر: ${p.brand} ${p.model}`:''}`
+  :`Hello, I sized my system on Iraq Solar Market:\n• Day amps ${c.dA} / night ${c.nA}\n• Grid schedule: ${c.off}h off / ${c.on}h on, alternating\n• Lowest battery level (${c.cap} kWh): night ${Math.round(c.minN)}% / day ${Math.round(c.minD)}%\n• Needed: ${c.panels} panels (${c.kwp.toFixed(1)} kWp), ${c.inv} kW inverter, ${c.bat.toFixed(1)} kWh batteries (${c.bv}V)${p?`\nI want the price of: ${p.brand} ${p.model}`:''}`;
  return `https://wa.me/${p?String(o.whatsapp||o.phone||'').replace(/\D/g,'').replace(/^0/,'964'):''}?text=${encodeURIComponent(m)}`}
 function matches(c,city){
  if(!(c.panels>0||c.bat>0))return '';
@@ -715,18 +758,74 @@ function tween(el,to,dec=0){if(!el)return;const from=parseFloat(el.dataset.v)||0
 /* Iraqi-style sizing: amps @220V, day load runs from panels, night load from batteries */
 function batPlan(b){let n16=0,n5=0;if(b>0){if(b<=10.24)n5=Math.ceil(b/5.12-1e-9);else{n16=Math.floor(b/16);const r=b-n16*16;if(r>0.3){if(r<=5.12)n5=1;else n16++}}}
  const a=S.lang=='ar',p=[];if(n16)p.push(`${n16} × 16 kWh`);if(n5)p.push(`${n5} × 5.12 kWh`);return{n16,n5,txt:p.join(' + ')||'—'}}
-function calcRun(){const f=$('#calc');if(!f)return;const K=['dayA','nightA','dayH','nightH','sunH','pw','bv'];
- S.calc=Object.fromEntries(K.map(k=>[k,f.elements[k].value]));S.calc.city=f.elements.city.value;
- const [dA,nA,dH,nH,sun,pw,bv]=K.map(k=>Math.max(0,parseFloat(f.elements[k].value)||0));
- const mp=S.mp&&S.mp.on&&S.mp.items.length?mpCompute():null,eD=mp?mp.eD:dA*220*dH/1000,eN=mp?mp.eN:nA*220*nH/1000,bat=eN/0.9/0.9,pvW=Math.max((eD+eN)/0.85*1000/(sun||1),mp?mp.avgD*1.15:dA*220*1.15),
-  panels=pw?Math.ceil(pvW/pw):0,load=mp?mp.peak:Math.max(dA,nA)*220/1000,need=mp?mp.need:load*1.25,
-  inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0,bp=batPlan(bat),mods=bp.n16+bp.n5;
+/* ===== Battery simulation for Iraq's alternating grid (grid on X h / off Y h) ===== */
+const L2=(a,e)=>S.lang=='ar'?a:e;
+const summerOn=()=>{const f=$('#calc');return f&&f.elements.summer?f.elements.summer.checked:S.calc.summer!=0};
+const hhmm=h=>{h=((h%24)+24)%24;const H=Math.floor(h+1e-6),M=Math.round((h-H)*60)%60;return String(H).padStart(2,'0')+':'+String(M).padStart(2,'0')};
+const dur=h=>{const H=Math.floor(h+1e-6),M=Math.round((h-H)*60);return S.lang=='ar'?(H?`${H} س`:'')+(M?` ${M} د`:''):(H?`${H}h`:'')+(M?` ${M}m`:'')};
+/* o: pd,pn = average load kW (day / night); off,on = hours; cap kWh; dod 0-1; chg kW (grid charging); kwp; sun = peak-sun hours */
+function simBat(o){const dt=1/12,U=o.cap*o.dod,cmax=o.cap*.5,cyc=o.off+o.on,k=.85*(o.sun||0)/7.64;let E=U;const rec=[];
+ for(let i=0;i<72*12;i++){const t=i*dt,h=(18+t)%24,day=h>=6&&h<18,on=((t+1e-9)%cyc)>=o.off,
+  load=day?o.pd:o.pn,pv=day?Math.max(0,o.kwp*k*Math.sin(Math.PI*(h-6)/12)):0;let un=0;
+  if(on)E+=Math.min(cmax,o.chg+pv)*.95*dt;
+  else{const net=pv-load;if(net>=0)E+=Math.min(net,cmax)*.95*dt;else{E-=(-net)/.95*dt;if(E<0){un=-E;E=0}}}
+  E=Math.min(E,U);if(t>=48-1e-9)rec.push({t:t-48,h,on,soc:U?E/U*100:0,un})}
+ const part=a=>{const s=rec.slice(a*144,a*144+144),segs=[];let cur=null,prev=a?rec[a*144-1].soc:rec[rec.length-1].soc;
+  s.forEach((x,j)=>{if(!cur||cur.on!=x.on){if(cur)segs.push(cur);cur={on:x.on,a:x.t-a*12,s0:j?s[j-1].soc:prev,s1:x.soc}}cur.b=x.t-a*12+dt;cur.s1=x.soc});segs.push(cur);
+  const e=s.find(x=>x.un>0);return{s,segs,min:Math.min(...s.map(x=>x.soc)),empty:e?e.t-a*12:null,un:s.reduce((q,x)=>q+x.un,0),start:a?18-12:18}};
+ return{night:part(0),day:part(1)}}
+const VC=['#1fa273','#e0a800','#d9534f'];
+const verdict=m=>m.empty!=null||m.min<10?2:m.min<20?1:0;
+const vcol=s=>VC[s<10?2:s<20?1:0];
+function socChart(P,start){const W=360,H=170,x=t=>34+t/12*316,y=s=>12+(100-s)*1.2,ar=S.lang=='ar';
+ const bands=P.segs.map(g=>`<rect x="${x(g.a).toFixed(1)}" y=12 width="${(x(g.b)-x(g.a)).toFixed(1)}" height=120 class="${g.on?'cbg':'cbo'}"/>`).join('');
+ const line=`M${x(0).toFixed(1)},${y(P.segs[0].s0).toFixed(1)} L`+P.s.map(p=>`${x(p.t-(p.t>=12?12:0)).toFixed(1)},${y(p.soc).toFixed(1)}`).join(' ');
+ const marks=P.segs.filter(g=>!g.on).map(g=>`<circle cx="${x(g.b).toFixed(1)}" cy="${y(g.s1).toFixed(1)}" r=4 fill="${vcol(g.s1)}"/><text x="${x(g.b).toFixed(1)}" y="${(y(g.s1)-8).toFixed(1)}" text-anchor=middle class=cl>${Math.round(g.s1)}%</text>`).join('');
+ const ticks=[0,2,4,6,8,10,12].map(t=>`<text x="${x(t)}" y=148 text-anchor=${t==12?'end':t==0?'start':'middle'} class=ct2>${hhmm(start+t).slice(0,5)}</text>`).join('');
+ const yl=[100,50,20,0].map(s=>`<line x1=34 x2=350 y1="${y(s)}" y2="${y(s)}" class="${s==20?'c20':'cgl'}"/><text x=28 y="${y(s)+4}" text-anchor=end class=ct2>${s}%</text>`).join('');
+ return `<svg class=soch viewBox="0 0 ${W} 156" role=img aria-label="${ar?'نسبة شحن البطارية':'Battery charge'}" style="direction:ltr">${bands}${yl}<path d="${line}" class=cln /><path d="${line} L${x(12)},132 L${x(0)},132 Z" class=cfl />${marks}${ticks}</svg>
+ <div class=clg><span><i class=lg1></i>${ar?'كهرباء وطنية (شحن)':'Grid on (charging)'}</span><span><i class=lg2></i>${ar?'قطع (من البطارية)':'Outage (on battery)'}</span><span><i class=lg3></i>${ar?'حد 20% لعمر البطارية':'20% line for battery life'}</span></div>`}
+function socHtml(r,o,scen){const P=r[scen],ar=S.lang=='ar',v=verdict(P),outs=P.segs.filter(g=>!g.on),first=outs[0],st=P.start;
+ const vt=[ar?'✅ البطارية تكفي بأمان':'✅ Battery is enough, with margin',ar?'⚠️ تكفي بالكاد — البطارية تنزل كثيراً':'⚠️ Barely enough — the battery runs low',ar?'❌ البطارية لا تكفي':'❌ Battery is not enough'][v];
+ const big=first?Math.round(first.s1):Math.round(P.min);
+ const emp=P.empty!=null?`<p class=sbad>🪫 ${ar?`تنفد البطارية الساعة ${hhmm(st+P.empty)} (بعد ${dur(P.empty-(outs.find(g=>P.empty>=g.a&&P.empty<=g.b)||{a:0}).a)} من بداية القطع)`:`Battery runs out at ${hhmm(st+P.empty)} (${dur(P.empty-(outs.find(g=>P.empty>=g.a&&P.empty<=g.b)||{a:0}).a)} into the outage)`}</p>`:'';
+ const rows=P.segs.map(g=>`<div class="tl ${g.on?'on':'off'}"><span>${g.on?'🔌':'🔋'} <bdi dir=ltr>${hhmm(st+g.a)}–${hhmm(st+g.b)}</bdi></span><b>${g.on?(ar?'كهرباء وطنية':'Grid on'):(ar?'قطع':'Outage')}</b><em>${Math.round(g.s0)}% → ${Math.round(g.s1)}%</em></div>`).join('');
+ return `<div class="socv v${v}"><div class=sbig><small>${scen=='night'?(ar?'🌙 الليل (بدون شمس)':'🌙 Night (no sun)'):(ar?'☀️ النهار (مع الألواح)':'☀️ Day (with panels)')} · ${ar?`${o.off} س قطع / ${o.on} س كهرباء`:`${o.off}h off / ${o.on}h on`}</small>
+ <div class=sbt><span class=bico style="--p:${Math.max(0,Math.min(100,big))}%;--c:${vcol(big)}"><i></i></span><div><b>${big}%</b><small>${ar?`نسبة البطارية بعد ${o.off} ساعات قطع`:`Battery left after ${o.off}h outage`}</small></div></div>
+ <p class=svt>${vt}</p><p class=sln>${ar?'أقل نسبة خلال':'Lowest during the'} ${scen=='night'?(ar?'الليل':'night'):(ar?'النهار':'day')}: <b>${Math.round(P.min)}%</b> · ${ar?'الحمل المتوسط':'Average load'}: <b><bdi dir=ltr>${(scen=='night'?o.pn:o.pd).toFixed(1)} kW</bdi></b> (<bdi dir=ltr>${Math.round((scen=='night'?o.pn:o.pd)*1000/220)} A</bdi>)</p>${emp}</div>
+ ${socChart(P,st)}<div class=tls>${rows}</div></div>`}
+function advice(o,r,scen,best){const ar=S.lang=='ar',P=r[scen],load=scen=='night'?o.pn:o.pd,drain=load*o.off/.95,refill=Math.min(o.cap*.5,o.chg)*.95*o.on,tips=[];
+ if(verdict(P)==0&&verdict(r[scen=='night'?'day':'night'])==0)return '';
+ if(drain>refill*1.02){const need=Math.ceil(load*o.off/.95/.95/o.on*1000/o.bvN/10)*10;tips.push(ar?`⚡ ساعات الكهرباء (${o.on} س) لا تكفي لإعادة شحن ما صُرف في ${o.off} ساعات قطع. ارفع تيار الشحن في إعدادات الانفرتر إلى حوالي <b>${need} A</b> إن كانت البطارية تسمح، أو خفّف الحمل.`:`⚡ ${o.on}h of grid cannot refill what ${o.off}h of outage used. Raise the inverter's charge current to about <b>${need} A</b> if the battery allows, or cut the load.`)}
+ if(best)tips.push(ar?`🔋 أقل بطارية تحافظ على 20% أو أكثر: <b>${best.txt}</b> (${best.cap.toFixed(1)} kWh).`:`🔋 Smallest battery that stays at 20% or more: <b>${best.txt}</b> (${best.cap.toFixed(1)} kWh).`);
+ else tips.push(ar?'🔋 حتى 6 بطاريات 16 kWh لا تكفي مع هذا الجدول — المشكلة في ساعات الشحن، خفّف الحمل أو ارفع تيار الشحن.':'🔋 Even six 16 kWh batteries are not enough with this schedule — the limit is charging time; cut the load or raise the charge current.');
+ const ac=S.mp&&S.mp.on&&S.mp.items.some(i=>i.k=='ac');if(scen=='night'&&ac)tips.push(ar?'❄️ المكيفات هي أكبر حمل ليلاً: مكيف انفرتر على وضع L1 أو رفع درجة الحرارة إلى 25–26°م يوفّر كثيراً.':'❄️ ACs are the biggest night load: an inverter AC on L1 or a setpoint of 25–26°C saves a lot.');
+ return `<div class=sadv>${tips.map(x=>`<p>${x}</p>`).join('')}</div>`}
+function s16Html(o,scen){const ar=S.lang=='ar',caps=[16,32],cell=m=>{const v=verdict(m);return `<td class=v${v}>${m.empty!=null?`🪫 ${ar?'تنفد':'empty'}`:`${Math.round(m.min)}%`}</td>`};
+ const rows=[1,2,3,4,5,6].map(h=>`<tr${h==o.off&&o.on==o.off?' class=cur':''}><th>${ar?`${h} س قطع / ${h} س كهرباء`:`${h}h off / ${h}h on`}</th>${caps.map(c=>cell(simBat({...o,off:h,on:h,cap:c})[scen])).join('')}</tr>`).join('');
+ return `<div class=s16><h4>📋 ${ar?'تحليل بطارية 16 kWh (الأكثر شيوعاً في العراق)':'16 kWh battery analysis (most common in Iraq)'}</h4><p class=note>${ar?`أقل نسبة تصلها البطارية خلال ${scen=='night'?'الليل':'النهار'} لحملك الحالي (${(scen=='night'?o.pn:o.pd).toFixed(1)} kW)، عمق تفريغ ${Math.round(o.dod*100)}% وشحن ${o.chgA} A.`:`Lowest battery level during the ${scen} for your current load (${(scen=='night'?o.pn:o.pd).toFixed(1)} kW), ${Math.round(o.dod*100)}% depth of discharge, ${o.chgA} A charging.`}</p>
+ <div class=sc><table class=s16t><tr><th>${ar?'جدول الكهرباء':'Grid schedule'}</th><th>1 × 16 kWh</th><th>2 × 16 kWh</th></tr>${rows}</table></div>
+ <p class=note>${ar?'🟢 20% أو أكثر: آمن لعمر البطارية · 🟡 10–20%: بالكاد · 🔴 أقل من 10% أو تنفد.':'🟢 20% or more: safe for battery life · 🟡 10–20%: barely · 🔴 below 10% or runs out.'}</p></div>`}
+function calcRun(){const f=$('#calc');if(!f)return;const E=f.elements,K=['dayA','nightA','off','on','sunH','pw','bv','cap','dod','chgA','myP'];
+ const mp=S.mp&&S.mp.on&&S.mp.items.length?mpCompute():null;
+ if(mp){E.dayA.value=+(mp.eD*1000/220/12).toFixed(1);E.nightA.value=+(mp.eN*1000/220/12).toFixed(1);S.mp.items.forEach(it=>{const c=$('#mc-'+it.id);if(c)c.innerHTML=mpInfo(it)})}
+ S.calc=Object.fromEntries(K.map(k=>[k,E[k].value]));S.calc.city=E.city.value;S.calc.scen=E.scen.value;S.calc.summer=E.summer.checked?1:0;
+ const n=k=>Math.max(0,parseFloat(E[k].value)||0),dA=n('dayA'),nA=n('nightA'),off=Math.max(1,n('off')||3),on=E.on.value=='same'?off:Math.max(1,n('on')),
+  sun=n('sunH'),pw=n('pw'),bv=n('bv')||48,bvN=bv==24?25.6:51.2,cap=n('cap')||16,dod=Math.min(100,n('dod')||90)/100,chgA=n('chgA')||100,scen=S.calc.scen=='day'?'day':'night';
+ const pd=dA*220/1000,pn=nA*220/1000,offF=off/(off+on),
+  pvW=Math.max(pd*1.2,pd*12*offF/((sun||5)*.85))*1000,panels=pw?Math.ceil(pvW/pw):0,myP=Math.round(n('myP')),kwp=(myP||panels)*pw/1000,
+  load=mp?mp.peak:Math.max(pd,pn),need=mp?mp.need:load*1.25,inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0;
+ const o={pd,pn,off,on,cap,dod,chg:chgA*bvN/1000,chgA,kwp,sun,bvN},r=simBat(o);
+ const C=[];for(let a=0;a<=6;a++)for(let b=0;b<=2;b++){const c=a*16+b*5.12;if(c>0)C.push({cap:c,txt:[a?`${a} × 16 kWh`:'',b?`${b} × 5.12 kWh`:''].filter(Boolean).join(' + ')})}
+ C.sort((x,y)=>x.cap-y.cap);const ok=c=>{const q=simBat({...o,cap:c.cap});return q.night.min>=20&&q.night.empty==null&&q.day.min>=20&&q.day.empty==null};
+ const best=C.find(ok),bat=best?best.cap:C[C.length-1].cap,bp=best?{n16:Math.floor(best.cap/16+1e-9),n5:Math.round((best.cap%16)/5.12),txt:best.txt}:batPlan(bat),mods=bp.n16+bp.n5;
+ $('#socOut').innerHTML=socHtml(r,o,scen)+advice(o,r,scen,best);$('#s16').innerHTML=s16Html(o,scen);
  tween($('#oP'),panels);tween($('#oI'),inv);tween($('#oB'),bat,1);
  $('#oP2').textContent=`${(panels*pw/1000).toFixed(1)} kWp`;
  $('#oI2').textContent=`${t('peak')}: ${load.toFixed(1)} kW`;
- $('#oB2').textContent=bat?`${bp.txt} · ${Math.round(bat*1000/(bv||48))} Ah @ ${bv}V`:'—';
- $('#oE').textContent=`${t('eDay')}: ${eD.toFixed(1)} kWh · ${t('eNight')}: ${eN.toFixed(1)} kWh`;
- S.cr={peak:load,mp:!!mp,dA,nA,dH,nH,panels,kwp:panels*pw/1000,inv,bat,mods,bp,bv:bv||48,pvW,load:need};
+ $('#oB2').textContent=`${bp.txt} · ${Math.round(bat*1000/bvN)} Ah @ ${bv}V`;
+ $('#oE').textContent=`${L2('الحمل المتوسط','Average load')}: ${L2('نهاراً','day')} ${pd.toFixed(1)} kW · ${L2('ليلاً','night')} ${pn.toFixed(1)} kW`;
+ S.cr={peak:load,mp:!!mp,dA,nA,dH:off,nH:off,off,on,panels,kwp:panels*pw/1000,inv,bat,mods,bp,bv,pvW,load:need,cap,minN:r.night.min,minD:r.day.min,emptyN:r.night.empty!=null};
  $('#oM').innerHTML=matches(S.cr,S.calc.city||'');$('#oSend').href=waLink(null,S.cr);meterUpd()}
 function slide(i){const tr=$('#tr');if(!tr)return;const n=tr.children.length;S.si=(i+n)%n;tr.style.transform=`translateX(${(S.lang=='ar'?1:-1)*S.si*100}%)`;[...tr.children].forEach((c,j)=>c.classList.toggle('act',j==S.si));$$('.dots i').forEach((d,j)=>d.classList.toggle('on',j==S.si))}
 function initSlider(){clearInterval(S.tm);const tr=$('#tr');if(!tr)return;slide(S.si);
@@ -842,8 +941,9 @@ const GRP=[{ic:'❄️',c:'#2f78a8',a:['التبريد والتكييف','Coolin
 const mpCol=k=>(GRP.find(g=>g.ks.includes(k))||{}).c||'#0b6b4f';
 S.mp={items:[],on:0};try{const j=JSON.parse(localStorage.getItem('solar_mp1')||'null');if(j&&Array.isArray(j.items))S.mp.items=j.items.filter(i=>MP[i.k]&&i.o)}catch(_){}
 const mpSave=()=>{try{localStorage.setItem('solar_mp1',JSON.stringify({items:S.mp.items}))}catch(_){}};
-const mpSpec=it=>{const d=MP[it.k],s=d.spec?d.spec(it.o):{W:d.W,duty:d.duty==null?1:d.duty,sg:d.sg==null?1:d.sg};return{W:it.w>0?it.w:s.W,duty:s.duty,sg:s.sg,n:it.w>0?null:s.n}};
-const gh=()=>{const f=$('#calc');return[+(f&&f.elements.dayH.value)||3,+(f&&f.elements.nightH.value)||3]};
+const mpSpec0=it=>{const d=MP[it.k],s=d.spec?d.spec(it.o):{W:d.W,duty:d.duty==null?1:d.duty,sg:d.sg==null?1:d.sg};return{W:it.w>0?it.w:s.W,duty:s.duty,sg:s.sg,n:it.w>0?null:s.n}};
+const mpSpec=it=>{const r=mpSpec0(it);if(it.k=='ac'&&summerOn()&&!(+it.o.inv&&it.o.mode=='l1'))r.duty=Math.min(.95,r.duty*1.3);return r};
+const gh=()=>[12,12];
 const mpNew=(k,o2,n,hd,hn)=>{const d=MP[k],o={};(d.opts||[]).forEach(op=>{o[op.k]=op.chk?(op.d?1:0):op.d});return{id:'i'+Math.random().toString(36).slice(2,8),k,o:Object.assign(o,o2||{}),n:n||1,hd:d.cont?null:(hd==null?1:hd),hn:d.cont?null:(hn==null?1:hn),w:null}};
 const mpH=(it,f)=>it[f]==null?1:it[f];
 function mpCompute(){const g=gh();let eD=0,eN=0,pD=0,pN=0,ex=0;
@@ -878,8 +978,7 @@ const meter=()=>{if(S.mp.items.length)setTimeout(meterApply,0);const ar=S.lang==
  <div class=mpadd>➕ ${t('mtAdd')}</div>
  ${GRP.map(g=>`<div class=gh style="--c:${g.c}">${g.ic} ${ar?`${g.a[0]} (${g.a[1]})`:g.a[1]}</div><div class=tiles>${g.ks.map(k=>`<button type=button class=tile data-a=mpadd data-k=${k} style="--c:${g.c}"><i>${MP[k].e}</i><b>${ar?MP[k].a[0]:MP[k].a[1]}</b>${ar?`<small>${MP[k].a[1]}</small>`:''}</button>`).join('')}</div>`).join('')}
  <p class=note>${t('mtNote')}</p><div id=stk></div></section>`};
-function meterApply(){const f=$('#calc');if(!f)return;const I=S.mp.items;S.mp.on=I.length?1:0;
- if(I.length){const r=mpCompute(),g=gh();f.elements.dayA.value=+(r.eD*1000/220/g[0]).toFixed(1);f.elements.nightA.value=+(r.eN*1000/220/g[1]).toFixed(1)}calcRun()}
+function meterApply(){if(!$('#calc'))return;S.mp.on=S.mp.items.length?1:0;calcRun()}
 function mpEdit(el,re){const it=S.mp.items.find(x=>x.id==el.dataset.id);if(!it)return;const f=el.dataset.mp;
  if(f.startsWith('o:'))it.o[f.slice(2)]=el.type=='checkbox'?(el.checked?1:0):el.value;else it[f]=el.value===''?null:+el.value;
  mpSave();if(re)mpList();else{const c=$('#mc-'+it.id);if(c)c.innerHTML=mpInfo(it)}meterApply()}
@@ -1003,9 +1102,21 @@ const newsAdm=()=>{const ar=S.lang=='ar',L=(S.news||[]).slice().sort((a,b)=>(b.c
 const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label><input name=${k} type=number min=0 step=any inputmode=decimal value="${c[k]??d}"></div>`;
  const hero=`<section class=hero>${SCENE}<h1>${t('heroT')}</h1><p>${t('heroS')}</p>
  <div class=bar style="justify-content:center;margin:0"><button class=cta data-a=goCalc>⬇ ${t('calcGo')}</button><button class=ghost data-a=view data-v=${S.me?(canSell()?'add':'profile'):'register'}>${t('imDealer')}</button><button class=awbtn data-a=view data-v=awards>🏆 ${t('awBtn')}</button><button class="ghost inst" data-a=install hidden>${t('install')}</button></div></section>`;
- const calcF=` <form id=calc class="form calc" onsubmit="return false"><div class=row2>${inp('dayA',20)}${inp('nightA',16)}${inp('dayH',3)}${inp('nightH',3)}</div>
- <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ const sel=(k,lab,opts,d)=>`<div class=fld><label>${lab}</label><select name=${k}>${opts.map(([v,l])=>`<option value="${v}" ${String(c[k]??d)==String(v)?'selected':''}>${l}</option>`).join('')}</select></div>`,ar=S.lang=='ar',hs=a=>a.map(h=>[h,ar?`${h} ${h==1?'ساعة':h==2?'ساعتان':'ساعات'}`:`${h} h`]);
+ const calcF=` <form id=calc class="form calc" onsubmit="return false"><h3 class=cst>1️⃣ ${L2('حمل البيت (بالأمبير)','Home load (amps)')}</h3><p class=note>${L2('أو أضف أجهزتك في «عدّاد بيتك» أعلاه فنحسب الأمبير تلقائياً.','Or add your devices in the House power meter above and we fill the amps for you.')}</p>
+ <div class=row2>${inp('dayA',20)}${inp('nightA',16)}</div>
+ <h3 class=cst>2️⃣ ${L2('جدول الكهرباء الوطنية (بالتناوب)','Grid schedule (alternating)')}</h3>
+ <div class=seg role=radiogroup>${[['night','🌙 '+L2('الليل (بدون شمس)','Night (no sun)')],['day','☀️ '+L2('النهار (مع الألواح)','Day (with panels)')]].map(([v,l])=>`<label><input type=radio name=scen value=${v} ${(c.scen||'night')==v?'checked':''}><span>${l}</span></label>`).join('')}</div>
+ <div class=row2>${sel('off','🔋 '+L2('ساعات القطع (من البطارية)','Outage hours (on battery)'),hs([1,2,3,4,5,6,7,8]),3)}${sel('on','🔌 '+L2('ساعات الكهرباء (شحن)','Grid hours (charging)'),[['same',L2('نفس ساعات القطع','Same as outage')],...hs([1,2,3,4,5,6,7,8])],'same')}</div>
+ <label class="cb sumr"><input type=checkbox name=summer ${c.summer==0?'':'checked'}> 🔥 ${L2('ذروة الصيف: المكيفات تشتغل وقتاً أطول (يُطبَّق على مكيفات عدّاد بيتك)','Peak summer: ACs run longer (applies to ACs in the House power meter)')}</label>
+ <h3 class=cst>3️⃣ ${L2('البطارية','Battery')}</h3>
+ <div class=row2>${sel('cap',L2('سعة البطارية','Battery capacity'),[5.12,10.24,14.3,16,20.48,32,48].map(v=>[v,`${v} kWh`]),16)}${inp('dod',90)}${sel('chgA',L2('تيار الشحن من الكهرباء (أمبير)','Grid charge current (A)'),[30,50,60,80,100,120,150,200].map(v=>[v,`${v} A`]),100)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ <h3 class=cst>4️⃣ ${L2('الألواح (للنهار)','Panels (for daytime)')}</h3>
+ <div class=row2>${inp('sunH',5.5)}${inp('pw',600)}<div class=fld><label>${L2('عدد ألواحك الحالية (اختياري)','Your current panels (optional)')}</label><input name=myP type=number min=0 step=1 inputmode=numeric value="${c.myP??''}" placeholder="${L2('اتركه فارغاً','leave empty')}"></div></div>
  <div class=row2><div class=fld><label>${t('city2')}</label><select name=city>${cityOpts(c.city)}</select></div></div>
+ <h3 class=cst>📊 ${L2('النتيجة: نسبة شحن البطارية','Result: battery charge level')}</h3>
+ <div id=socOut></div><div id=s16></div>
+ <h3 class=cst>🧰 ${L2('المنظومة المقترحة','Suggested system')}</h3>
  <div class=out><div class=res><small>${t('rP')}</small><b id=oP>0</b><i id=oP2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=panel>${t('findP')}</button></div></div>
  <div class=res><small>${t('rI')} (kW)</small><b id=oI>0</b><i id=oI2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=inverter>${t('findI')}</button></div></div>
  <div class=res><small>${t('rB')} (kWh)</small><b id=oB>0</b><i id=oB2></i><div class=bar style="justify-content:center;margin:8px 0 0"><button type=button data-a=find data-c=battery>${t('findB')}</button></div></div></div>
@@ -1075,7 +1186,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
 const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v53</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v54</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
