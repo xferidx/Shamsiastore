@@ -768,7 +768,7 @@ const dur=h=>{const H=Math.floor(h+1e-6),M=Math.round((h-H)*60);return S.lang=='
 /* o: pd,pn = average load kW (day / night); off,on = hours; cap kWh; dod 0-1; chg kW (grid charging); kwp; sun = peak-sun hours */
 function simBat(o){const dt=1/12,U=o.cap*o.dod,cmax=o.cap*.5,cyc=o.off+o.on,k=.85*(o.sun||0)/7.64;let E=U;const rec=[];
  for(let i=0;i<72*12;i++){const t=i*dt,h=(18+t)%24,day=h>=6&&h<18,on=((t+1e-9)%cyc)>=o.off,
-  load=day?o.pd:o.pn,pv=day?Math.max(0,o.kwp*k*Math.sin(Math.PI*(h-6)/12)):0;let un=0;
+  load=day?o.pd:o.pn+(o.pull&&h>=18-1e-9&&h<19-1e-9?o.pull:0),pv=day?Math.max(0,o.kwp*k*Math.sin(Math.PI*(h-6)/12)):0;let un=0;
   if(on)E+=Math.min(cmax,o.chg+pv)*.95*dt;
   else{const net=pv-load;if(net>=0)E+=Math.min(net,cmax)*.95*dt;else{E-=(-net)/.95*dt;if(E<0){un=-E;E=0}}}
   E=Math.min(E,U);if(t>=48-1e-9)rec.push({t:t-48,h,on,soc:U?E/U*100:0,un})}
@@ -794,7 +794,7 @@ function socHtml(r,o,scen){const P=r[scen],ar=S.lang=='ar',v=verdict(P),outs=P.s
  const rows=P.segs.map(g=>`<div class="tl ${g.on?'on':'off'}"><span>${g.on?'🔌':'🔋'} <bdi>${hhmm(st+g.a)} – ${hhmm(st+g.b)}</bdi></span><b>${g.on?(ar?'كهرباء وطنية':'Grid on'):(ar?'قطع':'Outage')}</b><em>${Math.round(g.s0)}% → ${Math.round(g.s1)}%</em></div>`).join('');
  return `<div class="socv v${v}"><div class=sbig><small>${scen=='night'?(ar?'🌙 الليل (بدون شمس)':'🌙 Night (no sun)'):(ar?'☀️ النهار (مع الألواح)':'☀️ Day (with panels)')} · ${ar?`${o.off} س قطع / ${o.on} س كهرباء`:`${o.off}h off / ${o.on}h on`}</small>
  <div class=sbt><span class=bico style="--p:${Math.max(0,Math.min(100,big))}%;--c:${vcol(big)}"><i></i></span><div><b>${big}%</b><small>${ar?`نسبة البطارية بعد ${o.off} ساعات قطع`:`Battery left after ${o.off}h outage`}</small></div></div>
- <p class=svt>${vt}</p><p class=sln>${ar?'أقل نسبة خلال':'Lowest during the'} ${scen=='night'?(ar?'الليل':'night'):(ar?'النهار':'day')}: <b>${Math.round(P.min)}%</b> · ${ar?'الحمل المتوسط':'Average load'}: <b><bdi dir=ltr>${(scen=='night'?o.pn:o.pd).toFixed(1)} kW</bdi></b> (<bdi dir=ltr>${Math.round((scen=='night'?o.pn:o.pd)*1000/220)} A</bdi>)</p>${emp}</div>
+ <p class=svt>${vt}</p><p class=sln>${ar?'أقل نسبة خلال':'Lowest during the'} ${scen=='night'?(ar?'الليل':'night'):(ar?'النهار':'day')}: <b>${Math.round(P.min)}%</b> · ${ar?'الحمل المتوسط':'Average load'}: <b><bdi dir=ltr>${(scen=='night'?o.pn:o.pd).toFixed(1)} kW</bdi></b> (<bdi dir=ltr>${Math.round((scen=='night'?o.pn:o.pd)*1000/220)} A</bdi>)${scen=='night'&&o.pull>0?` · ❄️ ${ar?'ساعة التبريد الأولى':'Cool-down hour'}: <b><bdi dir=ltr>+${o.pull.toFixed(1)} kW</bdi></b>`:''}</p>${emp}</div>
  ${socChart(P,st)}<div class=tls>${rows}</div></div>`}
 function advice(o,r,scen,best){const ar=S.lang=='ar',P=r[scen],load=scen=='night'?o.pn:o.pd,drain=load*o.off/.95,refill=Math.min(o.cap*.5,o.chg)*.95*o.on,tips=[];
  if(verdict(P)==0&&verdict(r[scen=='night'?'day':'night'])==0)return '';
@@ -811,13 +811,13 @@ function s16Html(o,scen){const ar=S.lang=='ar',caps=[16,32],cell=m=>{const v=ver
 function calcRun(){const f=$('#calc');if(!f)return;const E=f.elements,K=['dayA','nightA','off','on','sunH','pw','bv','cap','dod','chgA','myP'];
  const mp=S.mp&&S.mp.on&&S.mp.items.length?mpCompute():null;
  if(mp){E.dayA.value=+(mp.eD*1000/220/12).toFixed(1);E.nightA.value=+(mp.eN*1000/220/12).toFixed(1);S.mp.items.forEach(it=>{const c=$('#mc-'+it.id);if(c)c.innerHTML=mpInfo(it)})}
- S.calc=Object.fromEntries(K.map(k=>[k,E[k].value]));S.calc.city=E.city.value;S.calc.scen=E.scen.value;S.calc.summer=E.summer.checked?1:0;
+ S.calc=Object.fromEntries(K.map(k=>[k,E[k].value]));S.calc.city=E.city.value;S.calc.scen=E.scen.value;S.calc.summer=E.summer.checked?1:0;S.calc.pull=E.pull.checked?1:0;
  const n=k=>Math.max(0,parseFloat(E[k].value)||0),dA=n('dayA'),nA=n('nightA'),off=Math.max(1,n('off')||3),on=E.on.value=='same'?off:Math.max(1,n('on')),
   sun=n('sunH'),pw=n('pw'),bv=n('bv')||48,bvN=bv==24?25.6:51.2,cap=n('cap')||16,dod=Math.min(100,n('dod')||90)/100,chgA=n('chgA')||100,scen=S.calc.scen=='day'?'day':'night';
  const pd=dA*220/1000,pn=nA*220/1000,offF=off/(off+on),
   pvW=Math.max(pd*1.2,pd*12*offF/((sun||5)*.85))*1000,panels=pw?Math.ceil(pvW/pw):0,myP=Math.round(n('myP')),kwp=(myP||panels)*pw/1000,
   load=mp?mp.peak:Math.max(pd,pn),need=mp?mp.need:load*1.25,inv=need?([1,2,3,5,6,8,10,12,15,20,30,50].find(x=>x>=need)||Math.ceil(need)):0;
- const o={pd,pn,off,on,cap,dod,chg:chgA*bvN/1000,chgA,kwp,sun,bvN},r=simBat(o);
+ const o={pd,pn,off,on,cap,dod,chg:chgA*bvN/1000,chgA,kwp,sun,bvN,pull:mp&&E.pull.checked?mp.pull:0},r=simBat(o);
  const C=[];for(let a=0;a<=6;a++)for(let b=0;b<=2;b++){const c=a*16+b*5.12;if(c>0)C.push({cap:c,txt:[a?`${a} × 16 kWh`:'',b?`${b} × 5.12 kWh`:''].filter(Boolean).join(' + ')})}
  C.sort((x,y)=>x.cap-y.cap);const ok=c=>{const q=simBat({...o,cap:c.cap});return q.night.min>=20&&q.night.empty==null&&q.day.min>=20&&q.day.empty==null};
  const best=C.find(ok),bat=best?best.cap:C[C.length-1].cap,bp=best?{n16:Math.floor(best.cap/16+1e-9),n5:Math.round((best.cap%16)/5.12),txt:best.txt}:batPlan(bat),mods=bp.n16+bp.n5;
@@ -955,7 +955,8 @@ function mpCompute(){const g=gh();let eD=0,eN=0,pD=0,pN=0,ex=0;
  S.mp.items.forEach(it=>{const sp=mpSpec(it),d=MP[it.k],hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W,wn=it.n*(sp.n?sp.n.W:sp.W),dn=sp.n?sp.n.duty:sp.duty;
   eD+=w*sp.duty*hd/1000;eN+=wn*dn*hn/1000;if(hd>0)pD+=w;if(hn>0)pN+=wn;ex=Math.max(ex,sp.W*(sp.sg-1))});
  const DIV=1,peak=Math.max(pD,pN)*DIV;
- return S.mp.r={eD,eN,peak:peak/1000,ex:ex/1000,need:Math.max(peak*1.2,(peak+ex)/2)/1000,avgD:eD*1000/g[0]}}
+ const pull=S.mp.items.filter(it=>it.k=='ac').reduce((a,it)=>{const sp=mpSpec(it),avg=sp.n?sp.n.W*sp.n.duty:sp.W*sp.duty,mx=it.w>0?+it.w:(ACT3[it.o.size]||1860)*(+it.o.inv?1:1.15);return a+it.n*Math.max(0,mx-avg)},0)/1000;
+ return S.mp.r={eD,eN,pull,peak:peak/1000,ex:ex/1000,need:Math.max(peak*1.2,(peak+ex)/2)/1000,avgD:eD*1000/g[0]}}
 const mpInfo=it=>{const sp=mpSpec(it),d=MP[it.k],g=gh(),hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W;
  const wn=it.n*(sp.n?sp.n.W:sp.W),dn=sp.n?sp.n.duty:sp.duty;return `<span>⚡ ${(w/220).toFixed(1)} A</span><span>🔌 ${(w/1000).toFixed(2)} kW</span>${sp.n&&Math.abs(wn-w)>1?`<span>🌙 ${(wn/220).toFixed(1)} A</span>`:''}<span>🔋 ${((w*sp.duty*hd+wn*dn*hn)/1000).toFixed(1)} kWh/${S.lang=='ar'?'يوم':'day'}</span>`};
 const stp=(lb,vid,val,a,u)=>`<div class=mrw><span>${lb}</span><div class=stp><button type=button ${a} data-d=-1 aria-label="-">−</button><em id=${vid}>${val}${u?`<small>${u}</small>`:''}</em><button type=button ${a} data-d=1 aria-label="+">+</button></div></div>`;
@@ -1111,6 +1112,7 @@ const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label
  <div class=row2>${sel('off','🔋 '+L2('ساعات القطع (من البطارية)','Outage hours (on battery)'),hs([1,2,3,4,5,6,7,8]),3)}${sel('on','🔌 '+L2('ساعات الكهرباء (شحن)','Grid hours (charging)'),[['same',L2('نفس ساعات القطع','Same as outage')],...hs([1,2,3,4,5,6,7,8])],'same')}</div>
  <div class=seg role=radiogroup>${[['night','🌙 '+L2('الليل (بدون شمس)','Night (no sun)')],['day','☀️ '+L2('النهار (مع الألواح)','Day (with panels)')]].map(([v,l])=>`<label><input type=radio name=scen value=${v} ${(c.scen||'night')==v?'checked':''}><span>${l}</span></label>`).join('')}</div>
  <label class="cb sumr"><input type=checkbox name=summer ${c.summer==0?'':'checked'}> 🔥 ${L2('ذروة الصيف: المكيفات تشتغل وقتاً أطول (يُطبَّق على مكيفات عدّاد بيتك)','Peak summer: ACs run longer (applies to ACs in the House power meter)')}</label>
+ <label class="cb sumr"><input type=checkbox name=pull ${c.pull==0?'':'checked'}> ❄️ ${L2('ساعة التبريد الأولى: أول ساعة في الليل (6–7 مساءً) تشتغل المكيفات بأقصى قدرة لتبريد الغرف (يُطبَّق على مكيفات عدّاد بيتك)','Cool-down hour: in the first night hour (6–7 PM) ACs run at maximum power to cool the rooms (applies to ACs in the House power meter)')}</label>
  <h3 class=cst>3️⃣ ${L2('البطارية','Battery')}</h3>
  <div class=row2>${sel('cap',L2('سعة البطارية','Battery capacity'),[5.12,10.24,14.3,16,20.48,32,48].map(v=>[v,`${v} kWh`]),16)}${inp('dod',90)}${sel('chgA',L2('تيار الشحن من الكهرباء (أمبير)','Grid charge current (A)'),[30,50,60,80,100,120,150,200].map(v=>[v,`${v} A`]),100)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
  <h3 class=cst>4️⃣ ${L2('الألواح (للنهار)','Panels (for daytime)')}</h3>
@@ -1188,7 +1190,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
 const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v61</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v62</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
