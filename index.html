@@ -39,7 +39,7 @@ header{box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .hero{text-align:center;padding:26px 10px 16px;background:linear-gradient(135deg,#0b6b4f,#1fa273);color:#fff;border-radius:16px;margin-bottom:14px}
 .hero h1{margin:0 0 6px;font-size:clamp(22px,4vw,32px)}.hero p{margin:0;opacity:.92}
 .calc{max-width:820px}
-.cst{margin:16px 0 6px;font-size:16px}.calc .cst:first-child{margin-top:4px}
+.cst{margin:16px 0 6px;font-size:16px}.calc .row2{align-items:end}.calc .fld>label{line-height:1.35;margin-bottom:4px}.calc .fld select,.calc .fld input{height:44px}.calc .cst:first-child{margin-top:4px}
 .seg{display:flex;gap:6px;margin:6px 0 4px}.seg label{flex:1}.seg input{position:absolute;opacity:0}.seg span{display:block;text-align:center;padding:10px 6px;border-radius:12px;border:1.5px solid var(--bd);background:#fff;font-weight:700;cursor:pointer}.seg input:checked+span{border-color:var(--g);background:var(--g);color:#fff}.seg input:focus-visible+span{outline:3px solid #f5a623}
 .sumr{display:flex!important;gap:8px;align-items:flex-start;margin:8px 0;font-size:13.5px;background:#fff8e1;border-radius:10px;padding:8px 10px}
 .socv{border:2px solid var(--bd);border-radius:16px;padding:12px;margin:8px 0;background:#fff}.socv.v0{border-color:#1fa273}.socv.v1{border-color:#e0a800}.socv.v2{border-color:#d9534f}
@@ -761,7 +761,9 @@ function batPlan(b){let n16=0,n5=0;if(b>0){if(b<=10.24)n5=Math.ceil(b/5.12-1e-9)
 /* ===== Battery simulation for Iraq's alternating grid (grid on X h / off Y h) ===== */
 const L2=(a,e)=>S.lang=='ar'?a:e;
 const summerOn=()=>{const f=$('#calc');return f&&f.elements.summer?f.elements.summer.checked:S.calc.summer!=0};
-const hhmm=h=>{h=((h%24)+24)%24;const H=Math.floor(h+1e-6),M=Math.round((h-H)*60)%60;return String(H).padStart(2,'0')+':'+String(M).padStart(2,'0')};
+const hhmm=(h,sh)=>{h=((h%24)+24)%24;let H=Math.floor(h+1e-6),M=Math.round((h-H)*60);if(M==60){H=(H+1)%24;M=0}const ar=S.lang=='ar',h12=H%12||12,mm=M?':'+String(M).padStart(2,'0'):'';
+ if(!ar)return `${h12}${mm} ${H<12?'AM':'PM'}`;if(sh)return `${h12}${mm} ${H<12?'ص':'م'}`;
+ return `${h12}${mm} ${H==0?'منتصف الليل':H<5?'فجراً':H<12?'صباحاً':H==12?'ظهراً':H<17?'عصراً':'مساءً'}`};
 const dur=h=>{const H=Math.floor(h+1e-6),M=Math.round((h-H)*60);return S.lang=='ar'?(H?`${H} س`:'')+(M?` ${M} د`:''):(H?`${H}h`:'')+(M?` ${M}m`:'')};
 /* o: pd,pn = average load kW (day / night); off,on = hours; cap kWh; dod 0-1; chg kW (grid charging); kwp; sun = peak-sun hours */
 function simBat(o){const dt=1/12,U=o.cap*o.dod,cmax=o.cap*.5,cyc=o.off+o.on,k=.85*(o.sun||0)/7.64;let E=U;const rec=[];
@@ -781,7 +783,7 @@ function socChart(P,start){const W=360,H=170,x=t=>34+t/12*316,y=s=>12+(100-s)*1.
  const bands=P.segs.map(g=>`<rect x="${x(g.a).toFixed(1)}" y=12 width="${(x(g.b)-x(g.a)).toFixed(1)}" height=120 class="${g.on?'cbg':'cbo'}"/>`).join('');
  const line=`M${x(0).toFixed(1)},${y(P.segs[0].s0).toFixed(1)} L`+P.s.map(p=>`${x(p.t-(p.t>=12?12:0)).toFixed(1)},${y(p.soc).toFixed(1)}`).join(' ');
  const marks=P.segs.filter(g=>!g.on).map(g=>`<circle cx="${x(g.b).toFixed(1)}" cy="${y(g.s1).toFixed(1)}" r=4 fill="${vcol(g.s1)}"/><text x="${x(g.b).toFixed(1)}" y="${(y(g.s1)-8).toFixed(1)}" text-anchor=middle class=cl>${Math.round(g.s1)}%</text>`).join('');
- const ticks=[0,2,4,6,8,10,12].map(t=>`<text x="${x(t)}" y=148 text-anchor=${t==12?'end':t==0?'start':'middle'} class=ct2>${hhmm(start+t).slice(0,5)}</text>`).join('');
+ const ticks=[0,2,4,6,8,10,12].map(t=>`<text x="${x(t)}" y=148 text-anchor=${t==12?'end':t==0?'start':'middle'} class=ct2>${hhmm(start+t,1)}</text>`).join('');
  const yl=[100,50,20,0].map(s=>`<line x1=34 x2=350 y1="${y(s)}" y2="${y(s)}" class="${s==20?'c20':'cgl'}"/><text x=28 y="${y(s)+4}" text-anchor=end class=ct2>${s}%</text>`).join('');
  return `<svg class=soch viewBox="0 0 ${W} 156" role=img aria-label="${ar?'نسبة شحن البطارية':'Battery charge'}" style="direction:ltr">${bands}${yl}<path d="${line}" class=cln /><path d="${line} L${x(12)},132 L${x(0)},132 Z" class=cfl />${marks}${ticks}</svg>
  <div class=clg><span><i class=lg1></i>${ar?'كهرباء وطنية (شحن)':'Grid on (charging)'}</span><span><i class=lg2></i>${ar?'قطع (من البطارية)':'Outage (on battery)'}</span><span><i class=lg3></i>${ar?'حد 20% لعمر البطارية':'20% line for battery life'}</span></div>`}
@@ -789,7 +791,7 @@ function socHtml(r,o,scen){const P=r[scen],ar=S.lang=='ar',v=verdict(P),outs=P.s
  const vt=[ar?'✅ البطارية تكفي بأمان':'✅ Battery is enough, with margin',ar?'⚠️ تكفي بالكاد — البطارية تنزل كثيراً':'⚠️ Barely enough — the battery runs low',ar?'❌ البطارية لا تكفي':'❌ Battery is not enough'][v];
  const big=first?Math.round(first.s1):Math.round(P.min);
  const emp=P.empty!=null?`<p class=sbad>🪫 ${ar?`تنفد البطارية الساعة ${hhmm(st+P.empty)} (بعد ${dur(P.empty-(outs.find(g=>P.empty>=g.a&&P.empty<=g.b)||{a:0}).a)} من بداية القطع)`:`Battery runs out at ${hhmm(st+P.empty)} (${dur(P.empty-(outs.find(g=>P.empty>=g.a&&P.empty<=g.b)||{a:0}).a)} into the outage)`}</p>`:'';
- const rows=P.segs.map(g=>`<div class="tl ${g.on?'on':'off'}"><span>${g.on?'🔌':'🔋'} <bdi dir=ltr>${hhmm(st+g.a)}–${hhmm(st+g.b)}</bdi></span><b>${g.on?(ar?'كهرباء وطنية':'Grid on'):(ar?'قطع':'Outage')}</b><em>${Math.round(g.s0)}% → ${Math.round(g.s1)}%</em></div>`).join('');
+ const rows=P.segs.map(g=>`<div class="tl ${g.on?'on':'off'}"><span>${g.on?'🔌':'🔋'} <bdi>${hhmm(st+g.a)} – ${hhmm(st+g.b)}</bdi></span><b>${g.on?(ar?'كهرباء وطنية':'Grid on'):(ar?'قطع':'Outage')}</b><em>${Math.round(g.s0)}% → ${Math.round(g.s1)}%</em></div>`).join('');
  return `<div class="socv v${v}"><div class=sbig><small>${scen=='night'?(ar?'🌙 الليل (بدون شمس)':'🌙 Night (no sun)'):(ar?'☀️ النهار (مع الألواح)':'☀️ Day (with panels)')} · ${ar?`${o.off} س قطع / ${o.on} س كهرباء`:`${o.off}h off / ${o.on}h on`}</small>
  <div class=sbt><span class=bico style="--p:${Math.max(0,Math.min(100,big))}%;--c:${vcol(big)}"><i></i></span><div><b>${big}%</b><small>${ar?`نسبة البطارية بعد ${o.off} ساعات قطع`:`Battery left after ${o.off}h outage`}</small></div></div>
  <p class=svt>${vt}</p><p class=sln>${ar?'أقل نسبة خلال':'Lowest during the'} ${scen=='night'?(ar?'الليل':'night'):(ar?'النهار':'day')}: <b>${Math.round(P.min)}%</b> · ${ar?'الحمل المتوسط':'Average load'}: <b><bdi dir=ltr>${(scen=='night'?o.pn:o.pd).toFixed(1)} kW</bdi></b> (<bdi dir=ltr>${Math.round((scen=='night'?o.pn:o.pd)*1000/220)} A</bdi>)</p>${emp}</div>
@@ -914,8 +916,8 @@ const duel=L=>{const A=L[0],B=L[1],a=duelVals(A),b=duelVals(B),ar=S.lang=='ar';
 const N=(a,b,c)=>[a,b,c];
 const ICA1={1:2,1.5:3,2:4,2.5:5,3:6,4:8,5:10};
 const MP={
- ac:{e:'❄️',a:['تكييف سبلت','Split AC'],opts:[{k:'size',a:['الحجم','Size'],d:'1.5',v:[N('1','1 طن','1 ton'),N('1.5','1.5 طن','1.5 ton'),N('2','2 طن','2 ton'),N('2.5','2.5 طن','2.5 ton'),N('3','3 طن','3 ton'),N('4','4 طن','4 ton'),N('5','5 طن','5 ton')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:1},{k:'mode',a:['نمط التشغيل','Operation mode'],d:'full',show:o=>+o.inv,v:[N('full','اعتيادي دائماً','Always normal'),N('l1','L1 دائماً','Always L1')]}],
-  spec:o=>{const b={1:1200,1.5:1700,2:2300,2.5:2900,3:3500,4:4600,5:5700}[o.size]||1700;if(!+o.inv)return{W:b,duty:.8,sg:3.5};const full={W:b*.85,duty:.6,sg:1.3},l1={W:(ICA1[o.size]||3)*220,duty:1,sg:1.2},m=o.mode;return m=='l1'?l1:full}},
+ ac:{e:'❄️',a:['تكييف سبلت','Split AC'],cont:1,opts:[{k:'size',a:['الحجم','Size'],d:'1.5',v:[N('1','1 طن','1 ton'),N('1.5','1.5 طن','1.5 ton'),N('2','2 طن','2 ton'),N('2.5','2.5 طن','2.5 ton'),N('3','3 طن','3 ton'),N('4','4 طن','4 ton'),N('5','5 طن','5 ton')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:1},{k:'mode',a:['نمط التشغيل','Operation mode'],d:'l1',show:o=>+o.inv,v:[N('l1','L1 دائماً','Always L1'),N('full','اعتيادي دائماً','Always normal')]}],
+  spec:o=>{const b={1:1200,1.5:1700,2:2300,2.5:2900,3:3500,4:4600,5:5700}[o.size]||1700;if(!+o.inv)return{W:b,duty:.8,sg:3.5};const full={W:b*.85,duty:.6,sg:1.3},l1={W:(ICA1[o.size]||3)*220,duty:1,sg:1.2},m=o.mode||'l1';return m=='l1'?l1:full}},
  cool:{e:'🧊',a:['براد / فريزر','Fridge / freezer'],cont:1,opts:[{k:'type',a:['النوع','Type'],d:'combo',v:[N('combo','براد + فريزر معاً','Fridge + freezer together'),N('fridge','براد فقط','Fridge only'),N('freezer','فريزر فقط','Freezer only')]},{k:'size',a:['الحجم','Size'],d:'m',v:[N('s','صغير (أقل من 250 لتر)','Small (<250 L)'),N('m','وسط (250 – 450 لتر)','Medium (250–450 L)'),N('l','كبير (أكثر من 450 لتر)','Large (>450 L)')]},{k:'inv',a:['كمبروسر انفرتر','Inverter compressor'],chk:1,d:1}],
   spec:o=>{const T={fridge:{s:80,m:120,l:180},combo:{s:100,m:150,l:230},freezer:{s:100,m:150,l:250}}[o.type||'combo'][o.size||'m'];return +o.inv?{W:T*.7,duty:.55,sg:1.5}:{W:T,duty:.5,sg:4}}},
  tv:{e:'📺',a:['تلفزيون','TV'],opts:[{k:'size',a:['الحجم (إنج)','Size (inch)'],d:'55',v:['32','43','50','55','65','75','85'].map(x=>N(x,x+'"',x+'"'))},{k:'panel',a:['نوع الشاشة','Panel'],d:'led',v:[N('led','LED / LCD','LED / LCD'),N('oled','OLED','OLED')]}],
@@ -942,14 +944,14 @@ const mpCol=k=>(GRP.find(g=>g.ks.includes(k))||{}).c||'#0b6b4f';
 S.mp={items:[],on:0};try{const j=JSON.parse(localStorage.getItem('solar_mp1')||'null');if(j&&Array.isArray(j.items))S.mp.items=j.items.filter(i=>MP[i.k]&&i.o)}catch(_){}
 const mpSave=()=>{try{localStorage.setItem('solar_mp1',JSON.stringify({items:S.mp.items}))}catch(_){}};
 const mpSpec0=it=>{const d=MP[it.k],s=d.spec?d.spec(it.o):{W:d.W,duty:d.duty==null?1:d.duty,sg:d.sg==null?1:d.sg};return{W:it.w>0?it.w:s.W,duty:s.duty,sg:s.sg,n:it.w>0?null:s.n}};
-const mpSpec=it=>{const r=mpSpec0(it);if(it.k=='ac'&&summerOn()&&!(+it.o.inv&&it.o.mode=='l1'))r.duty=Math.min(.95,r.duty*1.3);return r};
+const mpSpec=it=>{const r=mpSpec0(it);if(it.k=='ac'&&summerOn()&&!(+it.o.inv&&(it.o.mode||'l1')=='l1'))r.duty=Math.min(.95,r.duty*1.3);return r};
 const gh=()=>[12,12];
 const mpNew=(k,o2,n,hd,hn)=>{const d=MP[k],o={};(d.opts||[]).forEach(op=>{o[op.k]=op.chk?(op.d?1:0):op.d});return{id:'i'+Math.random().toString(36).slice(2,8),k,o:Object.assign(o,o2||{}),n:n||1,hd:d.cont?null:(hd==null?1:hd),hn:d.cont?null:(hn==null?1:hn),w:null}};
 const mpH=(it,f)=>it[f]==null?1:it[f];
 function mpCompute(){const g=gh();let eD=0,eN=0,pD=0,pN=0,ex=0;
  S.mp.items.forEach(it=>{const sp=mpSpec(it),d=MP[it.k],hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W,wn=it.n*(sp.n?sp.n.W:sp.W),dn=sp.n?sp.n.duty:sp.duty;
   eD+=w*sp.duty*hd/1000;eN+=wn*dn*hn/1000;if(hd>0)pD+=w;if(hn>0)pN+=wn;ex=Math.max(ex,sp.W*(sp.sg-1))});
- const DIV=.85,peak=Math.max(pD,pN)*DIV;
+ const DIV=1,peak=Math.max(pD,pN)*DIV;
  return S.mp.r={eD,eN,peak:peak/1000,ex:ex/1000,need:Math.max(peak*1.2,(peak+ex)/2)/1000,avgD:eD*1000/g[0]}}
 const mpInfo=it=>{const sp=mpSpec(it),d=MP[it.k],g=gh(),hd=d.cont?g[0]:mpH(it,'hd'),hn=d.cont?g[1]:mpH(it,'hn'),w=it.n*sp.W;
  const wn=it.n*(sp.n?sp.n.W:sp.W),dn=sp.n?sp.n.duty:sp.duty;return `<span>⚡ ${(w/220).toFixed(1)} A</span><span>🔌 ${(w/1000).toFixed(2)} kW</span>${sp.n?`<span>🌙 L1 ${(wn/220).toFixed(1)} A</span>`:''}<span>🔋 ${((w*sp.duty*hd+wn*dn*hn)/1000).toFixed(1)} kWh/${S.lang=='ar'?'يوم':'day'}</span>`};
@@ -958,21 +960,18 @@ const mpRow=it=>{const d=MP[it.k],sp=mpSpec({...it,w:null}),id=it.id;
  const opts=(d.opts||[]).filter(op=>!op.show||op.show(it.o)).map(op=>op.chk?`<label class=mck><input type=checkbox data-mp="o:${op.k}" data-id=${id} ${+it.o[op.k]?'checked':''}> ${mpOpt(0,op.a)}</label>`:
   `<label>${mpOpt(0,op.a)}<select data-mp="o:${op.k}" data-id=${id}>${op.v.map(v=>`<option value="${v[0]}" ${String(it.o[op.k])==String(v[0])?'selected':''}>${esc(mpV(v))}</option>`).join('')}</select></label>`).join('');
  return `<div class=mi id=mi-${id} style="--c:${mpCol(it.k)}"><div class=mih><span class=ae>${d.e}</span><div class=mt><b>${S.lang=='ar'?d.a[0]:d.a[1]}</b>${S.lang=='ar'?` <small>(${d.a[1]})</small>`:''}</div><button type=button class=mx data-a=mpdel data-id=${id} aria-label=remove>✕</button></div>
- ${opts?`<div class=mio>${opts}</div>`:''}${it.k=='ac'&&+it.o.inv&&it.o.mode=='l1'?`<small class=hint>${S.lang=='ar'?`ℹ️ الحساب مبني على مكيف LG انفرتر بخاصية I-Control Ampere (ICA) على أقل خطوة L1 = ${ICA1[it.o.size]||3} أمبير (${[1.5,2,2.5].includes(+it.o.size)?'قيمة من دليل LG':'تقدير'}). السحب الفعلي قد يزيد قليلاً في الحر الشديد.`:`ℹ️ Based on an LG inverter AC with I-Control Ampere (ICA) at the lowest step L1 = ${ICA1[it.o.size]||3} A (${[1.5,2,2.5].includes(+it.o.size)?'from LG manual':'estimate'}). Actual draw may be a little higher in extreme heat.`}</small>`:''}
+ ${opts?`<div class=mio>${opts}</div>`:''}${it.k=='ac'&&+it.o.inv&&(it.o.mode||'l1')=='l1'?`<small class=hint>${S.lang=='ar'?`ℹ️ الحساب مبني على مكيف LG انفرتر بخاصية I-Control Ampere (ICA) على أقل خطوة L1 = ${ICA1[it.o.size]||3} أمبير (${[1.5,2,2.5].includes(+it.o.size)?'قيمة من دليل LG':'تقدير'}). السحب الفعلي قد يزيد قليلاً في الحر الشديد.`:`ℹ️ Based on an LG inverter AC with I-Control Ampere (ICA) at the lowest step L1 = ${ICA1[it.o.size]||3} A (${[1.5,2,2.5].includes(+it.o.size)?'from LG manual':'estimate'}). Actual draw may be a little higher in extreme heat.`}</small>`:''}
  <div class=mst>${stp('🔢 '+t('mtQty'),'qv-'+id,it.n,`data-a=mpstep data-id=${id}`)}${d.cont?`<div class=mcont>∞ ${t('mtCont')}</div>`:stp('☀️ '+t('mtD'),`hv-${id}-hd`,mpH(it,'hd'),`data-a=mph data-f=hd data-id=${id}`,S.lang=='ar'?'س':'h')+stp('🌙 '+t('mtN'),`hv-${id}-hn`,mpH(it,'hn'),`data-a=mph data-f=hn data-id=${id}`,S.lang=='ar'?'س':'h')}</div>
  <details class=mwd${it.w?' open':''}><summary>⚙️ ${t('mtEditW')}</summary><div class=mwt><label>⚡ ${t('mtW')}</label><div class=mwi><input type=number min=0 step=10 inputmode=numeric data-mp=w data-id=${id} placeholder="${Math.round(sp.W)}" value="${it.w||''}"><span>W</span></div></div></details>
  <div class=mci id=mc-${id}>${mpInfo(it)}</div></div>`};
 const mpListHtml=()=>S.mp.items.length?S.mp.items.map(mpRow).join(''):`<p class=mpe>${t('mtEmpty')}</p>`;
 const mpList=()=>{const l=$('#mpList');if(l)l.innerHTML=mpListHtml()};
-const TPL={flat:[['ac',{size:'1.5'},1,6,6],['cool',{type:'combo',size:'m'},1],['tv',{size:'43'},1,2,4],['fan',{},2,6,8],['lt',{w:'10'},8,0,6],['rt',{},1]],
- house:[['ac',{size:'1.5'},2,6,6],['ac',{size:'2'},1,4,6],['cool',{type:'fridge',size:'m'},1],['cool',{type:'freezer',size:'m'},1],['tv',{size:'55'},1,2,4],['tv',{size:'43'},1,2,3],['fan',{},4,6,8],['lt',{w:'10'},15,0,6],['pump',{hp:'1'},1,1,0],['wm',{},1,1,0],['rt',{},1]],
- big:[['ac',{size:'2',inv:1},3,6,8],['ac',{size:'1.5',inv:1},2,6,6],['cool',{type:'combo',size:'l',inv:1},2],['cool',{type:'freezer',size:'m'},1],['tv',{size:'65',panel:'oled'},1,3,5],['tv',{size:'55'},1,2,3],['game',{c:'ps5'},1,1,3],['fan',{},5,6,8],['lt',{w:'10'},25,0,6],['pump',{hp:'1.5'},1,1,0],['wm',{},1,1,0],['boiler',{},1,1,1],['pc',{t:'pc'},1,4,3],['rt',{},1]]};
 const meter=()=>{if(S.mp.items.length)setTimeout(meterApply,0);const ar=S.lang=='ar';
  return `<section class="meter rv"><h3>⚡ ${t('mtT')}</h3><p class=note>${t('mtS')}</p>
  <div class=mg><svg viewBox="0 0 200 122" class=gauge aria-hidden=true><defs><linearGradient id=gg x1=0 x2=1 y1=0 y2=0><stop offset=0 stop-color="#1fa273"/><stop offset=.6 stop-color="#f2b84b"/><stop offset=1 stop-color="#d9534f"/></linearGradient></defs>
  <path class=gbg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 /><path id=gfg class=gfg d="M20 100 A80 80 0 0 1 180 100" pathLength=100 stroke="url(#gg)" stroke-dasharray="0 100"/><text id=gkw x=100 y=84 text-anchor=middle data-v=0>0</text><text x=100 y=102 text-anchor=middle class=gu>kW</text><text x=20 y=118 text-anchor=middle class=gt>0</text><text x=180 y=118 text-anchor=middle class=gt>15+</text></svg><div id=gam>0 A</div><div id=gst class=gst></div></div>
  <div id=mpSum class=mps></div>
- <div class=mpre><small>${t('mtPre')}</small><div class=chips><button type=button class=tpl data-a=mptpl data-k=flat>🏢 ${t('tplA')}</button><button type=button class=tpl data-a=mptpl data-k=house>🏠 ${t('tplB')}</button><button type=button class=tpl data-a=mptpl data-k=big>🏰 ${t('tplC')}</button><button type=button class="tpl clr" data-a=mpclr>🗑 ${t('mtClr')}</button></div></div>
+ <div class=mpre><div class=chips><button type=button class="tpl clr" data-a=mpclr>🗑 ${t('mtClr')}</button></div></div>
  <div id=mpTot></div>
  <div id=mpList>${mpListHtml()}</div>
  <div class=mpadd>➕ ${t('mtAdd')}</div>
@@ -1106,8 +1105,8 @@ const vHome=()=>{const c=S.calc,inp=(k,d)=>`<div class=fld><label>${t(k)}</label
  const calcF=` <form id=calc class="form calc" onsubmit="return false"><h3 class=cst>1️⃣ ${L2('حمل البيت (بالأمبير)','Home load (amps)')}</h3><p class=note>${L2('أو أضف أجهزتك في «عدّاد بيتك» أعلاه فنحسب الأمبير تلقائياً.','Or add your devices in the House power meter above and we fill the amps for you.')}</p>
  <div class=row2>${inp('dayA',20)}${inp('nightA',16)}</div>
  <h3 class=cst>2️⃣ ${L2('جدول الكهرباء الوطنية (بالتناوب)','Grid schedule (alternating)')}</h3>
- <div class=seg role=radiogroup>${[['night','🌙 '+L2('الليل (بدون شمس)','Night (no sun)')],['day','☀️ '+L2('النهار (مع الألواح)','Day (with panels)')]].map(([v,l])=>`<label><input type=radio name=scen value=${v} ${(c.scen||'night')==v?'checked':''}><span>${l}</span></label>`).join('')}</div>
  <div class=row2>${sel('off','🔋 '+L2('ساعات القطع (من البطارية)','Outage hours (on battery)'),hs([1,2,3,4,5,6,7,8]),3)}${sel('on','🔌 '+L2('ساعات الكهرباء (شحن)','Grid hours (charging)'),[['same',L2('نفس ساعات القطع','Same as outage')],...hs([1,2,3,4,5,6,7,8])],'same')}</div>
+ <div class=seg role=radiogroup>${[['night','🌙 '+L2('الليل (بدون شمس)','Night (no sun)')],['day','☀️ '+L2('النهار (مع الألواح)','Day (with panels)')]].map(([v,l])=>`<label><input type=radio name=scen value=${v} ${(c.scen||'night')==v?'checked':''}><span>${l}</span></label>`).join('')}</div>
  <label class="cb sumr"><input type=checkbox name=summer ${c.summer==0?'':'checked'}> 🔥 ${L2('ذروة الصيف: المكيفات تشتغل وقتاً أطول (يُطبَّق على مكيفات عدّاد بيتك)','Peak summer: ACs run longer (applies to ACs in the House power meter)')}</label>
  <h3 class=cst>3️⃣ ${L2('البطارية','Battery')}</h3>
  <div class=row2>${sel('cap',L2('سعة البطارية','Battery capacity'),[5.12,10.24,14.3,16,20.48,32,48].map(v=>[v,`${v} kWh`]),16)}${inp('dod',90)}${sel('chgA',L2('تيار الشحن من الكهرباء (أمبير)','Grid charge current (A)'),[30,50,60,80,100,120,150,200].map(v=>[v,`${v} A`]),100)}<div class=fld><label>${t('bv')}</label><select name=bv>${[24,48].map(v=>`<option ${(c.bv||48)==v?'selected':''}>${v}</option>`).join('')}</select></div></div>
@@ -1186,7 +1185,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
 const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v54</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v55</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -1238,7 +1237,6 @@ const A={
  mpdel:d=>{S.mp.items=S.mp.items.filter(x=>x.id!=d.id);mpSave();mpList();meterApply()},
  mpstep:d=>{const it=S.mp.items.find(x=>x.id==d.id);if(!it)return;it.n=Math.max(1,Math.min(it.k=='lt'?99:20,it.n+ +d.d));mpSave();$('#qv-'+it.id).textContent=it.n;$('#mc-'+it.id).innerHTML=mpInfo(it);meterApply()},
  mph:d=>{const it=S.mp.items.find(x=>x.id==d.id);if(!it)return;it[d.f]=Math.max(0,Math.min(24,mpH(it,d.f)+ +d.d));mpSave();$('#hv-'+it.id+'-'+d.f).textContent=it[d.f];$('#mc-'+it.id).innerHTML=mpInfo(it);meterApply()},
- mptpl:d=>{S.mp.items=TPL[d.k].map(x=>mpNew(x[0],x[1],x[2],x[3],x[4]));mpSave();mpList();meterApply();$('#mpSum')?.scrollIntoView({behavior:'smooth',block:'center'})},
  mpclr:()=>{S.mp.items=[];mpSave();mpList();meterApply()},
  lbd:d=>{const l=((S.users.find(x=>x.id==d.g)||{}).photos||[]).slice(0,4);if(!l.length)return;S.lbL=l;S.lbI=+d.i||0;showLb()},
  lbn:d=>{const n=S.lbL.length;S.lbI=(S.lbI+ +d.n+n)%n;showLb()},
