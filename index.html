@@ -18,7 +18,7 @@ main{max-width:1100px;margin:auto;padding:12px}
 .card img{width:100%;height:180px;object-fit:contain;border-radius:8px;background:#eef2f0;cursor:pointer}
 .bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8px;max-width:100%}
-.instBox[hidden]{display:none}.instBox{background:#f3f8f6;border-radius:12px;padding:10px;margin-top:6px}.instBox label{display:block;margin-top:6px;font-size:13px}.instBox .row2{display:flex;gap:8px}.instBox .row2>*{flex:1;min-width:0}.instl{display:block;color:#0b6b4f;font-weight:600;line-height:1.7}.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#e8eeec;display:inline-block}
+.inst[hidden]{display:none!important}.instBox[hidden]{display:none}.instBox{background:#f3f8f6;border-radius:12px;padding:10px;margin-top:6px}.instBox label{display:block;margin-top:6px;font-size:13px}.instBox .row2{display:flex;gap:8px}.instBox .row2>*{flex:1;min-width:0}.instl{display:block;color:#0b6b4f;font-weight:600;line-height:1.7}.tag{font-size:12px;padding:2px 8px;border-radius:99px;background:#e8eeec;display:inline-block}
 .ok{background:#d7f5e4;color:#075}.no{background:#ffe3e0;color:#a31}.au{background:#fff0c9;color:#865}
 .fld{margin:8px 0}.fld>label{display:block;font-weight:600}
 .fld input:not([type=checkbox]),.fld select{width:100%}
@@ -599,7 +599,7 @@ b4t:['صفحتك وروابطك','Your page and links'],b4d:['موقعك وصف�
 st1:['سجّل حسابك','Create your account'],st2:['موافقة الإدارة','Admin approval'],st3:['أضف منتجاتك','Add your products'],
 joinNow:['سجّل شركتك الآن','Register your company'],haveAcc:['لدي حساب','I have an account'],addP:['أضف منتجاً الآن','Add a product now'],
 heroS:['منصتك للطاقة الشمسية في العراق: احسب احتياجك، قارن الألواح والانفرترات والبطاريات، وتواصل مع التجار والفنيين في محافظتك.','Your solar platform in Iraq: size your system, compare panels, inverters and batteries, and contact dealers and installers in your city.'],
-calcGo:['احسب منظومتك','Size my system'],imDealer:['أنا تاجر / شركة','I am a dealer / company'],install:['تثبيت التطبيق','Install app'],iosHint:['في سفاري: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية»','In Safari: tap Share, then “Add to Home Screen”'],
+calcGo:['احسب منظومتك','Size my system'],imDealer:['أنا تاجر / شركة','I am a dealer / company'],install:['تثبيت التطبيق','Install app'],iosHint:['في سفاري: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية»','In Safari: tap Share, then “Add to Home Screen”'],andHint:['افتح قائمة المتصفح (⋮) واختر «تثبيت التطبيق». إذا كان التطبيق مثبتاً، افتحه من الشاشة الرئيسية','Open the browser menu (⋮) and choose “Install app”. If it is already installed, open it from your home screen'],instDone:['التطبيق مثبت بالفعل على جهازك','The app is already installed on this device'],
 ftT:['سوق الطاقة الشمسية في العراق','Iraq Solar Market'],ftS:['منصة تجمع تجّار وفنّيي الطاقة الشمسية في العراق','A platform for solar dealers and installers in Iraq']};
 const t=k=>U[k]?U[k][S.lang=='ar'?0:1]:k;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -838,7 +838,7 @@ function shrink(file,max=900,kb=70){return new Promise((ok,no)=>{const im=new Im
   for(let i=0;i<10;i++){c.width=Math.max(1,Math.round(im.width*sc));c.height=Math.max(1,Math.round(im.height*sc));x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
    d=c.toDataURL('image/jpeg',q);if(d.length*.75<=kb*1024)break;if(q>.45)q-=.1;else sc*=.8}
   ok(d)};im.onerror=()=>no(Error('Bad image file'));im.src=u})}
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=()=>!!(navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches));
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),standalone=()=>!!(navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches));
 function showInstall(){document.querySelectorAll('.inst').forEach(b=>b.hidden=standalone()||!(S.ip||isIOS))}
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();S.ip=e;showInstall()});
 addEventListener('appinstalled',()=>{S.ip=null;showInstall()});
@@ -1196,7 +1196,7 @@ const V={awards:vAwards,guide:vGuide,mine:vMine,home:vHome,profile:vProf,product
 function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang=='ar'?'rtl':'ltr';
  const NAVI={home:['🏠','nb'],products:['🛒','nb'],news:['📰','nb'],directory:['📇','nb'],compare:['⚖️','nb'],mine:['📦','ns'],add:['➕','na'],profile:['👤','ns'],admin:['🛠️','nx'],login:['🔑','nl']};
 const nav=(v,k)=>`<button class="hb ${(NAVI[v]||['','nb'])[1]} ${S.view==v?'act':''}" data-a=view data-v=${v}><i>${(NAVI[v]||[''])[0]}</i>${t(k||v)}${v=='compare'&&S.cmp.length?` (${S.cmp.length})`:''}</button>`;
- $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v67</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
+ $('#hd').innerHTML=`<b class=brand><img src="${LOGO}" alt="">${t('ftT')} <small>v68</small></b><nav class=hn><button class="hb ng" data-a=menu><i>☰</i>${t('menu')}</button>${nav('home')}${nav('products')}${nav('news')}${nav('directory')}${nav('compare')}${canSell()?nav('mine')+nav('add'):''}${S.prof?nav('profile'):''}${isAdmin()?nav('admin'):''}${S.me?`<button class="hb no" data-a=logout><i>🚪</i>${t('logout')}</button>`:nav('login')}<button class="hb ng" data-a=lang><i>🌐</i>${S.lang=='ar'?'EN':'عربي'}</button><button class="hb ng" data-a=theme title="${isDark()?(S.lang=='ar'?'الوضع الفاتح':'Light mode'):(S.lang=='ar'?'الوضع الداكن':'Dark mode')}"><i>${isDark()?'☀️':'🌙'}</i>${isDark()?(S.lang=='ar'?'فاتح':'Light'):(S.lang=='ar'?'داكن':'Dark')}</button></nav>`;
  const app=$('#app');app.innerHTML=(fbErr?`<p style="padding:10px;background:#fff3cd;border-radius:10px;margin:0 0 10px">⚠ ${S.lang=='ar'?'لم يتم ربط Firebase بعد — عدّل إعدادات firebase في config.js':'Firebase is not connected — fill in the firebase settings in config.js'}<br><small dir=ltr>${esc(fbErr)}</small></p>`:'')+(S.ready||!['home','products','detail'].includes(S.view)?V[S.view]():skel());
  if(S.anim){app.classList.remove('in');void app.offsetWidth;app.classList.add('in');S.anim=0}
  if(S.fill&&S.view=='add'){const fm=$('#pform');fillForm(fm,S.fill);S.fill=null;paint2(fm,validate(curSet(),collect(fm),peers(collect(fm))))}
@@ -1277,7 +1277,7 @@ const A={
  nocmp:d=>{const p=S.prods.find(x=>x.id==d.id);if(p)db.doc('products/'+d.id).update({noCmp:!p.noCmp}).catch(e=>toast(e.message))},
  delp:async d=>{if(!confirm(t('delConfirm')))return;try{await Promise.all([db.doc('products/'+d.id).delete(),db.doc('photos/'+d.id).delete()]);toast(t('saved'))}catch(e){toast(e.message)}},
  goCalc:()=>$('#calc')?.scrollIntoView({behavior:'smooth',block:'center'}),
- install:async()=>{if(S.ip){S.ip.prompt();await S.ip.userChoice;S.ip=null;showInstall()}else toast(t('iosHint'))},
+ install:async()=>{if(standalone())toast(t('instDone'));else if(S.ip){const p=S.ip;S.ip=null;p.prompt();try{await p.userChoice}catch(e){}showInstall()}else toast(t(isIOS?'iosHint':'andHint'))},
  logout:()=>auth.signOut(),
  login:async()=>{if(!auth)return toast(S.lang=='ar'?'Firebase غير مربوط — عبّئ إعدادات config.js':'Firebase not connected — fill in config.js');
   const ar=S.lang=='ar',em=$('#em'),pw=$('#pw');document.querySelectorAll('.form .ferr').forEach(x=>x.remove());[em,pw].forEach(x=>x.classList.remove('bad'));
